@@ -1,0 +1,24 @@
+.product-card {
+  &__wrapper {
+    width: 222px;
+  }
+
+  &__image {
+    position: relative;
+
+    >span.ant-tag {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+  }
+
+  &__price {
+    text-decoration: line-through;
+  }
+
+  &__button {
+    width: 100%;
+  }
+}

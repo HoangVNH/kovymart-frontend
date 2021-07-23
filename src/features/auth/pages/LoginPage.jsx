@@ -3,14 +3,20 @@ import './LoginPage.scss';
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '../../../app/hooks';
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+
+  const onFinish = () => {
+    // dispatch(login());
+  }
   return (
   <div className="login-page__wrapper">
     <div className="login-page__login-form">
       <Form
         name="normal_login"
-        // onFinish={onFinish}
+        onFinish={onFinish}
         className="login-form"
       >
         <Form.Item

@@ -1,24 +1,67 @@
 .product-card {
-  &__wrapper {
-    width: 222px;
-  }
-
   &__image {
     position: relative;
 
-    >span.ant-tag {
+    > span.ant-tag {
       position: absolute;
       top: 0;
       left: 0;
       z-index: 10;
     }
+
+    > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-height: 185px;
+    }
+  }
+
+  &__price-label {
+    p {
+      color: #333;
+    }
+  }
+
+  &__net-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
   }
 
   &__price {
+    font-size: 12px;
     text-decoration: line-through;
+  }
+
+  &__name {
+    height: 44px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #333;
   }
 
   &__button {
     width: 100%;
+    color: #fff !important;
+    background-color: #ed1b24 !important;
+    border-color: #ed1b24 !important;
+    text-transform: uppercase;
+
+    > span {
+      white-space: nowrap;
+      width: inherit;
+      margin: 0 auto;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      flex: 1 0 auto;
+      justify-content: center;
+    }
   }
 }

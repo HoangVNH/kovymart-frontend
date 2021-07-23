@@ -1,15 +1,33 @@
 import React from 'react';
-
-import ProductCard from '../../components/ProductCard';
+import ProductCardList from '../../components/ProductCardList';
+import products from './data';
+import './styles.scss';
 
 const HomePage = () => {
-  return <ProductCard 
-    image="../../assests/images/sua-chua-uong-probi.jpg"
-    name="Sữa chua uống Vinamilk Probi hương việt quất lốc 5 chai x 65ml"
-    price="24.500đ"
-    netPrice="22.200đ"
-    discount="-9%"
-  />
+  const layout = {
+    gutter: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 8 },
+    span: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 8 }
+  };
+
+  return (
+    <>
+      <ProductCardList
+        products={products}
+        title="Sữa - Sản phẩm từ sữa"
+        layout={layout}
+      />
+      <ProductCardList
+        products={products}
+        title="Thịt - Hải sản - Trứng"
+        layout={layout}
+      />
+      <ProductCardList
+        products={products}
+        title="Rau - Củ - Trái cây"
+        layout={layout}  
+      />
+    </>
+  );
 };
 
 export default HomePage;

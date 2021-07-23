@@ -1,9 +1,9 @@
-import './styles.scss';
-
+import { Button, Card, Tag, Tooltip } from 'antd';
 import React from 'react';
-import { Card, Tooltip, Tag, Button }  from 'antd';
 import { Link } from 'react-router-dom';
 import ImageWithFallBack from '../ImageWithFallback';
+import './styles.scss';
+
 
 const ProductCard = ({
   id,
@@ -15,17 +15,15 @@ const ProductCard = ({
   className,
   style
 }) => {
-
   return (
     <Card
       hoverable
       className={`product-card__wrapper ${className}`}
       style={style}
-      key={id}
     >
       <Link to={`/product/${id}`}>
         <div className="product-card__image">
-          <Tag>{discount}</Tag>
+          <Tag color="warning">{discount}%</Tag>
           <ImageWithFallBack src={image} alt={name} />
         </div>
         <Tooltip title={name}>
@@ -33,10 +31,10 @@ const ProductCard = ({
         </Tooltip>
         <div className="product-card__price-label">
           <p className="product-card__net-price">
-            {netPrice}
+            {netPrice}đ
           </p>
           <p className="product-card__price">
-            {price}
+            {price}đ
           </p>
         </div>
       </Link>

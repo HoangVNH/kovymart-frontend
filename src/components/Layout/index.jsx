@@ -12,7 +12,7 @@ const MainLayout = () => {
   return (
     <Layout style={{ minHeight: 'inherit' }}>
       <Header />
-      <Content>
+      <Content className="container">
           <Switch>
             {mappedRoutes}
           </Switch>

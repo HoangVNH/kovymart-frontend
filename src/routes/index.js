@@ -1,15 +1,16 @@
 import { Route } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 import LoginPage from "../features/auth/pages/LoginPage";
 import HomePage from "../features/homepage";
 
 const routes = [
   {
-    key: 1,
+    key: uuidv4(),
     path: '/login',
     component: LoginPage,
   },
   {
-    key: 2,
+    key: uuidv4(),
     path: '/',
     component: HomePage,
   },

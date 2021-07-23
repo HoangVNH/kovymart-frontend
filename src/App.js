@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './assests/scss/_common.scss';
 import MainLayout from './components/Layout';
 
 function App() {
@@ -8,6 +8,6 @@ function App() {
       <MainLayout />
     </div>
   );
-};
+}
 
 export default App;

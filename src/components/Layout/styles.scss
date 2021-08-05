@@ -1,75 +1,83 @@
+@import '../../assests/scss/variables';
+@import '../../assests/scss/mixins';
+
 header {
   box-shadow: 0 2px 4px 1px #D7D7D7;
 
-  a.header-logo {
-    h2 {
-      font-size: 31px;
-      color: #F9F9FA;
+  &.ant-layout-header {
+    height: 70px;
+    padding: 0 37px;
+    background: #2B2F4C;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 11;
+  }
+
+  .navigation-bar {
+    position: relative;
+    width: 100%;
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+
+    &__logo {
       font-style: italic;
+      @include setFont(24px, 500, 36px, #FFF);
+      margin-right: 20px;
+    }
+
+    span.ant-input-search--override {
+      max-width: 720px;
     }
   }
 }
 
 main.ant-layout-content {
-  padding: 0 50px;
   background-color: #fff;
+  @include container;
 }
 
 footer.main-footer-wrapper {
-  background: #1E2833;
+  background: #F3F3F3;
   color: #fff;
-
-  div.upper-content {
-    justify-content: space-between;
-
-    div.left-content {
-      flex: 1 1 50%;
-    }
-
-    div.right-content {
-      flex: 1 1 50%;
-    }
-  }
-
-  div.below-content {
-    justify-content: space-between;
-  }
 }
 
 footer.main-footer-wrapper {
-  div.upper-content {
-    div.left-content {
-      h3 {
-        color: #fff;
-        font-size: 34px;
-        font-weight: bold;
-        font-style: italic;
-      }
-    }
+  h4 {
+    @include setFont(16px, 600, 20px, #000);
+    margin-bottom: 16px;
+  }
 
-    div.right-content {
-      h4.about-us__title {
-        color: #FFD2D2;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 19px;
-        margin-bottom: 15px;
-      }
-      li.about-us__list-item {
-        a {
-          color: #fff;
-          font-size: 12px;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          margin-bottom: 7px;
-          width: max-content;
+  .ant-row ul {
+    padding-left: 0;
+    margin-bottom: 0;
 
-          &:hover {
-            color: #d42333;
-          }
+    > li {
+      a {
+        @include setFont(16px, 400, 19px, #000);
+        width: max-content;
+
+        &:hover {
+          color: #727272;
         }
       }
+
+      &:not(:last-of-type) {
+        margin-bottom: 7px;
+      }
+    }
+  }
+
+  .social-network-list {
+    li {
+      display: inline-block;
+      width: max-content;
+      margin-right: 15px;
     }
   }
 }

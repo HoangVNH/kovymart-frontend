@@ -22,7 +22,7 @@ const ProductCardList = ({
     >
       {products.map((product, index) =>
         <Col
-          span={{...layout.span}}
+          {...layout.span}
           key={product.index}
         >
           <ProductCard

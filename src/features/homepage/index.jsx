@@ -5,8 +5,8 @@ import './styles.scss';
 
 const HomePage = () => {
   const layout = {
-    gutter: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 8 },
-    span: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 8 }
+    gutter: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
+    span: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
   };
 
   return (

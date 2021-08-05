@@ -10,6 +10,7 @@
     "antd": "^4.16.7",
     "axios": "^0.21.1",
     "husky": "^7.0.1",
+    "less-loader": "^10.0.1",
     "lint-staged": "^11.0.1",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",

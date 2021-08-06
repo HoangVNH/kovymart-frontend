@@ -8,18 +8,16 @@ import mappedRoutes from '../../routes';
 
 const { Content } = Layout;
 
-const MainLayout = () => {
-  return (
-    <Layout style={{ minHeight: 'inherit' }}>
-      <Header />
-      <Content className="container">
-          <Switch>
-            {mappedRoutes}
-          </Switch>
-      </Content>
-      <Footer />
-    </Layout>
-  );
-};
+const MainLayout = () => (
+  <Layout style={{ minHeight: 'inherit', background: '#FFF' }}>
+    <Header />
+    <Content>
+      <Switch>
+        {mappedRoutes}
+      </Switch>
+    </Content>
+    <Footer />
+  </Layout>
+);
 
 export default MainLayout;

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import ImageWithFallBack from '../ImageWithFallback';
 import './styles.scss';
 
-
 const ProductCard = ({
   id,
   image,
@@ -29,16 +28,18 @@ const ProductCard = ({
         <Tooltip title={name}>
           <p className="product-card__name">{name}</p>
         </Tooltip>
-        <div className="product-card__price-label">
-          <p className="product-card__net-price">
-            {netPrice}đ
-          </p>
-          <p className="product-card__price">
-            {price}đ
-          </p>
+        <div className="product-card__price">
+          <div className="product-card__price--left">
+            <span className="product-card__net-price">
+              {netPrice} đ
+            </span>
+            <span className="product-card__list-price">
+              {price} đ
+            </span>
+          </div>
+          <Button className="product-card__button">Thêm vào giỏ</Button>
         </div>
       </Link>
-      <Button className="product-card__button">Thêm vào giỏ</Button>
     </Card>
   )
 };

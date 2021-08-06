@@ -16,28 +16,18 @@ const routes = [
   },
   {
     key: uuidv4(),
-    path: `/product`,
+    path: `/product/:productId`,
     component: ProductDetails,
   }
-  // {
-  //   key: 1,
-  //   path: '',
-  //   component: '',
-  // },
-  // {
-  //   key: 1,
-  //   path: '',
-  //   component: '',
-  // },
-  // {
-  //   key: 1,
-  //   path: '',
-  //   component: '',
-  // },
 ];
 
-const mappedRoutes = routes.map((route) => {
-  return <Route exact path={route.path} component={route.component} key={route.key} />
-});
+const mappedRoutes = routes.map((route) => (
+  <Route
+    exact
+    path={route.path}
+    component={route.component}
+    key={route.key}
+  />
+));
 
 export default mappedRoutes;

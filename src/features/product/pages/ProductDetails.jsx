@@ -6,20 +6,28 @@ import {
   CheckOutlined,
 } from "@ant-design/icons"
 import FormatMoney from "../../../helper/formatMoney"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from "react-router-dom"
 const { Content } = Layout
 const { Text } = Typography
 
-const product = {
-  name: "Snack Doritos",
-  discount: 10,
-  price: 50000,
-
-  description:
-    "  • Snack khoai tây vị tảo biển O'Star gói 48g là sản phẩm của thương \n hiệu Orion, một trong ba tập đoàn thực phẩm lớn nhất Hàn Quốc.\n • Thông tin sản phẩm Màu sắc sản phẩm: Năng lượng: 570kcal/100g.\n• Hướng dẫn sử dụng: Ăn trực tiếp sau khi bóc vỏ. Bảo quản sản phẩm nơi khô ráo, thoáng mát, tránh ánh sáng và   \nnhiệt độ cao.    \n• Thành phần: Khoai tây tươi, dầu thực vật, bột gia vị   tảo biển 5% (đường, maltodextrin, muối, bột sữa, chất điều vịmononatri glutamat (E621), bột hành, bột tỏi, tảo biển).",
-}
-
 const ProductDetails = () => {
+  let { id } = useParams()
+  const product = {
+    name: "Snack Doritos",
+    discount: 10,
+    price: 50000,
+
+    description:
+      "  • Snack khoai tây vị tảo biển O'Star gói 48g là sản phẩm của thương hiệu Orion, một trong ba tập đoàn thực phẩm lớn nhất Hàn Quốc.\n • Thông tin sản phẩm Màu sắc sản phẩm: Năng lượng: 570kcal/100g.\n• Hướng dẫn sử dụng: Ăn trực tiếp sau khi bóc vỏ. Bảo quản sản phẩm nơi khô ráo, thoáng mát, tránh ánh sáng và   \nnhiệt độ cao.    \n• Thành phần: Khoai tây tươi, dầu thực vật, bột gia vị   tảo biển 5% (đường, maltodextrin, muối, bột sữa, chất điều vịmononatri glutamat (E621), bột hành, bột tỏi, tảo biển).",
+  }
+  const [array, setArray] = useState(product.description.match(/[^\r\n]+/g))
   useEffect(() => {
     // call api get product by id
   }, [])
@@ -32,6 +40,7 @@ const ProductDetails = () => {
       span={16}
     >
       <Row>
+        {id}
         <Col lg={12} className="pe-5">
           <Image
             src="https://img.dominos.vn/Veggie-mania.jpg"
@@ -86,7 +95,9 @@ const ProductDetails = () => {
       <Row className="mt-5">
         <Col lg={16}>
           <h2 className="fw-bold">Mô tả sản phẩm</h2>
-          <div className="mt-4">{product.description}</div>
+          <div className="mt-4">{product.description ?
+            product.description.match(/[^\r\n]+/g).map((item) => { return <>{item}<br /> </> })
+            : ""}</div>
         </Col>
       </Row>
     </Col>

@@ -16,7 +16,7 @@ const routes = [
   },
   {
     key: uuidv4(),
-    path: `/product`,
+    path: '/product/:id',
     component: ProductDetails,
   }
   // {

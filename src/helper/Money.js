@@ -1,4 +1,4 @@
-const FotmatMoney = ({ money }) => {
+const Money = ({ money }) => {
 
     const defaultOptions = {
         significantDigits: 0,
@@ -26,4 +26,4 @@ const FotmatMoney = ({ money }) => {
     )
 }
 
-export default FotmatMoney
+export default Money

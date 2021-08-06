@@ -1,5 +1,16 @@
+@import '../../assests/scss/variables';
+@import '../../assests/scss/mixins';
+
 .product-list {
+  &__container {
+    margin-bottom: 50px;
+  }
+
   &__header {
-    margin-top: 20px;
+    margin-bottom: 24px;
+
+    > span {
+      @include setFont(24px, 600, 1, #F44336);
+    }
   }
 }

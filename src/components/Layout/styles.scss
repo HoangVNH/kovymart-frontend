@@ -34,12 +34,24 @@ header {
     span.ant-input-search--override {
       max-width: 720px;
     }
+
+    &__login {
+      background: transparent;
+      color: #FFF;
+      border: none;
+    }
+
+    .vertical-align-icon {
+      vertical-align: middle;
+      margin-right: 7px;
+    }
   }
 }
 
 main.ant-layout-content {
   background-color: #fff;
-  @include container;
+  @include contentContainer;
+  padding: 20px 15px;
 }
 
 footer.main-footer-wrapper {

@@ -12,7 +12,7 @@ const ProductCardList = ({
   className,
   style
 }) => (
-  <>
+  <div className="product-list__container">
     <div className={`product-list__header ${className}`} style={style}>
       <span>{title}</span>
     </div>
@@ -35,7 +35,7 @@ const ProductCardList = ({
         </Col> 
       )}
     </Row>
-  </>
+  </div>
 );
 
 ProductCardList.propTypes = {

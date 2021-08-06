@@ -9,7 +9,7 @@ import {
 import ImageWithFallBack from "components/ImageWithFallback"
 
 const ProductDetails = () => {
-  let { id } = useParams() 
+  let {productId } = useParams() 
   const product = {
     name: "Snack Doritos",
     discount: 10,
@@ -25,7 +25,7 @@ const ProductDetails = () => {
     alert("clicked")
   }
   return (
-    <> {id ?
+    <> {productId ?
       <Col
         className="container my-5 shadow-sm  border border-1 rounded p-5"
         span={16}

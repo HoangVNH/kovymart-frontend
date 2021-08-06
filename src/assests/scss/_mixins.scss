@@ -1,4 +1,4 @@
-@mixin container($max-w: $--max-width-main-layout) {
+@mixin contentContainer($max-w: $--max-width-main-layout) {
   margin: 0 auto;
   width: 100%;
   max-width: $max-w;

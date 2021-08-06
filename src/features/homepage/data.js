@@ -11,7 +11,7 @@ const products = [
   {
     index: '1',
     image: hinh1,
-    name: 'Sữa tươi Promess nguyên chất hộp 1L d21d1dd12dd1d21d21d1d1d1d1d12d21d12d21d12d12',
+    name: 'Sữa tươi Promess nguyên chất hộp 1L d21d1dd12dd1d21d21d1d1d 1d1d12d21d12d21d12d12',
     price: 44.500,
     netPrice: 22.200,
     discount: -9

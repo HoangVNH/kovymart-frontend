@@ -2,6 +2,38 @@ import Payment from "../components/Payment"
 import CardProduct from "../components/CardProduct"
 import { Col, Row, Space, Button } from 'antd'
 import './Cart.scss'
+const products = [
+    {
+        name: "Bắp bò loại 1 500g",
+        price: 50000,
+        id: 1,
+        discount: 10,
+    },
+    {
+        name: "Bắp bò loại 1 500g",
+        price: 50000,
+        id: 2,
+        discount: 10,
+    },
+    {
+        name: "Bắp bò loại 1 500g",
+        price: 50000,
+        id: 3,
+        discount: 10,
+    },
+    {
+        name: "Bắp bò loại 1 500g",
+        price: 50000,
+        id: 4,
+        discount: 10,
+    },
+    {
+        name: "Bắp bò loại 1 500g",
+        price: 50000,
+        id: 5,
+        discount: 10,
+    },
+]
 const Cart = () => {
     const handleContinue = () => {
 
@@ -31,14 +63,22 @@ const Cart = () => {
                 <Row className="mt-5 ">
                     <Col span={24} sm={13} lg={16} className="px-3 d-flex justify-content-center">
                         <div  >
-                            <CardProduct />
-                            <CardProduct />
-                            <CardProduct />
-                            <CardProduct />
+                        
+                            {products
+                                ? <>
+                                    {products.map((item) => {
+                                        return (
+                                            <CardProduct key={item.id}  product={item}/>
+                                        )
+                                    }
+                                    )}
+                                </>
+                                : "none"
+                            }
                         </div>
                     </Col>
                     <Col span={22} sm={11} lg={8} className="px-5">
-                        <Payment />
+                        <Payment products={products}/>
                     </Col>
                 </Row>
             </Col>

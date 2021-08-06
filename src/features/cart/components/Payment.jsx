@@ -1,9 +1,13 @@
 import { Button, Row, Col } from "antd"
 import Money from "helper/Money"
-const Payment = () => {
+const Payment = (props) => {
     const handlePayment = () => {
         alert("payment")
     }
+    const total = props.products.reduce((currentTotal, item) => {
+        return item.price + currentTotal
+    }, 0)
+    const shippingFee = 20000
     return (
         <div className="border shadow-sm rounded-2 py-5 px-4 sticky-payment-form">
             <Row>
@@ -11,7 +15,7 @@ const Payment = () => {
                     <span className="fw-bold"> Tạm tính:</span>
                 </Col>
                 <Col xs={12} sm={24} md={12} span={12} className="d-flex justify-content-end align-items-end">
-                    <h4><Money money={50000} /></h4>
+                    <h4><Money money={total} /></h4>
                 </Col>
             </Row>
             <Row>
@@ -19,7 +23,7 @@ const Payment = () => {
                     <span className="fw-bold"> Phí vận chuyển:</span>
                 </Col>
                 <Col xs={12} sm={24} md={12} span={12} className="d-flex justify-content-end align-items-end">
-                    <h4><Money money={20000} /></h4>
+                    <h4><Money money={shippingFee} /></h4>
                 </Col>
             </Row>
             <Row>
@@ -27,7 +31,7 @@ const Payment = () => {
                     <span className="fw-bold"> Tổng tiền:</span>
                 </Col>
                 <Col xs={12} sm={24} md={12} span={12} className="d-flex justify-content-end align-items-end">
-                    <h4><Money money={70000} /></h4>
+                    <h4><Money money={total+shippingFee} /></h4>
                 </Col>
             </Row>
             <div className="text-center mt-5">

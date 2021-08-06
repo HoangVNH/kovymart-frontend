@@ -1,7 +1,7 @@
 import "./ProductDetails.scss"
 import { Col, Button, Row, Tag, Skeleton } from "antd"
 import { CheckCircleOutlined, ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons"
-import FormatMoney from "../../../helper/formatMoney"
+import Money from "../../../helper/Money"
 import { useEffect, useState } from "react"
 import {
   useParams
@@ -47,10 +47,10 @@ const ProductDetails = () => {
             <div className="text-wrap lh-1 mb-3">
               <h4 className="fw-bold" style={{ lineHeight: "0" }}>
                 Giá:
-                <FormatMoney money={product.price} />
+                <Money money={product.price} />
               </h4>
               <span className="text-muted text-decoration-line-through">
-                <FormatMoney
+                <Money
                   money={product.price * (1 + product.discount * 0.01)}
                 />
               </span>

@@ -56,12 +56,12 @@ const ProductDetails = () => {
               </span>
               <h5 className="text-muted ">(Đã tính thuế)</h5>
             </div>
-            <Link to={`/cart`}>
+            {/* <Link to={`/cart`}> */}
               <ButtonUI
                 text="Mua ngay"
                 withIcon={<ShoppingCartOutlined className="align-baseline" />}
               />
-            </Link>
+            {/* </Link> */}
             <div className="mt-5">
               <span>Lý do nên mua sản phẩm ?</span>
               <br />

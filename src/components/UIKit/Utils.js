@@ -1,5 +1,4 @@
-import { Button } from 'antd'
-
+import PropTypes from 'prop-types'
 const Utils = {
     Description(props) {
         const text = props.text ? props.text : ""
@@ -14,7 +13,7 @@ const Utils = {
     Money(props) {
         const money = props.money ? props.money : 0
         const defaultOptions = {
-            significantDigits: 0,
+            significantDigits: 1,
             thousandsSeparator: ',',
             decimalSeparator: '.',
             symbol: 'đ'
@@ -26,10 +25,16 @@ const Utils = {
             value = value.toFixed(options.significantDigits)
 
             const [currency, decimal] = value.split('.')
-            return ` ${currency.replace(
-                /\B(?=(\d{3})+(?!\d))/g,
-                options.thousandsSeparator
-            )} ${options.symbol}`
+            return <>
+                {decimal > 0 ?
+                    <>{currency.replace(/\B(?=(\d{3})+(?!\d))/g,
+                        options.thousandsSeparator)}{options.decimalSeparator}{decimal} {options.symbol}
+                    </>
+                    :
+                    <>{currency.replace(/\B(?=(\d{3})+(?!\d))/g,
+                        options.thousandsSeparator)} {options.symbol}
+                    </>}
+            </>
         }
         const output = currencyFormatter(money)
         return (
@@ -39,5 +44,10 @@ const Utils = {
         )
     }
 }
-
+Utils.Description.propTypes = {
+    text: PropTypes.string
+}
+Utils.Money.propTypes = {
+    money: PropTypes.number
+}
 export default Utils

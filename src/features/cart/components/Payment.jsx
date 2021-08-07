@@ -2,9 +2,10 @@ import { Row, Col } from "antd"
 import Utils from "components/UIKit/Utils"
 import ButtonUI from "components/UIKit/ButtonUI"
 import { NotifyHelper } from "helper/notify-helper"
+import PropTypes from 'prop-types'
 const Payment = (props) => {
     const handlePayment = () => {
-        NotifyHelper.success("Message here", "Thanh toán thành công");
+        NotifyHelper.success("Message here", "Thanh toán thành công")
     }
     const sum = props.products.reduce((currentTotal, item) => {
         return item.price + currentTotal
@@ -44,5 +45,8 @@ const Payment = (props) => {
             </div>
         </div>
     )
+}
+Payment.propTypes = {
+    products: PropTypes.array,
 }
 export default Payment

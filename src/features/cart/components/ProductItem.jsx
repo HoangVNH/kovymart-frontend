@@ -6,6 +6,7 @@ import {
 import { useState } from "react"
 import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
+import PropTypes from 'prop-types'
 const ProductItem = (props) => {
 
     const [product, setProduct] = useState(props.product)
@@ -47,5 +48,9 @@ const ProductItem = (props) => {
             </Row>
         </div>
     )
+}
+
+ProductItem.propTypes = {
+    product: PropTypes.object,
 }
 export default ProductItem

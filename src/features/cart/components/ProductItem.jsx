@@ -1,11 +1,12 @@
-import { Col, Row, Button } from "antd"
+import { Col, Row } from "antd"
 import ImageWithFallBack from "components/ImageWithFallback"
 import {
     DeleteOutlined, MinusOutlined, PlusOutlined
 } from '@ant-design/icons'
-import Money from "../../../helper/Money"
 import { useState } from "react"
-const CardProduct = (props) => {
+import ButtonUI from "components/UIKit/ButtonUI"
+import Utils from "components/UIKit/Utils"
+const ProductItem = (props) => {
 
     const [product, setProduct] = useState(props.product)
     const handleDelete = () => {
@@ -28,13 +29,23 @@ const CardProduct = (props) => {
                     </h4></a>
                 </Col>
                 <Col span={24} sm={24} lg={10} className="pe-3 d-flex justify-content-end align-items-end">
-                    <h4 className="fw-bold me-4" >{product.price ? <Money money={product.price} /> : ""}</h4>
-                    <Button className="mb-2" icon={<MinusOutlined />}></Button>
+                    <h4 className="fw-bold me-4" >
+                        {Utils.Money({ money: product.price })}
+                    </h4>
+                    <ButtonUI className="mb-2"
+                        type="default"
+                        normal={true}
+                        withIcon={<MinusOutlined />}
+                    />
                     <h2 className="lh-1 m-3">1</h2>
-                    <Button className="mb-2" icon={<PlusOutlined />}></Button>
+                    <ButtonUI className="mb-2"
+                        type="default"
+                        normal={true}
+                        withIcon={<PlusOutlined />}
+                    />
                 </Col>
             </Row>
         </div>
     )
 }
-export default CardProduct
+export default ProductItem

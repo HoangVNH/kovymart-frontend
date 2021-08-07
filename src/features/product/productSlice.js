@@ -11,8 +11,8 @@ const initialState = {
 }
 
 //----------ACTIONS----------
-export const product_getbyid = createAsyncThunk(
-    "PRODUCT_GETBYID",
+export const getProductById = createAsyncThunk(
+    "GET_PRODUCT_BY_ID",
     async (id) => {
         const res = await ProductAPI.getbyid(id)
         return res
@@ -27,11 +27,11 @@ const productSlice = createSlice({
     extraReducers: (builder) => {
         builder
             //get by id
-            .addCase(product_getbyid.pending, (state) => {
+            .addCase(getProductById.pending, (state) => {
                 state.requesting = false
                 NotifyHelper.info("", "Đang xử lý")
             })
-            .addCase(product_getbyid.fulfilled, (state, action) => {
+            .addCase(getProductById.fulfilled, (state, action) => {
                 state.requesting = false
                 state.message = action.payload.Message
                 state.success = true
@@ -39,7 +39,7 @@ const productSlice = createSlice({
                 NotifyHelper.success(state.message, "Thành công")
                 console.log(action)
             })
-            .addCase(product_getbyid.rejected, (state, action) => {
+            .addCase(getProductById.rejected, (state, action) => {
                 state.success = false
                 console.log(action)
                 NotifyHelper.error(action.error.message, ` thất bại`)

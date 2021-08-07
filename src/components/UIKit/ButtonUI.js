@@ -8,7 +8,7 @@ const ButtonUI = (props) => {
     const normal = props.normal ? props.normal : false //Button default
     const block = props.block ? props.block : false
     const disabled = props.disabled ? props.disabled : false
-    const href = props.href ? props.href : null
+    // const href = props.href ? props.href : null
     const size = props.size ? props.size : 'middle'
     const onClick = props.onClick ? props.onClick : null
     const className = props.className ? props.className : ''
@@ -27,7 +27,7 @@ const ButtonUI = (props) => {
             type={type}
             block={block}
             disabled={disabled}
-            href={href}
+            // href={href}
             size={size}
             onClick={onClick}
             className={`${className} ${customClassname}`}

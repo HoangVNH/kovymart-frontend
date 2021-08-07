@@ -9,14 +9,15 @@ import ImageWithFallBack from "components/ImageWithFallback"
 import Utils from '../../../components/UIKit/Utils'
 import ButtonUI from '../../../components/UIKit/ButtonUI'
 import { Link } from 'react-router-dom'
-import { product_getbyid } from '../productSlice'
+import { getProductById } from '../productSlice'
 import { useDispatch, useSelector } from "react-redux"
 const ProductDetails = () => {
   const dispatch = useDispatch()
-  const roadaxises = useSelector(
+  const test = useSelector(
     (state) => state.product
   )
   let { productId } = useParams()
+
   const product = {
     name: "Snack Doritos",
     discount: 10,
@@ -28,7 +29,7 @@ const ProductDetails = () => {
   useEffect(() => {
     // call api get product by id
     dispatch(
-      product_getbyid(1)
+      getProductById(1)
     )
   }, [])
   const handleClick = () => {
@@ -65,12 +66,12 @@ const ProductDetails = () => {
               </span>
               <h5 className="text-muted ">(Đã tính thuế)</h5>
             </div>
-            {/* <Link to={`/cart`}> */}
-            <ButtonUI
-              text="Mua ngay"
-              withIcon={<ShoppingCartOutlined className="align-baseline" />}
-            />
-            {/* </Link> */}
+            <Link to={`/cart`}>
+              <ButtonUI
+                text="Mua ngay"
+                withIcon={<ShoppingCartOutlined className="align-baseline" />}
+              />
+            </Link>
             <div className="mt-5">
               <span>Lý do nên mua sản phẩm ?</span>
               <br />

@@ -1,15 +1,15 @@
 import "./ProductDetails.scss"
-import { Col, Button, Row, Tag, Skeleton } from "antd"
+import { Col, Row, Tag, Skeleton } from "antd"
 import { CheckCircleOutlined, ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons"
-import Money from "../../../helper/Money"
 import { useEffect, useState } from "react"
 import {
   useParams
 } from "react-router-dom"
 import ImageWithFallBack from "components/ImageWithFallback"
-
+import Utils from '../../../components/UIKit/Utils'
+import ButtonUI from '../../../components/UIKit/ButtonUI'
 const ProductDetails = () => {
-  let {productId } = useParams() 
+  let { productId } = useParams()
   const product = {
     name: "Snack Doritos",
     discount: 10,
@@ -23,6 +23,7 @@ const ProductDetails = () => {
   }, [])
   const handleClick = () => {
     alert("clicked")
+    console.log("handleclikc")
   }
   return (
     <> {productId ?
@@ -47,23 +48,20 @@ const ProductDetails = () => {
             <div className="text-wrap lh-1 mb-3">
               <h4 className="fw-bold" style={{ lineHeight: "0" }}>
                 Giá:
-                <Money money={product.price} />
+                {Utils.Money({ money: product.price })}
               </h4>
               <span className="text-muted text-decoration-line-through">
-                <Money
-                  money={product.price * (1 + product.discount * 0.01)}
-                />
+                {Utils.Money({ money: product.price * (1 + product.discount * 0.01) })}
               </span>
               <h5 className="text-muted ">(Đã tính thuế)</h5>
             </div>
-            <Button
-              type="primary"
-              style={{ background: "#ed1b24", borderColor: "#ed1b24" }}
+
+            <ButtonUI
+              text= "Mua ngay"
+              withIcon = {<ShoppingCartOutlined className="align-baseline" />}
               onClick={handleClick}
-            >
-              <ShoppingCartOutlined className="align-baseline" />
-              Mua ngay
-            </Button>
+            />
+
             <div className="mt-5">
               <span>Lý do nên mua sản phẩm ?</span>
               <br />
@@ -82,9 +80,9 @@ const ProductDetails = () => {
         <Row className="mt-5">
           <Col lg={16}>
             <h2 className="fw-bold">Mô tả sản phẩm</h2>
-            <div className="mt-4">{product.description ?
-              product.description.match(/[^\r\n]+/g).map((item) => { return <>{item}<br /> </> })
-              : ""}</div>
+            <div className="mt-4">
+              {Utils.Description({ text: `${product.description}` })}
+            </div>
           </Col>
         </Row>
       </Col>

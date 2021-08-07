@@ -1,6 +1,7 @@
 import Payment from "../components/Payment"
-import CardProduct from "../components/CardProduct"
+import ProductItem from "../components/ProductItem"
 import { Col, Row, Space, Button } from 'antd'
+import ButtonUI from "components/UIKit/ButtonUI"
 import './Cart.scss'
 const products = [
     {
@@ -49,26 +50,26 @@ const Cart = () => {
                 xl={20}
             >
                 <Space size={20} className="ms-3">
-                    <Button
+                    {/* <Button
                         type="primary"
                         style={{ background: "#ed1b24", borderColor: "#ed1b24" }}
                         onClick={handleContinue}
-                    >Tiếp tục mua hàng </Button>
-                    <Button
-                        type="primary"
+                    >Tiếp tục mua hàng </Button> */}
+                    <ButtonUI text="Tiếp tục mua hàng"
+                        onClick={handleContinue} />
+                    <ButtonUI text="Xóa giỏ hàng"
                         style={{ background: "#6C757D", borderColor: "#6C757D" }}
-                        onClick={handleContinue}
-                    >Xóa giỏ hàng </Button>
+                        onClick={handleContinue} />
+                 
                 </Space>
                 <Row className="mt-5 ">
                     <Col span={24} sm={13} lg={16} className="px-3 d-flex justify-content-center">
                         <div  >
-                        
                             {products
                                 ? <>
                                     {products.map((item) => {
                                         return (
-                                            <CardProduct key={item.id}  product={item}/>
+                                            <ProductItem key={item.id} product={item} />
                                         )
                                     }
                                     )}
@@ -78,7 +79,7 @@ const Cart = () => {
                         </div>
                     </Col>
                     <Col span={22} sm={11} lg={8} className="px-5">
-                        <Payment products={products}/>
+                        <Payment products={products} />
                     </Col>
                 </Row>
             </Col>

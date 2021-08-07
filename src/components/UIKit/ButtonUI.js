@@ -1,8 +1,10 @@
 import { Button } from 'antd'
+import './style.scss'
 const ButtonUI = (props) => {
-    const normal = props.normal ? props.normal : false //Button default
+    const variant = props.variant ? props.variant : 'primary'
+    let type = props.type ? props.type : 'primary'
     const text = props.text ? props.text : null
-    const type = props.type ? props.type : 'primary'
+    const normal = props.normal ? props.normal : false //Button default
     const block = props.block ? props.block : false
     const disabled = props.disabled ? props.disabled : false
     const href = props.href ? props.href : null
@@ -12,13 +14,12 @@ const ButtonUI = (props) => {
     const style = props.style ? props.style : ''
     const withIcon = props.withIcon ? props.withIcon : ""
     let btnStyle = ''
-    if (!normal) {
-        btnStyle = {
-            background: "#ed1b24",
-            borderColor: "#ed1b24"
-        }
-    }
     btnStyle = { ...btnStyle, ...style }
+    let customClassname = ''
+    if (!normal) {
+        type = ""
+        customClassname = `btn-ui-${variant}`
+    }
 
     return (
         <Button
@@ -28,7 +29,7 @@ const ButtonUI = (props) => {
             href={href}
             size={size}
             onClick={onClick}
-            className={className}
+            className={`${className} ${customClassname}`}
             style={btnStyle}
         >{withIcon}{text ? ` ${text}` : null}</Button >
     )

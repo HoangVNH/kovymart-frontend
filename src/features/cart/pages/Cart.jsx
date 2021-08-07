@@ -58,9 +58,9 @@ const Cart = () => {
                     <ButtonUI text="Tiếp tục mua hàng"
                         onClick={handleContinue} />
                     <ButtonUI text="Xóa giỏ hàng"
-                        style={{ background: "#6C757D", borderColor: "#6C757D" }}
+                        variant="danger"
                         onClick={handleContinue} />
-                 
+
                 </Space>
                 <Row className="mt-5 ">
                     <Col span={24} sm={13} lg={16} className="px-3 d-flex justify-content-center">

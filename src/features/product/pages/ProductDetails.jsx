@@ -8,8 +8,14 @@ import {
 import ImageWithFallBack from "components/ImageWithFallback"
 import Utils from '../../../components/UIKit/Utils'
 import ButtonUI from '../../../components/UIKit/ButtonUI'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+import { product_getbyid } from '../productSlice'
+import { useDispatch, useSelector } from "react-redux"
 const ProductDetails = () => {
+  const dispatch = useDispatch()
+  const roadaxises = useSelector(
+    (state) => state.product
+  )
   let { productId } = useParams()
   const product = {
     name: "Snack Doritos",
@@ -18,9 +24,12 @@ const ProductDetails = () => {
     description:
       "  • Snack khoai tây vị tảo biển O'Star gói 48g là sản phẩm của thương hiệu Orion, một trong ba tập đoàn thực phẩm lớn nhất Hàn Quốc.\n • Thông tin sản phẩm Màu sắc sản phẩm: Năng lượng: 570kcal/100g.\n• Hướng dẫn sử dụng: Ăn trực tiếp sau khi bóc vỏ. Bảo quản sản phẩm nơi khô ráo, thoáng mát, tránh ánh sáng và   \nnhiệt độ cao.    \n• Thành phần: Khoai tây tươi, dầu thực vật, bột gia vị   tảo biển 5% (đường, maltodextrin, muối, bột sữa, chất điều vịmononatri glutamat (E621), bột hành, bột tỏi, tảo biển).",
   }
-  const [array, setArray] = useState(product.description.match(/[^\r\n]+/g))
+
   useEffect(() => {
     // call api get product by id
+    dispatch(
+      product_getbyid(1)
+    )
   }, [])
   const handleClick = () => {
     alert("clicked")
@@ -57,10 +66,10 @@ const ProductDetails = () => {
               <h5 className="text-muted ">(Đã tính thuế)</h5>
             </div>
             {/* <Link to={`/cart`}> */}
-              <ButtonUI
-                text="Mua ngay"
-                withIcon={<ShoppingCartOutlined className="align-baseline" />}
-              />
+            <ButtonUI
+              text="Mua ngay"
+              withIcon={<ShoppingCartOutlined className="align-baseline" />}
+            />
             {/* </Link> */}
             <div className="mt-5">
               <span>Lý do nên mua sản phẩm ?</span>

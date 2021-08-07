@@ -5,33 +5,33 @@ $white: #fff;
 $radius: 25px;
 // Custom button
 .btn-ui-primary {
-  background-color: $primary ;
-  color: $white ;
+  background-color: $primary !important;
+  color: $white !important;
   border-color: $primary !important;
-  border-radius: $radius ;
+  border-radius: $radius !important ;
   &:hover {
-    background-color: $white;
-    color: $primary;
+    background-color: $white !important;
+    color: $primary !important;
   }
 }
 
 .btn-ui-secondary {
-    background-color: $secondary ;
-    color: $white ;
-    border-color: $secondary !important;
-    border-radius: $radius ;
-    &:hover {
-      background-color: $white;
-      color: $secondary;
-    }
+  background-color: $secondary !important;
+  color: $white !important ;
+  border-color: $secondary !important;
+  border-radius: $radius !important;
+  &:hover {
+    background-color: $white !important;
+    color: $secondary !important;
   }
-  .btn-ui-danger {
-    background-color: $danger ;
-    color: $white ;
-    border-color: $danger !important;
-    border-radius: $radius ;
-    &:hover {
-      background-color: $white;
-      color: $danger;
-    }
+}
+.btn-ui-danger {
+  background-color: $danger !important;
+  color: $white !important;
+  border-color: $danger !important;
+  border-radius: $radius !important;
+  &:hover {
+    background-color: $white !important;
+    color: $danger !important;
   }
+}

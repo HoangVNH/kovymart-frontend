@@ -8,6 +8,7 @@ import {
 import ImageWithFallBack from "components/ImageWithFallback"
 import Utils from '../../../components/UIKit/Utils'
 import ButtonUI from '../../../components/UIKit/ButtonUI'
+import { Link } from 'react-router-dom';
 const ProductDetails = () => {
   let { productId } = useParams()
   const product = {
@@ -55,13 +56,12 @@ const ProductDetails = () => {
               </span>
               <h5 className="text-muted ">(Đã tính thuế)</h5>
             </div>
-
-            <ButtonUI
-              text= "Mua ngay"
-              withIcon = {<ShoppingCartOutlined className="align-baseline" />}
-              onClick={handleClick}
-            />
-
+            <Link to={`/cart`}>
+              <ButtonUI
+                text="Mua ngay"
+                withIcon={<ShoppingCartOutlined className="align-baseline" />}
+              />
+            </Link>
             <div className="mt-5">
               <span>Lý do nên mua sản phẩm ?</span>
               <br />

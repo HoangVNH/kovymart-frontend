@@ -1,41 +1,140 @@
-import React from 'react';
-import { Layout, Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
-import Search from './Search';
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { Col, Form, Layout, Row } from 'antd';
+import { selectAuth, setSignInMsgToDefault, setSignUpMsgToDefault, signIn, signUp } from 'features/auth/authSlice';
+import { getAccessTokenFromLocalStorage } from 'helper/auth';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ASYNC_STATUS } from '../../constants';
+import LoginForm from '../../features/auth/components/LoginForm';
+import RegisterForm from '../../features/auth/components/RegisterForm';
+import { NotifyHelper } from '../../helper/notify-helper';
+import Search from './Search';
 
 const { Header } = Layout;
 
 const MainHeader = () => {
-  const handleLogin = (e) => {
-    console.log('hehe');
-  }
+  const [isDisplayLoginModal, setIsDisplayLoginModal] = useState(false);
+  const [isDisplayRegisterModal, setIsDisplayRegisterModal] = useState(false);
+  const [loginFormInstance] = Form.useForm();
+  const [registerFormInstance] = Form.useForm();
+  const dispatch = useDispatch();
+  const {
+    isFetching,
+    signUp: {
+      msg: signUpMsg
+    },
+    signIn: {
+      msg: signInMsg
+    }
+  } = useSelector(selectAuth);
+  const isUserLoggedIn = getAccessTokenFromLocalStorage();
+
+  const handleCloseLoginModal = useCallback(() => {
+    setIsDisplayLoginModal(false);
+    loginFormInstance.resetFields();
+  }, [loginFormInstance]);
+
+  const handleCloseRegisterModal = useCallback(() => {
+    setIsDisplayRegisterModal(false);
+    registerFormInstance.resetFields();
+  }, [registerFormInstance]);
+
+  const switchToRegisterModal = () => {
+    setIsDisplayLoginModal(false);
+    loginFormInstance.resetFields();
+    setIsDisplayRegisterModal(true);
+  };
+
+  const switchToLoginModal = () => {
+    setIsDisplayRegisterModal(false);
+    registerFormInstance.resetFields();
+    setIsDisplayLoginModal(true);
+  };
+
+  const handleRegister = (values) => {
+    dispatch(signUp(values));
+  };
+
+  const handleLogin = (values) => {
+    dispatch(signIn(values));
+  };
+
+  useEffect(() => {
+    if (signUpMsg === ASYNC_STATUS.SUCCESS) {
+      NotifyHelper.success('Đăng ký thành công', 'Thông báo');
+    } else if (signUpMsg === ASYNC_STATUS.ERROR) {
+      NotifyHelper.error('Đăng ký thất bại', 'Thông báo');
+    }
+
+    handleCloseRegisterModal();
+
+    return () => {
+      dispatch(setSignUpMsgToDefault());
+    }
+  }, [signUpMsg, handleCloseRegisterModal, dispatch]);
+
+  useEffect(() => {
+    if (signInMsg === ASYNC_STATUS.SUCCESS) {
+      NotifyHelper.success('Đăng nhập thành công', 'Thông báo');
+    } else if (signInMsg === ASYNC_STATUS.ERROR) {
+      NotifyHelper.error('Đăng nhập thất bại', 'Thông báo');
+    }
+
+    handleCloseLoginModal();
+
+    return () => {
+      dispatch(setSignInMsgToDefault());
+    }
+  }, [signInMsg, handleCloseLoginModal, dispatch]);
 
   return (
-    <Header>
-      <Row className="navigation-bar">
-        <Col flex={3} className="navigation-bar__left">
-          <Link to="/" className="navigation-bar__logo">
-            KovyMart
-          </Link>
-          <Search />
-        </Col>
-        <Col flex={2} className="navigation-bar__right">
-          <button
-            type="button"
-            className="navigation-bar__login"
-            onClick={handleLogin}
-          >
-            <UserOutlined className="vertical-align-icon"/>
-            <span>Đăng Nhập</span>
-          </button>
-          <Link to="/" className="link--normalize">
-            <ShoppingCartOutlined className="vertical-align-icon"/>
-            <span>Giỏ Hàng</span>
-          </Link>
-        </Col>
-      </Row>
-    </Header>
+    <>
+      <Header>
+        <Row className="navigation-bar">
+          <Col flex={3} className="navigation-bar__left">
+            <Link to="/" className="navigation-bar__logo link--normalize">
+              KovyMart
+            </Link>
+            <Search />
+          </Col>
+          <Col flex={2} className="navigation-bar__right">
+            {
+              !isUserLoggedIn && <button
+                type="button"
+                className="navigation-bar__login"
+                onClick={() => setIsDisplayLoginModal(true)}
+              >
+                <UserOutlined className="vertical-align-icon" />
+                <span>Đăng Nhập</span>
+              </button>
+            }
+            <Link to="/cart" className="link--normalize">
+              <ShoppingCartOutlined className="vertical-align-icon" />
+              <span>Giỏ Hàng</span>
+            </Link>
+          </Col>
+        </Row>
+      </Header>
+
+      <LoginForm
+        isDisplay={isDisplayLoginModal}
+        isFetching={isFetching}
+        formInstance={loginFormInstance}
+        onClose={handleCloseLoginModal}
+        onFinish={handleLogin}
+        onRegisterClick={switchToRegisterModal}
+      />
+
+      <RegisterForm
+        isDisplay={isDisplayRegisterModal}
+        isFetching={isFetching}
+        formInstance={registerFormInstance}
+        onClose={handleCloseRegisterModal}
+        onFinish={handleRegister}
+        onLoginClick={switchToLoginModal}
+      />
+    </>
   );
 };
 

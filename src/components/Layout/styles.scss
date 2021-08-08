@@ -1,13 +1,13 @@
-@import '../../assests/scss/variables';
-@import '../../assests/scss/mixins';
+@import "../../assests/scss/variables";
+@import "../../assests/scss/mixins";
 
 header {
-  box-shadow: 0 2px 4px 1px #D7D7D7;
+  box-shadow: 0 2px 4px 1px #d7d7d7;
 
   &.ant-layout-header {
     height: 70px;
     padding: 0 37px;
-    background: #2B2F4C;
+    background: #2b2f4c;
     display: flex;
     align-items: center;
     position: sticky;
@@ -27,7 +27,7 @@ header {
 
     &__logo {
       font-style: italic;
-      @include setFont(24px, 500, 36px, #FFF);
+      @include setFont(24px, 500, 36px, #fff);
       margin-right: 20px;
     }
 
@@ -37,12 +37,12 @@ header {
 
     &__login {
       background: transparent;
-      color: #FFF;
+      color: #fff;
       border: none;
     }
 
     .vertical-align-icon {
-      vertical-align: middle;
+      vertical-align: text-top;
       margin-right: 7px;
     }
   }
@@ -55,7 +55,7 @@ main.ant-layout-content {
 }
 
 footer.main-footer-wrapper {
-  background: #F3F3F3;
+  background: #f3f3f3;
   color: #fff;
 }
 

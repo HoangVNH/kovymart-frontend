@@ -1,14 +1,14 @@
 import "./ProductDetails.scss"
 import { Col, Row, Tag, Skeleton } from "antd"
 import { CheckCircleOutlined, ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import {
-  useParams
+  useParams,
+  Link
 } from "react-router-dom"
 import ImageWithFallBack from "components/ImageWithFallback"
 import Utils from '../../../components/UIKit/Utils'
 import ButtonUI from '../../../components/UIKit/ButtonUI'
-import { Link } from 'react-router-dom'
 import { getProductById } from '../productSlice'
 import { useDispatch, useSelector } from "react-redux"
 const ProductDetails = () => {
@@ -31,7 +31,7 @@ const ProductDetails = () => {
     dispatch(
       getProductById(1)
     )
-  }, [])
+  }, [dispatch])
   const handleClick = () => {
     alert("clicked")
     console.log("handleclikc")

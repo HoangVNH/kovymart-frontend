@@ -11,12 +11,12 @@ const axiosClient = axios.create({
 });
 
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
+axiosClient.interceptors.request.use(function (config) {
   // Do something before request is sent
   const accessToken = getAccessTokenFromLocalStorage();
 
-  if (!!accessToken) {
-    config.headers.authorization = `Bearer ${accessToken}`
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`
   }
 
   return config;
@@ -26,7 +26,7 @@ axios.interceptors.request.use(function (config) {
 });
 
 // Add a response interceptor
-axios.interceptors.response.use(function (response) {
+axiosClient.interceptors.response.use(function (response) {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
   return response.data

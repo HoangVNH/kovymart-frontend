@@ -1,7 +1,7 @@
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { Col, Form, Layout, Row } from 'antd';
 import { selectAuth, setSignInMsgToDefault, setSignUpMsgToDefault, signIn, signUp } from 'features/auth/authSlice';
-import { getAccessTokenFromLocalStorage } from 'helper/auth';
+import { checkAuth } from 'helper/auth';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -28,7 +28,7 @@ const MainHeader = () => {
       msg: signInMsg
     }
   } = useSelector(selectAuth);
-  const isUserLoggedIn = getAccessTokenFromLocalStorage();
+  const isUserLoggedIn = checkAuth();
 
   const handleCloseLoginModal = useCallback(() => {
     setIsDisplayLoginModal(false);
@@ -109,7 +109,7 @@ const MainHeader = () => {
                 <span>Đăng Nhập</span>
               </button>
             }
-            <Link to="/cart" className="link--normalize">
+            <Link to="/cart" className="link--normalize navigation-bar__cart">
               <ShoppingCartOutlined className="vertical-align-icon" />
               <span>Giỏ Hàng</span>
             </Link>

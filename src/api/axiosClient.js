@@ -15,9 +15,7 @@ axiosClient.interceptors.request.use(function (config) {
   // Do something before request is sent
   const accessToken = getAccessTokenFromLocalStorage();
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`
-  }
+  config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : undefined;
 
   return config;
 }, function (error) {
@@ -33,6 +31,13 @@ axiosClient.interceptors.response.use(function (response) {
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
+  const code = error && error.response ? error.response.status : 0;
+  if (code === 401) {
+    // Refresh token
+    window.location.assign(window.location);
+    return Promise.reject({ message: 'Please re-authenticate.' });
+  }
+
   return Promise.reject(error)
 });
 

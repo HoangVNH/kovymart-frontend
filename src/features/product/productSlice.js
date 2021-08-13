@@ -66,6 +66,6 @@ const productSlice = createSlice({
   },
 })
 
-export const selectProduct = (state) => state.productApi;
+export const selectProduct = (state) => state.product;
 
 export default productSlice.reducer;

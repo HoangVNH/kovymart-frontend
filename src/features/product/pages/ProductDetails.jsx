@@ -16,9 +16,10 @@ const ProductDetails = () => {
   const test = useSelector(
     (state) => state.product
   )
-  let { productId } = useParams()
+  let { productId } = useParams();
 
   const product = {
+    productId :  1, 
     name: "Snack Doritos",
     discount: 10,
     price: 50000,

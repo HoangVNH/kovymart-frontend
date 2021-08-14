@@ -55,5 +55,6 @@ ButtonUI.propTypes = {
 //     withIcon={<MinusOutlined />}
 //     text="Button"
 //     onClick={handleClick}
+//      variant="secondary"
 // />
 export default ButtonUI

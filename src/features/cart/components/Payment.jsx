@@ -3,10 +3,17 @@ import Utils from "components/UIKit/Utils";
 import ButtonUI from "components/UIKit/ButtonUI";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import { NotifyHelper } from "helper/notify-helper";
+import { checkAuth } from 'helper/auth';
 const Payment = (props) => {
   let history = useHistory();
   const handlePayment = () => {
-    history.push("/order");
+    const isUserLoggedIn = checkAuth();
+    if(!isUserLoggedIn){
+      NotifyHelper.error( 'Vui lòng đăng nhập để tiến hành thanh toán !','Không thể thanh toán')
+    }else{
+      history.push("/order");
+    }
   };
   const sum = props.products.reduce((currentTotal, item) => {
     return item.price + currentTotal;

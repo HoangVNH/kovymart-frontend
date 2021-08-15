@@ -14,9 +14,20 @@ import "./Order.scss";
 import ButtonUI from "components/UIKit/ButtonUI";
 import Utils from "components/UIKit/Utils";
 import { useHistory } from 'react-router-dom'
+import { checkAuth } from 'helper/auth';
+import { useEffect } from "react";
 const { Text, Title } = Typography;
 const { Option } = Select;
 const Order = () => {
+  useEffect(() => {
+    console.log("efect")
+    const isUserLoggedIn = checkAuth();
+    console.log(isUserLoggedIn)
+    if (!isUserLoggedIn) {
+      history.push("/");
+    }
+  },[])
+  
   let history = useHistory();
   const [form] = Form.useForm();
   const provinces = [
@@ -46,7 +57,7 @@ const Order = () => {
       provinces_id: getID(e.provincesId),
       district_id: getID(e.districtId),
       ward_id: getID(e.wardId),
-      address: getID(e.address),
+      address: e.address,
     }
     let data = {
       totalPrice: 35000,

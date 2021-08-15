@@ -4,6 +4,7 @@ import HomePage from "../features/homepage"
 import ProductDetails from "features/product/pages/ProductDetails"
 import Cart from "features/cart/pages/Cart"
 import Order from "features/Order/pages"
+import OrderSuccess from "features/Order/pages/OrderSuccess"
 const routes = [
   {
     key: uuidv4(),
@@ -24,6 +25,11 @@ const routes = [
     key: uuidv4(),
     path: '/order',
     component: Order,
+  },
+  {
+    key: uuidv4(),
+    path: '/ordersuccess',
+    component: OrderSuccess,
   }
 ];
 

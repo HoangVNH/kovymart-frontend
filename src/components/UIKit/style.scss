@@ -3,6 +3,7 @@ $secondary: #6c757d;
 $danger: #ff4d6d;
 $white: #fff;
 $radius: 5  px;
+$success: #65B891;
 // Custom button
 .btn-ui-primary {
   background-color: $primary !important;
@@ -12,6 +13,17 @@ $radius: 5  px;
   &:hover {
     background-color: $white !important;
     color: $primary !important;
+  }
+}
+
+.btn-ui-success {
+  background-color: $success !important;
+  color: $white !important;
+  border-color: $success !important;
+  border-radius: $radius !important ;
+  &:hover {
+    background-color: $white !important;
+    color: $success !important;
   }
 }
 

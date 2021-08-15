@@ -79,6 +79,7 @@ footer.main-footer-wrapper {
   .ant-row ul {
     padding-left: 0;
     margin-bottom: 0;
+    list-style: none;
 
     > li {
       a {
@@ -97,6 +98,8 @@ footer.main-footer-wrapper {
   }
 
   .social-network-list {
+    list-style: none;
+
     li {
       display: inline-block;
       width: max-content;

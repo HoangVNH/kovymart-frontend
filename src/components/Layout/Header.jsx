@@ -63,11 +63,10 @@ const MainHeader = () => {
   useEffect(() => {
     if (signUpMsg === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success('Đăng ký thành công', 'Thông báo');
+      handleCloseRegisterModal();
     } else if (signUpMsg === ASYNC_STATUS.ERROR) {
       NotifyHelper.error('Đăng ký thất bại', 'Thông báo');
     }
-
-    handleCloseRegisterModal();
 
     return () => {
       dispatch(setSignUpMsgToDefault());
@@ -77,11 +76,10 @@ const MainHeader = () => {
   useEffect(() => {
     if (signInMsg === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success('Đăng nhập thành công', 'Thông báo');
+      handleCloseLoginModal();
     } else if (signInMsg === ASYNC_STATUS.ERROR) {
       NotifyHelper.error('Đăng nhập thất bại', 'Thông báo');
     }
-
-    handleCloseLoginModal();
 
     return () => {
       dispatch(setSignInMsgToDefault());

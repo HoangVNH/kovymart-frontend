@@ -12,8 +12,11 @@ const ProductCardList = ({
   className,
   style,
   onClickHandler
-}) => (
-  <div className="product-list__container">
+}) => {
+  const imageSize = 'smallImage';
+
+  return (
+    <div className="product-list__container">
     <div className={`product-list__header ${className}`} style={style}>
       <span>{title}</span>
     </div>
@@ -28,7 +31,7 @@ const ProductCardList = ({
         >
           <ProductCard
             id={product.id}
-            image={getImageOfProduct(product.id)}
+            image={getImageOfProduct(product.id, imageSize)}
             name={product.productName}
             price={product.price}
             netPrice={product.netPrice}
@@ -39,7 +42,8 @@ const ProductCardList = ({
       )}
     </Row>
   </div>
-);
+  )
+};
 
 ProductCardList.propTypes = {
   products: PropTypes.array.isRequired,

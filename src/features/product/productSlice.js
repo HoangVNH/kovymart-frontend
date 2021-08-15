@@ -6,12 +6,16 @@ const initialState = {
   requesting: false,
   success: false,
   message: null,
-  object: null,
   productList1: [],
   productList2: [],
   productList3: [],
   list: [],
   pagination: {},
+  detail: {
+    name: '',
+    price: 0,
+    discount: 10
+  }
 };
 
 //----------ACTIONS----------
@@ -46,14 +50,14 @@ const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //get by id
+      // Get By Id
       .addCase(getProductById.pending, (state) => {
         state.requesting = true;
       })
       .addCase(getProductById.fulfilled, (state, action) => {
         state.requesting = false;
         state.success = true;
-        state.object = action.payload.data;
+        state.detail = action.payload;
       })
       .addCase(getProductById.rejected, (state, action) => {
         state.success = false;
@@ -91,5 +95,6 @@ const productSlice = createSlice({
 });
 
 export const selectProduct = (state) => state.product;
+export const selectProductDetail = (state) => state.product.detail;
 
 export default productSlice.reducer;

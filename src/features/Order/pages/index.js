@@ -8,15 +8,16 @@ import {
   Input,
   Form,
   Divider,
-  Button,
 } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import "./Order.scss";
 import ButtonUI from "components/UIKit/ButtonUI";
 import Utils from "components/UIKit/Utils";
+import { useHistory } from 'react-router-dom'
 const { Text, Title } = Typography;
 const { Option } = Select;
 const Order = () => {
+  let history = useHistory();
   const [form] = Form.useForm();
   const provinces = [
     { id: 1, name: "Lâm Đồng" },
@@ -42,10 +43,10 @@ const Order = () => {
   const handleSubmit = (e) => {
     console.log(e);
     let location = {
-      provinces_id: e.provincesId,
-      district_id: e.districtId,
-      ward_id: e.wardId,
-      address: e.address,
+      provinces_id: getID(e.provincesId),
+      district_id: getID(e.districtId),
+      ward_id: getID(e.wardId),
+      address: getID(e.address),
     }
     let data = {
       totalPrice: 35000,
@@ -60,8 +61,11 @@ const Order = () => {
         }
       ]
     }
-
+    console.log(location)
     // dispatch data
+
+    // Direct to page order success
+    history.push("/ordersuccess");
   };
 
   return (
@@ -173,7 +177,7 @@ const Order = () => {
               </Col>
               <Col xs={24} lg={24}>
                 <Form.Item
-                  //   label="Địa chỉ"
+                  label="Địa chỉ"
                   name="address"
                 >
                   <Input />

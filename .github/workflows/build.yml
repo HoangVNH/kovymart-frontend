@@ -17,5 +17,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: |
-        npm i --legacy-peer-deps
+        npm i react-html-parser --legacy-peer-deps
+        npm i
         npm run build

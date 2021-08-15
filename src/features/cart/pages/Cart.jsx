@@ -3,39 +3,45 @@ import ProductItem from "../components/ProductItem"
 import { Col, Row, Space, Button } from 'antd'
 import ButtonUI from "components/UIKit/ButtonUI"
 import './Cart.scss'
-const products = [
-    {
-        name: "Bắp bò loại 1 500g",
-        price: 50000,
-        id: 1,
-        discount: 10,
-    },
-    {
-        name: "Bắp bò loại 1 500g",
-        price: 50000,
-        id: 2,
-        discount: 10,
-    },
-    {
-        name: "Bắp bò loại 1 500g",
-        price: 50000,
-        id: 3,
-        discount: 10,
-    },
-    {
-        name: "Bắp bò loại 1 500g",
-        price: 50000,
-        id: 4,
-        discount: 10,
-    },
-    {
-        name: "Bắp bò loại 1 500g",
-        price: 50000,
-        id: 5,
-        discount: 10,
-    },
-]
+import { useSelector } from "react-redux"
+// const products = [
+//     {
+//         name: "Bắp bò loại 1 500g",
+//         price: 50000,
+//         id: 1,
+//         discount: 10,
+//     },
+//     {
+//         name: "Bắp bò loại 1 500g",
+//         price: 50000,
+//         id: 2,
+//         discount: 10,
+//     },
+//     {
+//         name: "Bắp bò loại 1 500g",
+//         price: 50000,
+//         id: 3,
+//         discount: 10,
+//     },
+//     {
+//         name: "Bắp bò loại 1 500g",
+//         price: 50000,
+//         id: 4,
+//         discount: 10,
+//     },
+//     {
+//         name: "Bắp bò loại 1 500g",
+//         price: 50000,
+//         id: 5,
+//         discount: 10,
+//     },
+// ]
+
+
+
 const Cart = () => {
+
+    const products = useSelector((state) => state.cartItems);
     const handleContinue = () => {
 
     }

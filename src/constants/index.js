@@ -4,3 +4,4 @@ export const ASYNC_STATUS = {
   ERROR: 'ERROR',
   PENDING: 'PENDING'
 };
+

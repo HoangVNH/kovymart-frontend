@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import productApi from 'api/productApi';
-import { NotifyHelper } from 'helper/notify-helper';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import productApi from "api/productApi";
+import { NotifyHelper } from "helper/notify-helper";
 
 const initialState = {
   requesting: false,
@@ -13,7 +13,7 @@ const initialState = {
 
 //----------ACTIONS----------
 export const getProductList = createAsyncThunk(
-  'product/getProductList',
+  "product/getProductList",
   async () => {
     const { data } = await productApi.getProductList();
     return data;
@@ -23,8 +23,8 @@ export const getProductList = createAsyncThunk(
 export const getProductById = createAsyncThunk(
   "product/getProductById",
   async (id) => {
-    const res = await productApi.getProductById(id)
-    return res
+    const res = await productApi.getProductById(id);
+    return res;
   }
 );
 
@@ -37,22 +37,17 @@ const productSlice = createSlice({
     builder
       //get by id
       .addCase(getProductById.pending, (state) => {
-        state.requesting = false
-        NotifyHelper.info("", "Đang xử lý")
+        state.requesting = true;
       })
       .addCase(getProductById.fulfilled, (state, action) => {
-        state.requesting = false
-        state.message = action.payload.Message
-        state.success = true
-        state.object = action.payload.data
-        NotifyHelper.success(state.message, "Thành công")
-        console.log(action)
+        state.requesting = false;
+        state.success = true;
+        state.object = action.payload.data;
       })
       .addCase(getProductById.rejected, (state, action) => {
-        state.success = false
-        console.log(action)
-        NotifyHelper.error(action.error.message, ` thất bại`)
+        state.success = false;
       })
+      // Get list
       .addCase(getProductList.pending, (state) => {
         state.requesting = true;
       })
@@ -62,9 +57,9 @@ const productSlice = createSlice({
       .addCase(getProductList.fulfilled, (state, action) => {
         state.requesting = false;
         state.list = action.payload;
-      })
+      });
   },
-})
+});
 
 export const selectProduct = (state) => state.product;
 

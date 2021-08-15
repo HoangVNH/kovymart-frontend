@@ -2,6 +2,7 @@ import { Button, Card, Tag, Tooltip } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithFallBack from '../ImageWithFallback';
+import PropTypes from 'prop-types';
 import './styles.scss';
 
 const ProductCard = ({
@@ -49,5 +50,24 @@ const ProductCard = ({
     </Card>
   )
 };
+
+ProductCard.propTypes = {
+  id: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  netPrice: PropTypes.number,
+  discount: PropTypes.number,
+  className: PropTypes.string,
+  style: PropTypes.shape({}),
+  onAddToCart: PropTypes.func.isRequired
+};
+
+ProductCard.defaultProps = {
+  netPrice: 0,
+  discount: 0,
+  className: '',
+  style: {}
+}
 
 export default ProductCard;

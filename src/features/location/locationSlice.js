@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import locationApi from "api/locationApi";
-import { NotifyHelper } from "helper/notify-helper";
+// import { NotifyHelper } from "helper/notify-helper";
 
 const initialState = {
   requesting: false,

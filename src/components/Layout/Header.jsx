@@ -40,17 +40,17 @@ const MainHeader = () => {
     registerFormInstance.resetFields();
   }, [registerFormInstance]);
 
-  const switchToRegisterModal = () => {
+  const switchToRegisterModal = useCallback(() => {
     setIsDisplayLoginModal(false);
     loginFormInstance.resetFields();
     setIsDisplayRegisterModal(true);
-  };
+  }, [loginFormInstance]) ;
 
-  const switchToLoginModal = () => {
+  const switchToLoginModal = useCallback(() => {
     setIsDisplayRegisterModal(false);
     registerFormInstance.resetFields();
     setIsDisplayLoginModal(true);
-  };
+  }, [registerFormInstance]);
 
   const handleRegister = (values) => {
     dispatch(signUp(values));
@@ -64,12 +64,9 @@ const MainHeader = () => {
     if (signUpMsg === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success('Đăng ký thành công', 'Thông báo');
       handleCloseRegisterModal();
+      dispatch(setSignUpMsgToDefault());
     } else if (signUpMsg === ASYNC_STATUS.ERROR) {
       NotifyHelper.error('Đăng ký thất bại', 'Thông báo');
-    }
-
-    return () => {
-      dispatch(setSignUpMsgToDefault());
     }
   }, [signUpMsg, handleCloseRegisterModal, dispatch]);
 
@@ -77,12 +74,9 @@ const MainHeader = () => {
     if (signInMsg === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success('Đăng nhập thành công', 'Thông báo');
       handleCloseLoginModal();
+      dispatch(setSignInMsgToDefault());
     } else if (signInMsg === ASYNC_STATUS.ERROR) {
       NotifyHelper.error('Đăng nhập thất bại', 'Thông báo');
-    }
-
-    return () => {
-      dispatch(setSignInMsgToDefault());
     }
   }, [signInMsg, handleCloseLoginModal, dispatch]);
 

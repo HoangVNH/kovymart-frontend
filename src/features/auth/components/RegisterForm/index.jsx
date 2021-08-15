@@ -2,6 +2,7 @@ import {
   Button, Form, Input, Modal, Typography
 } from 'antd';
 import React from 'react';
+import PropTypes from 'prop-types';
 const { Title } = Typography;
 
 const RegisterForm = ({
@@ -99,6 +100,19 @@ const RegisterForm = ({
     </Form>
   </Modal>
 );
+
+RegisterForm.propTypes = {
+  isDisplay: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
+  onLoginClick: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool,
+  formInstance: PropTypes.shape({}),
+};
+
+RegisterForm.defaultProps = {
+  isFetching: false,
+}
 
 
 export default RegisterForm;

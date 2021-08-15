@@ -6,6 +6,7 @@ import {
   Typography
 } from 'antd';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const { Title } = Typography;
 
@@ -81,5 +82,18 @@ const LoginForm = ({
     </Form>
   </Modal>
 );
+
+LoginForm.propTypes = {
+  isDisplay: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
+  onRegisterClick: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool,
+  formInstance: PropTypes.shape({}),
+};
+
+LoginForm.defaultProps = {
+  isFetching: false,
+}
 
 export default LoginForm;

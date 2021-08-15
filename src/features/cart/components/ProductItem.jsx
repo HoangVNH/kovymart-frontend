@@ -1,4 +1,4 @@
-import { Col, InputNumber, Row } from "antd"
+import { Col, Row } from "antd"
 import ImageWithFallBack from "components/ImageWithFallback"
 import {
     DeleteOutlined, MinusOutlined, PlusOutlined
@@ -8,7 +8,7 @@ import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
 import PropTypes from 'prop-types'
 import { increaseUnit, decreaseUnit } from '../cartSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {UNIT} from '../../../constants/unit'
 
 const ProductItem = (props) => {
@@ -52,7 +52,7 @@ const ProductItem = (props) => {
                     <h4 className="fw-bold">
                         {product.name ? product.name : "Title"}
                     </h4>
-                    <a onClick={handleDelete}><h4 className="text-danger">
+                    <a href="/#" onClick={handleDelete}><h4 className="text-danger">
                         <DeleteOutlined className="align-baseline" /> Xóa sản phẩm
                     </h4></a>
                 </Col>

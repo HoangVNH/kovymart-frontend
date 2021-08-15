@@ -19,6 +19,9 @@ import { useEffect } from "react";
 const { Text, Title } = Typography;
 const { Option } = Select;
 const Order = () => {
+  const history = useHistory();
+  const [form] = Form.useForm();
+
   useEffect(() => {
     console.log("efect")
     const isUserLoggedIn = checkAuth();
@@ -26,10 +29,8 @@ const Order = () => {
     if (!isUserLoggedIn) {
       history.push("/");
     }
-  },[])
+  },[history]);
   
-  let history = useHistory();
-  const [form] = Form.useForm();
   const provinces = [
     { id: 1, name: "Lâm Đồng" },
     { id: 2, name: "Đà Lạt" },
@@ -48,31 +49,31 @@ const Order = () => {
   //handle dispatch location
 
   //handle payment actions
-  const getID = (value) => {
-    return value ? JSON.parse(value)[0] : -1;
-  };
+  // const getID = (value) => {
+  //   return value ? JSON.parse(value)[0] : -1;
+  // };
   const handleSubmit = (e) => {
-    console.log(e);
-    let location = {
-      provinces_id: getID(e.provincesId),
-      district_id: getID(e.districtId),
-      ward_id: getID(e.wardId),
-      address: e.address,
-    }
-    let data = {
-      totalPrice: 35000,
-      note: "noted",
-      paymentId: 1,
-      items: [
-        {
-          quantity: 1,
-          price: 50000,
-          productId: 1,
-          total: 50000
-        }
-      ]
-    }
-    console.log(location)
+    // console.log(e);
+    // let location = {
+    //   provinces_id: getID(e.provincesId),
+    //   district_id: getID(e.districtId),
+    //   ward_id: getID(e.wardId),
+    //   address: e.address,
+    // }
+    // let data = {
+    //   totalPrice: 35000,
+    //   note: "noted",
+    //   paymentId: 1,
+    //   items: [
+    //     {
+    //       quantity: 1,
+    //       price: 50000,
+    //       productId: 1,
+    //       total: 50000
+    //     }
+    //   ]
+    // }
+    // console.log(location)
     // dispatch data
 
     // Direct to page order success

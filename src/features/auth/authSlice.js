@@ -14,9 +14,8 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
   'auth/signIn',
   async (values) => {
-    const { data: { accessToken } } = await authApi.signIn(values);
-    setAccessTokenToLocalStorage(accessToken);
-    return accessToken;
+    const response = await authApi.signIn(values);
+    return response;
   }
 );
 
@@ -40,33 +39,34 @@ export const authSlice = createSlice({
       state.signIn.msg = ASYNC_STATUS.IDLE;
     },
   },
-  extraReducers: {
-    [signUp.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder
+    .addCase(signUp.pending, (state) => {
       state.isFetching = true;
       state.signUp.msg = ASYNC_STATUS.PENDING;
-    },
-    [signUp.rejected]: (state) => {
+    })
+    .addCase(signUp.rejected, (state) => {
       state.isFetching = false;
       state.signUp.msg = ASYNC_STATUS.ERROR;
-    },
-    [signUp.fulfilled]: (state) => {
+    })
+    .addCase(signUp.fulfilled, (state) => {
       state.isFetching = false;
       state.signUp.msg = ASYNC_STATUS.SUCCESS
-    },
-    [signIn.pending]: (state) => {
+    })
+    .addCase(signIn.pending, (state) => {
       state.isFetching = true;
       state.signIn.msg = ASYNC_STATUS.PENDING;
-    },
-    [signIn.rejected]: (state) => {
+    })
+    .addCase(signIn.rejected, (state) => {
       state.isFetching = false;
       state.signIn.msg = ASYNC_STATUS.ERROR;
-    },
-    [signIn.fulfilled]: (state, action) => {
+    })
+    .addCase(signIn.fulfilled, (state, action) => {
       state.isFetching = false;
       state.signIn.msg = ASYNC_STATUS.SUCCESS
-      state.accessToken = action.payload;
-
-    },
+      state.accessToken = action.payload.accessToken;
+      setAccessTokenToLocalStorage(action.payload.accessToken);
+    })
   }
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
 import { 
   PhoneOutlined,
@@ -58,12 +59,12 @@ const MainFooter = () => (
       <Col span={6}>
         <h4>KovyMart</h4>
         <ul>
-          <li>
+          <li key={uuidv4()}>
             <a href="tel:+123456789">
               <PhoneOutlined /> 123456789
             </a>
           </li>
-          <li>
+          <li key={uuidv4()}>
             <a href="mailto:cskh@kovymart.com">
               <MailOutlined /> cskh@kovymart.com
             </a>
@@ -92,10 +93,9 @@ const MainFooter = () => (
         <ul>
         {
           aboutUsItems.map(({ key, content, path}) => (
-            <li>
+            <li key={`${key}`}>
               <Link
                 className="about-us__list-item link--normalize"
-                key={`${key}`}
                 to={`${path}`}
               >
                 {content}
@@ -108,7 +108,7 @@ const MainFooter = () => (
       <Col span={6}>
         <h4>Kết nối cùng chúng tôi</h4>
         <ul className="social-network-list">
-          <li className="about-us__list-item">
+          <li className="about-us__list-item" key={uuidv4()}>
             <a href="tel:+123456789">
               <FacebookOutlined 
                 style={{
@@ -117,7 +117,7 @@ const MainFooter = () => (
               /> 
             </a>
           </li>
-          <li className="about-us__list-item">
+          <li className="about-us__list-item" key={uuidv4()}>
             <a href="mailto:cskh@kovymart.com">
               <InstagramOutlined 
                 style={{

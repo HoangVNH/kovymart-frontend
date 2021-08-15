@@ -28,10 +28,10 @@ const ProductDetails = () => {
     }
   }, [dispatch, productId]);
 
-  const handleClick = () => {
-    alert("clicked")
-    console.log("handleclikc")
-  };
+  // const handleClick = () => {
+  //   alert("clicked")
+  //   console.log("handleclikc")
+  // };
 
     return productId ?
     <Col

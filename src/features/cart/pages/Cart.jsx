@@ -1,6 +1,6 @@
 import Payment from "../components/Payment"
 import ProductItem from "../components/ProductItem"
-import { Col, Row, Space, Button } from 'antd'
+import { Col, Row, Space } from 'antd'
 import ButtonUI from "components/UIKit/ButtonUI"
 import './Cart.scss'
 import { useSelector } from "react-redux"
@@ -45,9 +45,9 @@ const Cart = () => {
     const handleContinue = () => {
 
     }
-    const handleDelete = () => {
+    // const handleDelete = () => {
 
-    }
+    // }
     return (
         <>
             <Col

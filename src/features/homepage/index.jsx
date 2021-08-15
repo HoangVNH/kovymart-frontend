@@ -22,7 +22,7 @@ const HomePage = () => {
 
   const handleAddToCart = useCallback(() => {
     console.log('added to cart!');
-  });
+  }, []);
 
   useEffect(() => {
     dispatch(getProductsByCategoryId(1));

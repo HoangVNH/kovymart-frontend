@@ -14,6 +14,7 @@ const ButtonUI = (props) => {
     const className = props.className ? props.className : ''
     const style = props.style ? props.style : null
     const withIcon = props.withIcon ? props.withIcon : ""
+    const htmlType = props.htmlType ? props.htmlType : ""
     let btnStyle = {}
     btnStyle = { ...btnStyle, ...style }
     let customClassname = ''
@@ -27,6 +28,7 @@ const ButtonUI = (props) => {
             type={type}
             block={block}
             disabled={disabled}
+            htmlType = {htmlType}
             // href={href}
             size={size}
             onClick={onClick}

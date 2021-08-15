@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getImageOfProduct } from 'utils';
 import ProductCard from '../../components/ProductCard';
 import './styles.scss';
 
@@ -27,7 +28,7 @@ const ProductCardList = ({
         >
           <ProductCard
             id={product.id}
-            image={product.image}
+            image={getImageOfProduct(product.id)}
             name={product.productName}
             price={product.price}
             netPrice={product.netPrice}

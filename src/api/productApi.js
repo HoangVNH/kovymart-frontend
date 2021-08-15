@@ -9,6 +9,11 @@ const productApi = {
   getProductById(id) {
     const url = `/product/${id}`;
     return axiosClient.get(url);
+  },
+
+  getProductsByCategoryId(id) {
+    const url = `/product?category=${id}`;
+    return axiosClient.get(url);
   }
 };
 

@@ -7,6 +7,9 @@ const initialState = {
   success: false,
   message: null,
   object: null,
+  productList1: [],
+  productList2: [],
+  productList3: [],
   list: [],
   pagination: {},
 };
@@ -25,6 +28,14 @@ export const getProductById = createAsyncThunk(
   async (id) => {
     const res = await productApi.getProductById(id);
     return res;
+  }
+);
+
+export const getProductsByCategoryId = createAsyncThunk(
+  'product/getProductsByCategoryId',
+  async (id) => {
+    const res = await productApi.getProductsByCategoryId(id);
+    return { res, id };
   }
 );
 
@@ -57,6 +68,24 @@ const productSlice = createSlice({
       .addCase(getProductList.fulfilled, (state, action) => {
         state.requesting = false;
         state.list = action.payload;
+      })
+      // Get Products By Category Id
+      .addCase(getProductsByCategoryId.pending, (state) => {
+        state.requesting = true;
+      })
+      .addCase(getProductsByCategoryId.rejected, (state) => {
+        state.requesting = false;
+      })
+      .addCase(getProductsByCategoryId.fulfilled, (state, action) => {
+        state.requesting = false;
+
+        if (action.payload.id === 1) {
+          state.productList1 = action.payload.res.data;
+        } else if (action.payload.id === 2) {
+          state.productList2 = action.payload.res.data;
+        } else {
+          state.productList3 = action.payload.res.data;
+        }
       });
   },
 });

@@ -1,16 +1,17 @@
 import { Col, Row } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getImageOfProduct } from 'utils';
 import ProductCard from '../../components/ProductCard';
 import './styles.scss';
-
 
 const ProductCardList = ({ 
   products,
   title,
   layout,
   className,
-  style
+  style,
+  onClickHandler
 }) => (
   <div className="product-list__container">
     <div className={`product-list__header ${className}`} style={style}>
@@ -20,17 +21,19 @@ const ProductCardList = ({
       gutter={{...layout.gutter}}
       className="product-list__wrapper"
     >
-      {products.map((product, index) =>
+      {products.map((product) =>
         <Col
           {...layout.span}
-          key={product.index}
+          key={`${product.id + product.categoryId}`}
         >
           <ProductCard
-            image={product.image}
-            name={product.name}
+            id={product.id}
+            image={getImageOfProduct(product.id)}
+            name={product.productName}
             price={product.price}
             netPrice={product.netPrice}
             discount={product.discount}
+            onAddToCart={onClickHandler}
           />
         </Col> 
       )}
@@ -46,13 +49,15 @@ ProductCardList.propTypes = {
     PropTypes.object
   ]),
   style: PropTypes.object,
-  layout: PropTypes.object
+  layout: PropTypes.object,
+  onClickHandler: PropTypes.func
 };
 
 ProductCardList.defaultProps = {
   className: '',
   style: {},
-  layout: {}
+  layout: {},
+  onClickHandler: () => {}
 };
 
 export default ProductCardList;

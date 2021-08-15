@@ -1,36 +1,57 @@
-import { getProductList } from 'features/product/productSlice';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { getProductsByCategoryId, selectProduct } from 'features/product/productSlice';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ProductCardList from '../../components/ProductCardList';
-import products from './data';
 import './styles.scss';
 
 const HomePage = () => {
   const dispatch = useDispatch();
+
+  const productData = useSelector(selectProduct);
+
+  const { 
+    productList1,
+    productList2,
+    productList3
+  } = productData;
+
   const layout = {
     gutter: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
     span: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
   };
 
+  const handleAddToCart = useCallback(() => {
+    console.log('added to cart!');
+  });
+
   useEffect(() => {
-    dispatch(getProductList());
+    dispatch(getProductsByCategoryId(1));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getProductsByCategoryId(2));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getProductsByCategoryId(3));
   }, [dispatch]);
 
   return (
     <>
       <ProductCardList
-        products={products}
-        title="Sữa - Sản phẩm từ sữa"
+        products={productList1.slice(0, 4)}
+        title="Rau - Củ - Trái cây"
         layout={layout}
+        onClickHandler={handleAddToCart}
       />
       <ProductCardList
-        products={products}
+        products={productList2.slice(0, 4)}
         title="Thịt - Hải sản - Trứng"
         layout={layout}
       />
       <ProductCardList
-        products={products}
-        title="Rau - Củ - Trái cây"
+        products={productList3.slice(0, 4)}
+        title="Dầu ăn - Gia vị - Đồ khô"
         layout={layout}  
       />
     </>

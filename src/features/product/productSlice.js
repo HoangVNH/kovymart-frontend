@@ -1,19 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import productApi from 'api/productApi';
-import { NotifyHelper } from 'helper/notify-helper';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import productApi from "api/productApi";
+import { NotifyHelper } from "helper/notify-helper";
 
 const initialState = {
   requesting: false,
   success: false,
   message: null,
   object: null,
+  productList1: [],
+  productList2: [],
+  productList3: [],
   list: [],
   pagination: {},
 };
 
 //----------ACTIONS----------
 export const getProductList = createAsyncThunk(
-  'product/getProductList',
+  "product/getProductList",
   async () => {
     const { data } = await productApi.getProductList();
     return data;
@@ -23,8 +26,16 @@ export const getProductList = createAsyncThunk(
 export const getProductById = createAsyncThunk(
   "product/getProductById",
   async (id) => {
-    const res = await productApi.getProductById(id)
-    return res
+    const res = await productApi.getProductById(id);
+    return res;
+  }
+);
+
+export const getProductsByCategoryId = createAsyncThunk(
+  'product/getProductsByCategoryId',
+  async (id) => {
+    const res = await productApi.getProductsByCategoryId(id);
+    return { res, id };
   }
 );
 
@@ -37,22 +48,17 @@ const productSlice = createSlice({
     builder
       //get by id
       .addCase(getProductById.pending, (state) => {
-        state.requesting = false
-        NotifyHelper.info("", "Đang xử lý")
+        state.requesting = true;
       })
       .addCase(getProductById.fulfilled, (state, action) => {
-        state.requesting = false
-        state.message = action.payload.Message
-        state.success = true
-        state.object = action.payload.data
-        NotifyHelper.success(state.message, "Thành công")
-        console.log(action)
+        state.requesting = false;
+        state.success = true;
+        state.object = action.payload.data;
       })
       .addCase(getProductById.rejected, (state, action) => {
-        state.success = false
-        console.log(action)
-        NotifyHelper.error(action.error.message, ` thất bại`)
+        state.success = false;
       })
+      // Get list
       .addCase(getProductList.pending, (state) => {
         state.requesting = true;
       })
@@ -63,9 +69,27 @@ const productSlice = createSlice({
         state.requesting = false;
         state.list = action.payload;
       })
-  },
-})
+      // Get Products By Category Id
+      .addCase(getProductsByCategoryId.pending, (state) => {
+        state.requesting = true;
+      })
+      .addCase(getProductsByCategoryId.rejected, (state) => {
+        state.requesting = false;
+      })
+      .addCase(getProductsByCategoryId.fulfilled, (state, action) => {
+        state.requesting = false;
 
-export const selectProduct = (state) => state.productApi;
+        if (action.payload.id === 1) {
+          state.productList1 = action.payload.res.data;
+        } else if (action.payload.id === 2) {
+          state.productList2 = action.payload.res.data;
+        } else {
+          state.productList3 = action.payload.res.data;
+        }
+      });
+  },
+});
+
+export const selectProduct = (state) => state.product;
 
 export default productSlice.reducer;

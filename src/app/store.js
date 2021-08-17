@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import authReducer from '../features/auth/authSlice'
 import counterReducer from '../features/counter/counterSlice'
 import productReducer from '../features/product/productSlice'
-import cartItemsReducer from '../features/cart/cartSlice';
+import cartReducer from '../features/cart/cartSlice';
 
 import rootSaga from './rootSaga'
 import locationReducer from '../features/location/locationSlice'
@@ -13,7 +13,7 @@ export const store = configureStore({
   reducer: {
     counter: counterReducer,
     product: productReducer,
-    cartItems: cartItemsReducer,
+    cart: cartReducer,
     auth: authReducer,
     location: locationReducer,
   },

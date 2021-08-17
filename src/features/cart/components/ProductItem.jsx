@@ -7,39 +7,19 @@ import { useState } from "react"
 import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
 import PropTypes from 'prop-types'
-import { increaseUnit, decreaseUnit } from '../cartSlice';
+import { updateQuantity } from '../cartSlice';
 import { useDispatch } from 'react-redux';
-import {UNIT} from '../../../constants/unit'
 
 const ProductItem = (props) => {
-   
+
     const product = props.product;
-    const [disMinusButton, setMinusButton] = useState(true);
-    const [disPlusButton, setPlusButton] = useState(false);
     const dispatch = useDispatch();
-    console.log(product);
     const handleDelete = () => {
-        alert("cl")
     }
 
-    const handleCounterPlus = (producyId) => {
-        const action = increaseUnit(producyId);
-        console.log(producyId);
-        dispatch(action);
-        if(product.unit === UNIT.MAX)
-            setPlusButton(true);
-        setMinusButton(false);
+    function handleUpdate(productId, doing) {
+        dispatch(updateQuantity({ productId, doing }));
     }
-
-    const handleCounterMinus = (producyId) => {
-        const action = decreaseUnit(producyId);
-        console.log(producyId);
-        dispatch(action);
-        if(product.unit === UNIT.MIN)
-            setMinusButton(true);
-        setPlusButton(false);
-    }
-
     return (
         <div className="rounded-3 mb-3 border p-2 shadow-sm">
             <Row className="my-3">
@@ -58,19 +38,19 @@ const ProductItem = (props) => {
                 </Col>
                 <Col span={24} sm={24} lg={10} className="pe-3 d-flex justify-content-end align-items-end">
                     <h4 className="fw-bold me-4" >
-                        {Utils.Money({ money: product.price * product.unit})}
+                        {Utils.Money({ money: product.totalPrice })}
                     </h4>
-                    <ButtonUI className="mb-2" 
-                        onClick = {()=> handleCounterMinus(product.id)}
-                        disabled = {disMinusButton}
+                    <ButtonUI className="mb-2"
+                        onClick={() => { handleUpdate(product.productId, 'decrement') }}
+                        // disabled={disMinusButton}
                         type="default"
                         normal={true}
                         withIcon={<MinusOutlined />}
                     />
-                    <h2 className="lh-1 m-3"> {product.unit}</h2>
+                    <h2 className="lh-1 m-3"> {product.quantity}</h2>
                     <ButtonUI className="mb-2"
-                        onClick = {()=> handleCounterPlus(product.id)}
-                        disabled = {disPlusButton}
+                        onClick={() => { handleUpdate(product.productId, 'increment') }}
+                        // disabled={disPlusButton}
                         type="default"
                         normal={true}
                         withIcon={<PlusOutlined />}

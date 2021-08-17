@@ -5,21 +5,22 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { NotifyHelper } from "helper/notify-helper";
 import { checkAuth } from 'helper/auth';
+import { fee } from "constants/fee";
+import { useSelector } from "react-redux"
+
 const Payment = (props) => {
   let history = useHistory();
   const handlePayment = () => {
     const isUserLoggedIn = checkAuth();
-    if(!isUserLoggedIn){
-      NotifyHelper.error( 'Vui lòng đăng nhập để tiến hành thanh toán !','Không thể thanh toán')
-    }else{
+    if (!isUserLoggedIn) {
+      NotifyHelper.error('Vui lòng đăng nhập để tiến hành thanh toán !', 'Không thể thanh toán')
+    } else {
       history.push("/order");
     }
   };
-  const sum = props.products.reduce((currentTotal, item) => {
-    return item.price + currentTotal;
-  }, 0);
-  const shippingFee = 20000;
-  const final = shippingFee + sum;
+
+  const cart = useSelector((state) => state.cart);
+  const final = cart.totalPrice + fee.shipping
   return (
     <div className="border shadow-sm rounded-2 py-5 px-4 sticky-payment-form">
       <Row>
@@ -33,7 +34,7 @@ const Payment = (props) => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <h4>{Utils.Money({ money: sum })}</h4>
+          <h4>{Utils.Money({ money: cart.totalPrice })}</h4>
         </Col>
       </Row>
       <Row>
@@ -47,7 +48,7 @@ const Payment = (props) => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <h4>{Utils.Money({ money: shippingFee })}</h4>
+          <h4>{Utils.Money({ money: fee.shipping })}</h4>
         </Col>
       </Row>
       <Row>

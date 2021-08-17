@@ -4,44 +4,10 @@ import { Col, Row, Space } from 'antd'
 import ButtonUI from "components/UIKit/ButtonUI"
 import './Cart.scss'
 import { useSelector } from "react-redux"
-// const products = [
-//     {
-//         name: "Bắp bò loại 1 500g",
-//         price: 50000,
-//         id: 1,
-//         discount: 10,
-//     },
-//     {
-//         name: "Bắp bò loại 1 500g",
-//         price: 50000,
-//         id: 2,
-//         discount: 10,
-//     },
-//     {
-//         name: "Bắp bò loại 1 500g",
-//         price: 50000,
-//         id: 3,
-//         discount: 10,
-//     },
-//     {
-//         name: "Bắp bò loại 1 500g",
-//         price: 50000,
-//         id: 4,
-//         discount: 10,
-//     },
-//     {
-//         name: "Bắp bò loại 1 500g",
-//         price: 50000,
-//         id: 5,
-//         discount: 10,
-//     },
-// ]
-
-
 
 const Cart = () => {
 
-    const products = useSelector((state) => state.cartItems);
+    const products = useSelector((state) => state.cart.items);
     const handleContinue = () => {
 
     }
@@ -56,11 +22,6 @@ const Cart = () => {
                 xl={20}
             >
                 <Space size={20} className="ms-3">
-                    {/* <Button
-                        type="primary"
-                        style={{ background: "#ed1b24", borderColor: "#ed1b24" }}
-                        onClick={handleContinue}
-                    >Tiếp tục mua hàng </Button> */}
                     <ButtonUI text="Tiếp tục mua hàng"
                         onClick={handleContinue} />
                     <ButtonUI text="Xóa giỏ hàng"

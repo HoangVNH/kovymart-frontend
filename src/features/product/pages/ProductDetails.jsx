@@ -20,27 +20,19 @@ const ProductDetails = () => {
 
   const { name, price, description, discount } = productDetail;
 
-  console.log(getImageOfProduct(productId));
-
   useEffect(() => {
     if (Number(productId)) {
       dispatch(getProductById(productId));
     }
   }, [dispatch, productId]);
-
-  // const handleClick = () => {
-  //   alert("clicked")
-  //   console.log("handleclikc")
-  // };
-
-    return productId ?
+  return productId ?
     <Col
       className="container my-5 shadow-sm  border border-1 rounded p-5"
       span={16}
     >
       <Row>
         <Col lg={12} className="pe-5">
-          <ImageWithFallBack 
+          <ImageWithFallBack
             className="rounded"
             src={getImageOfProduct(productId, imageSize)}
           />
@@ -89,7 +81,6 @@ const ProductDetails = () => {
       <Row className="mt-5">
         <Col lg={16}>
           <div className="mt-4">
-            {/* {Utils.Description({ text: `${description}` })} */}
             <div>
               {
                 ReactHtmlParser(description)
@@ -99,7 +90,7 @@ const ProductDetails = () => {
         </Col>
       </Row>
     </Col>
-  : <Skeleton />
+    : <Skeleton />
 };
 
 export default ProductDetails;

@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UNIT } from '../../constants/unit';
-import { fee } from '../../constants/fee';
+import { quantity } from '../../constants/quantity';
+import { NotifyHelper } from 'helper/notify-helper';
 
-const initialState = {
-    totalPrice: 34950,
-    totalItems: 1,
+var tempState = {
+    totalPrice: 39900,
+    totalItems: 2,
     items: [
         {
             name: "Táo Royal Gala PG size 100-120 500g",
@@ -24,17 +24,21 @@ const initialState = {
         },
     ]
 }
+const initialState = localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart'))
+    : tempState
 
+//----------REDUCERS----------
 const cartItems = createSlice({
     name: 'cart',
     initialState: initialState,
     reducers: {
         updateQuantity: (state, action) => {
             const index = state.items.findIndex(item => item.productId === action.payload.productId)
-            if (action.payload.doing === "increment" && state.items[index].quantity < 99) {
+            if (action.payload.doing === "increment" && state.items[index].quantity < quantity.MAX) {
                 state.items[index].quantity++
             }
-            if (action.payload.doing === "decrement" && state.items[index].quantity > 1) {
+            if (action.payload.doing === "decrement" && state.items[index].quantity > quantity.MIN) {
                 state.items[index].quantity--
             }
             state.items[index].totalPrice = state.items[index].price * state.items[index].quantity
@@ -42,10 +46,19 @@ const cartItems = createSlice({
                 return item.totalPrice + currentTotal;
             }, 0);
             state.totalItems = state.items.length;
+
+            // set localstorage
+            localStorage.setItem('cart', JSON.stringify(state))
         },
-    }
+        deleteCart: (state) => {
+            // do something
+            NotifyHelper.success('', 'Xóa giỏ hàng thành công')
+            window.location.reload();
+            localStorage.removeItem('cart')
+        }
+    },
 });
 
 const { reducer, actions } = cartItems;
-export const { updateQuantity } = actions;
+export const { updateQuantity, deleteCart } = actions;
 export default reducer;

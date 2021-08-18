@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import locationApi from "api/locationApi";
-// import { NotifyHelper } from "helper/notify-helper";
+import { NotifyHelper } from "helper/notify-helper";
 
 const initialState = {
   requesting: false,
@@ -26,24 +26,26 @@ const initialState = {
 export const getProvinces = createAsyncThunk(
   "location/getProvinces",
   async () => {
-    const res = await locationApi.getprovices();
-    return res;
+    return await locationApi.getprovices();
   }
 );
 export const getDistricts = createAsyncThunk(
   "location/getDistricts",
   async (provinces_id) => {
-    const res = await locationApi.getdistricts(provinces_id);
-    return res;
+    return await locationApi.getdistricts(provinces_id);
   }
 );
 export const getWards = createAsyncThunk(
   "location/getwards",
   async (district_id) => {
-    const res = await locationApi.getwards({ district_id });
-    return res;
+    return await locationApi.getwards({ district_id });
   }
 );
+//------------------------UTILITIES------------------------
+const isPendingAction = (action) =>
+  action.type.endsWith("/pending") && action.type.includes("location");
+const isRejectedAction = (action) =>
+  action.type.endsWith("/rejected") && action.type.includes("location");
 
 //----------REDUCERS----------
 const locationSlice = createSlice({
@@ -53,50 +55,38 @@ const locationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //------------------PROVINCE------------------
-      .addCase(getProvinces.pending, (state) => {
-        void (state.requesting = true);
-      })
       .addCase(getProvinces.fulfilled, (state, action) => {
         state.requesting = false;
         state.success = true;
         state.provinces = action.payload.data;
       })
-      .addCase(getProvinces.rejected, (state, action) => {
-        state.requesting = false;
-        state.success = false;
-        state.message = action.error.message;
-      })
       //------------------DISTRICT------------------
-      .addCase(getDistricts.pending, (state) => {
-        void (state.requesting = true);
-      })
       .addCase(getDistricts.fulfilled, (state, action) => {
         state.requesting = false;
         state.success = true;
         state.districts = action.payload.data;
       })
-      .addCase(getDistricts.rejected, (state, action) => {
-        state.requesting = false;
-        state.success = false;
-        state.message = action.error.message;
-      })
       //------------------WARD------------------
-      .addCase(getWards.pending, (state) => {
-        void (state.requesting = true);
-      })
       .addCase(getWards.fulfilled, (state, action) => {
         state.requesting = false;
         state.success = true;
         state.wards = action.payload.data;
       })
-      .addCase(getWards.rejected, (state, action) => {
-        state.requesting = false;
-        state.success = false;
-        state.message = action.error.message;
-      });
+
+      //---------------PENDING & REJECTION---------------
+      .addMatcher(isPendingAction, (state) => {
+				state.requesting = true;
+			})
+			.addMatcher(isRejectedAction, (state, action) => {
+				state.requesting = state.success = false;
+				state.message = action.error.message;
+        NotifyHelper.error(action.error.message, "Yêu cầu thất bại!");
+			});
   },
 });
 
 // useSelector
+
+
 
 export default locationSlice.reducer;

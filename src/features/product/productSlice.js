@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import productApi from "api/productApi";
-// import { NotifyHelper } from "helper/notify-helper";
+import { NotifyHelper } from "helper/notify-helper";
 
 const initialState = {
   requesting: false,
@@ -43,6 +43,12 @@ export const getProductsByCategoryId = createAsyncThunk(
   }
 );
 
+//------------------------UTILITIES------------------------
+const isPendingAction = (action) =>
+  action.type.endsWith("/pending") && action.type.includes("product");
+const isRejectedAction = (action) =>
+  action.type.endsWith("/rejected") && action.type.includes("product");
+
 //----------REDUCERS----------
 const productSlice = createSlice({
   name: "product",
@@ -50,35 +56,14 @@ const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get By Id
-      .addCase(getProductById.pending, (state) => {
-        state.requesting = true;
-      })
       .addCase(getProductById.fulfilled, (state, action) => {
         state.requesting = false;
         state.success = true;
         state.detail = action.payload;
       })
-      .addCase(getProductById.rejected, (state, action) => {
-        state.success = false;
-      })
-      // Get list
-      .addCase(getProductList.pending, (state) => {
-        state.requesting = true;
-      })
-      .addCase(getProductList.rejected, (state, action) => {
-        state.requesting = false;
-      })
       .addCase(getProductList.fulfilled, (state, action) => {
         state.requesting = false;
         state.list = action.payload;
-      })
-      // Get Products By Category Id
-      .addCase(getProductsByCategoryId.pending, (state) => {
-        state.requesting = true;
-      })
-      .addCase(getProductsByCategoryId.rejected, (state) => {
-        state.requesting = false;
       })
       .addCase(getProductsByCategoryId.fulfilled, (state, action) => {
         state.requesting = false;
@@ -90,7 +75,17 @@ const productSlice = createSlice({
         } else {
           state.productList3 = action.payload.res.data;
         }
-      });
+      })
+      
+      //---------------PENDING & REJECTION---------------
+      .addMatcher(isPendingAction, (state) => {
+        state.requesting = true;
+      })
+      .addMatcher(isRejectedAction, (state, action) => {
+        state.requesting = state.success = false;
+        state.message = action.error.message;
+        NotifyHelper.error(action.error.message, "Yêu cầu thất bại!");
+      })
   },
 });
 

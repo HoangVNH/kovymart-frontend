@@ -8,7 +8,7 @@ import { checkAuth } from 'helper/auth';
 import { fee } from "constants/fee";
 import { useSelector } from "react-redux"
 
-const Payment = (props) => {
+const Payment = () => {
   let history = useHistory();
   const handlePayment = () => {
     const isUserLoggedIn = checkAuth();

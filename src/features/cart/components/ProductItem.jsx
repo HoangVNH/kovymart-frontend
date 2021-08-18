@@ -3,7 +3,6 @@ import ImageWithFallBack from "components/ImageWithFallback"
 import {
     DeleteOutlined, MinusOutlined, PlusOutlined
 } from '@ant-design/icons'
-import { useState } from "react"
 import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
 import PropTypes from 'prop-types'
@@ -14,7 +13,7 @@ const ProductItem = (props) => {
 
     const product = props.product;
     const dispatch = useDispatch();
-    const handleDelete = () => {
+    const handleDeleteItem = () => {
     }
 
     function handleUpdate(productId, doing) {
@@ -32,7 +31,7 @@ const ProductItem = (props) => {
                     <h4 className="fw-bold">
                         {product.name ? product.name : "Title"}
                     </h4>
-                    <a href="/#" onClick={handleDelete}><h4 className="text-danger">
+                    <a href="/#" onClick={handleDeleteItem}><h4 className="text-danger">
                         <DeleteOutlined className="align-baseline" /> Xóa sản phẩm
                     </h4></a>
                 </Col>

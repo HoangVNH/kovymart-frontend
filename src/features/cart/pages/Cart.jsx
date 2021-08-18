@@ -3,17 +3,13 @@ import ProductItem from "../components/ProductItem"
 import { Col, Row, Space } from 'antd'
 import ButtonUI from "components/UIKit/ButtonUI"
 import './Cart.scss'
-import { useSelector } from "react-redux"
-
+import { useSelector, useDispatch } from "react-redux"
+import { deleteCart } from '../cartSlice'
 const Cart = () => {
-
-    const products = useSelector((state) => state.cart.items);
+    const dispatch = useDispatch();
+    const products_list = useSelector((state) => state.cart.items);
     const handleContinue = () => {
-
     }
-    // const handleDelete = () => {
-
-    // }
     return (
         <>
             <Col
@@ -26,17 +22,18 @@ const Cart = () => {
                         onClick={handleContinue} />
                     <ButtonUI text="Xóa giỏ hàng"
                         variant="danger"
-                        onClick={handleContinue} />
+                        onClick={() => { dispatch(deleteCart()) }}
+                    />
 
                 </Space>
                 <Row className="mt-5 ">
                     <Col span={24} sm={13} lg={16} className="px-3 d-flex justify-content-center">
                         <div  >
-                            {products
+                            {products_list
                                 ? <>
-                                    {products.map((item) => {
+                                    {products_list.map((item) => {
                                         return (
-                                            <ProductItem key={item.id} product={item} />
+                                            <ProductItem key={item.productId} product={item} />
                                         )
                                     }
                                     )}
@@ -46,7 +43,7 @@ const Cart = () => {
                         </div>
                     </Col>
                     <Col span={22} sm={11} lg={8} className="px-5">
-                        <Payment products={products} />
+                        <Payment />
                     </Col>
                 </Row>
             </Col>

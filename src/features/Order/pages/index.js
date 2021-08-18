@@ -23,9 +23,7 @@ const Order = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    console.log("efect")
     const isUserLoggedIn = checkAuth();
-    console.log(isUserLoggedIn)
     if (!isUserLoggedIn) {
       history.push("/");
     }

@@ -2,8 +2,10 @@ $primary: #e99667;
 $secondary: #6c757d;
 $danger: #ff4d6d;
 $white: #fff;
-$radius: 5  px;
+$light: #e9ecef;
+$radius: 3px;
 $success: #65B891;
+$dark: #000000d9;
 // Custom button
 .btn-ui-primary {
   background-color: $primary !important;
@@ -13,6 +15,17 @@ $success: #65B891;
   &:hover {
     background-color: $white !important;
     color: $primary !important;
+  }
+}
+
+.btn-ui-light {
+  background-color: $light !important;
+  color: $dark !important;
+  border-color: $light !important;
+  border-radius: $radius !important ;
+  &:hover {
+    background-color: $white !important;
+    color: $dark !important;
   }
 }
 

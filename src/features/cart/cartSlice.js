@@ -3,33 +3,33 @@ import { quantity } from '../../constants/quantity';
 import { NotifyHelper } from 'helper/notify-helper';
 
 var tempState = {
-    totalPrice: 39900,
+    totalPrice: 69900,
     totalItems: 2,
     items: [
         {
-            name: "Táo Royal Gala PG size 100-120 500g",
+            name: "Tương ớt CHIN-SU chai 250g",
             discount: 0,
-            price: 34950,
-            productId: 1,
-            totalPrice: 34950,
+            price: 12100,
+            productId: 14,
+            totalPrice: 12100,
             quantity: 1,
         },
         {
-            name: "Táo Royal Gala PG size 100-120 500g",
+            name: "Mì gói ăn liền khoai tây vị xốt bò hầm Omachi gói 80g",
             discount: 0,
-            price: 34950,
-            productId: 2,
-            totalPrice: 34950,
+            price: 7100,
+            productId: 16,
+            totalPrice: 7100,
             quantity: 1,
         },
     ]
 }
-const initialState = localStorage.getItem('cart')
+const initialState = JSON.parse(localStorage.getItem('cart')) 
     ? JSON.parse(localStorage.getItem('cart'))
     : tempState
 
 //----------REDUCERS----------
-const cartItems = createSlice({
+const cartSlice = createSlice({
     name: 'cart',
     initialState: initialState,
     reducers: {
@@ -51,14 +51,20 @@ const cartItems = createSlice({
             localStorage.setItem('cart', JSON.stringify(state))
         },
         deleteCart: (state) => {
-            // do something
-            NotifyHelper.success('', 'Xóa giỏ hàng thành công')
-            window.location.reload();
             localStorage.removeItem('cart')
+            state = tempState
+            NotifyHelper.success('', 'Xóa giỏ hàng thành công !')
+            return state
+        },
+        deleteProduct: (state, action) => {
+            const index = state.items.findIndex(item => item.productId === action.payload.productId)
+            state.items.splice(index, 1)
+            localStorage.setItem('cart', JSON.stringify(state))
+            NotifyHelper.success('', 'Xóa sản phẩm thành công !')
         }
     },
 });
 
-const { reducer, actions } = cartItems;
-export const { updateQuantity, deleteCart } = actions;
-export default reducer;
+export const selectProducts = (state) => state.cart.items
+export const { updateQuantity, deleteCart, deleteProduct } = cartSlice.actions;
+export default cartSlice.reducer

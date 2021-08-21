@@ -1,9 +1,9 @@
-import { Image } from 'antd';
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Image } from "antd";
+import React from "react";
+import PropTypes from "prop-types";
 
 function ImageWithFallBack({ src, ...props }) {
-  const imgSrc = src || 'error';
+  const imgSrc = src || "error";
   return (
     <Image
       width="100%"
@@ -13,7 +13,7 @@ function ImageWithFallBack({ src, ...props }) {
       {...props}
     />
   );
-};
+}
 
 ImageWithFallBack.propTypes = {
   src: PropTypes.string.isRequired,

@@ -1,13 +1,13 @@
-import createSagaMiddleware from '@redux-saga/core'
-import { configureStore } from '@reduxjs/toolkit'
-import authReducer from '../features/auth/authSlice'
-import counterReducer from '../features/counter/counterSlice'
-import productReducer from '../features/product/productSlice'
-import cartReducer from '../features/cart/cartSlice';
+import createSagaMiddleware from "@redux-saga/core";
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "../features/auth/authSlice";
+import counterReducer from "../features/counter/counterSlice";
+import productReducer from "../features/product/productSlice";
+import cartReducer from "../features/cart/cartSlice";
 
-import rootSaga from './rootSaga'
-import locationReducer from '../features/location/locationSlice'
-const sagaMiddleware = createSagaMiddleware()
+import rootSaga from "./rootSaga";
+import locationReducer from "../features/location/locationSlice";
+const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
@@ -17,8 +17,8 @@ export const store = configureStore({
     auth: authReducer,
     location: locationReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
-})
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
+});
 
-sagaMiddleware.run(rootSaga)
-
+sagaMiddleware.run(rootSaga);

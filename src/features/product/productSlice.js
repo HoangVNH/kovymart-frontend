@@ -12,10 +12,10 @@ const initialState = {
   list: [],
   pagination: {},
   detail: {
-    name: '',
+    name: "",
     price: 0,
-    discount: 10
-  }
+    discount: 10,
+  },
 };
 
 //----------ACTIONS----------
@@ -36,7 +36,7 @@ export const getProductById = createAsyncThunk(
 );
 
 export const getProductsByCategoryId = createAsyncThunk(
-  'product/getProductsByCategoryId',
+  "product/getProductsByCategoryId",
   async (id) => {
     const res = await productApi.getProductsByCategoryId(id);
     return { res, id };
@@ -76,7 +76,7 @@ const productSlice = createSlice({
           state.productList3 = action.payload.res.data;
         }
       })
-      
+
       //---------------PENDING & REJECTION---------------
       .addMatcher(isPendingAction, (state) => {
         state.requesting = true;
@@ -85,7 +85,7 @@ const productSlice = createSlice({
         state.requesting = state.success = false;
         state.message = action.error.message;
         NotifyHelper.error(action.error.message, "Yêu cầu thất bại!");
-      })
+      });
   },
 });
 

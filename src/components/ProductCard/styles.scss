@@ -1,4 +1,4 @@
-@import '../../assests/scss/mixins';
+@import "../../assests/scss/mixins";
 
 .product-card {
   &__wrapper {
@@ -51,16 +51,16 @@
 
     button.product-card__button {
       color: #fff;
-      background-color: #E99667;
-      border-color: #E99667;
+      background-color: #e99667;
+      border-color: #e99667;
       border-radius: 30px;
       text-transform: uppercase;
 
       &:hover {
-        background-color: #FFF;
-        color: #E99667
+        background-color: #fff;
+        color: #e99667;
       }
-  
+
       > span {
         white-space: nowrap;
         width: inherit;
@@ -81,7 +81,7 @@
   }
 
   &__list-price {
-    @include setFont(12px, 500, 15px, #ACACAC);
+    @include setFont(12px, 500, 15px, #acacac);
     text-decoration: line-through;
   }
 
@@ -89,6 +89,4 @@
     @include limitTextLines;
     @include setFont(16px, 700, 17px, #333);
   }
-
-  
 }

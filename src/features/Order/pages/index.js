@@ -13,8 +13,8 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import "./Order.scss";
 import ButtonUI from "components/UIKit/ButtonUI";
 import Utils from "components/UIKit/Utils";
-import { useHistory } from 'react-router-dom'
-import { checkAuth } from 'helper/auth';
+import { useHistory } from "react-router-dom";
+import { checkAuth } from "helper/auth";
 import { useEffect } from "react";
 const { Text, Title } = Typography;
 const { Option } = Select;
@@ -27,8 +27,8 @@ const Order = () => {
     if (!isUserLoggedIn) {
       history.push("/");
     }
-  },[history]);
-  
+  }, [history]);
+
   const provinces = [
     { id: 1, name: "Lâm Đồng" },
     { id: 2, name: "Đà Lạt" },
@@ -186,10 +186,7 @@ const Order = () => {
                 </Form.Item>
               </Col>
               <Col xs={24} lg={24}>
-                <Form.Item
-                  label="Địa chỉ"
-                  name="address"
-                >
+                <Form.Item label="Địa chỉ" name="address">
                   <Input />
                 </Form.Item>
               </Col>

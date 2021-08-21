@@ -1,9 +1,9 @@
-import { Button, Card, Tag, Tooltip } from 'antd';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ImageWithFallBack from '../ImageWithFallback';
-import PropTypes from 'prop-types';
-import './styles.scss';
+import { Button, Card, Tag, Tooltip } from "antd";
+import React from "react";
+import { Link } from "react-router-dom";
+import ImageWithFallBack from "../ImageWithFallback";
+import PropTypes from "prop-types";
+import "./styles.scss";
 
 const ProductCard = ({
   id,
@@ -14,7 +14,7 @@ const ProductCard = ({
   discount,
   className,
   style,
-  onAddToCart
+  onAddToCart,
 }) => {
   return (
     <Card
@@ -24,7 +24,7 @@ const ProductCard = ({
     >
       <Link to={`/product/${id}`}>
         <div className="product-card__image">
-          { discount ? <Tag color="warning">{discount}%</Tag> : null }
+          {discount ? <Tag color="warning">{discount}%</Tag> : null}
           <ImageWithFallBack src={image} alt={name} />
         </div>
         <Tooltip title={name}>
@@ -32,23 +32,18 @@ const ProductCard = ({
         </Tooltip>
         <div className="product-card__price">
           <div className="product-card__price--left">
-            <span className="product-card__net-price">
-              {price} đ
-            </span>
+            <span className="product-card__net-price">{price} đ</span>
             {/* <span className="product-card__list-price">
               {price} đ
             </span> */}
           </div>
-          <Button
-            className="product-card__button"
-            onClick={onAddToCart}
-          >
+          <Button className="product-card__button" onClick={onAddToCart}>
             Thêm vào giỏ
           </Button>
         </div>
       </Link>
     </Card>
-  )
+  );
 };
 
 ProductCard.propTypes = {
@@ -60,14 +55,14 @@ ProductCard.propTypes = {
   discount: PropTypes.number,
   className: PropTypes.string,
   style: PropTypes.shape({}),
-  onAddToCart: PropTypes.func.isRequired
+  onAddToCart: PropTypes.func.isRequired,
 };
 
 ProductCard.defaultProps = {
   netPrice: 0,
   discount: 0,
-  className: '',
-  style: {}
-}
+  className: "",
+  style: {},
+};
 
 export default ProductCard;

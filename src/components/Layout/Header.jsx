@@ -1,15 +1,21 @@
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
-import { Col, Form, Layout, Row } from 'antd';
-import { selectAuth, setSignInMsgToDefault, setSignUpMsgToDefault, signIn, signUp } from 'features/auth/authSlice';
-import { checkAuth } from 'helper/auth';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { ASYNC_STATUS } from '../../constants';
-import LoginForm from '../../features/auth/components/LoginForm';
-import RegisterForm from '../../features/auth/components/RegisterForm';
-import { NotifyHelper } from '../../helper/notify-helper';
-import Search from './Search';
+import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { Col, Form, Layout, Row } from "antd";
+import {
+  selectAuth,
+  setSignInMsgToDefault,
+  setSignUpMsgToDefault,
+  signIn,
+  signUp,
+} from "features/auth/authSlice";
+import { checkAuth } from "helper/auth";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { ASYNC_STATUS } from "../../constants";
+import LoginForm from "../../features/auth/components/LoginForm";
+import RegisterForm from "../../features/auth/components/RegisterForm";
+import { NotifyHelper } from "../../helper/notify-helper";
+import Search from "./Search";
 
 const { Header } = Layout;
 
@@ -21,12 +27,8 @@ const MainHeader = () => {
   const dispatch = useDispatch();
   const {
     isFetching,
-    signUp: {
-      msg: signUpMsg
-    },
-    signIn: {
-      msg: signInMsg
-    }
+    signUp: { msg: signUpMsg },
+    signIn: { msg: signInMsg },
   } = useSelector(selectAuth);
   const isUserLoggedIn = checkAuth();
 
@@ -44,7 +46,7 @@ const MainHeader = () => {
     setIsDisplayLoginModal(false);
     loginFormInstance.resetFields();
     setIsDisplayRegisterModal(true);
-  }, [loginFormInstance]) ;
+  }, [loginFormInstance]);
 
   const switchToLoginModal = useCallback(() => {
     setIsDisplayRegisterModal(false);
@@ -62,21 +64,21 @@ const MainHeader = () => {
 
   useEffect(() => {
     if (signUpMsg === ASYNC_STATUS.SUCCESS) {
-      NotifyHelper.success('Đăng ký thành công', 'Thông báo');
+      NotifyHelper.success("Đăng ký thành công", "Thông báo");
       handleCloseRegisterModal();
       dispatch(setSignUpMsgToDefault());
     } else if (signUpMsg === ASYNC_STATUS.ERROR) {
-      NotifyHelper.error('Đăng ký thất bại', 'Thông báo');
+      NotifyHelper.error("Đăng ký thất bại", "Thông báo");
     }
   }, [signUpMsg, handleCloseRegisterModal, dispatch]);
 
   useEffect(() => {
     if (signInMsg === ASYNC_STATUS.SUCCESS) {
-      NotifyHelper.success('Đăng nhập thành công', 'Thông báo');
+      NotifyHelper.success("Đăng nhập thành công", "Thông báo");
       handleCloseLoginModal();
       dispatch(setSignInMsgToDefault());
     } else if (signInMsg === ASYNC_STATUS.ERROR) {
-      NotifyHelper.error('Đăng nhập thất bại', 'Thông báo');
+      NotifyHelper.error("Đăng nhập thất bại", "Thông báo");
     }
   }, [signInMsg, handleCloseLoginModal, dispatch]);
 
@@ -91,8 +93,8 @@ const MainHeader = () => {
             <Search />
           </Col>
           <Col flex={2} className="navigation-bar__right">
-            {
-              !isUserLoggedIn && <button
+            {!isUserLoggedIn && (
+              <button
                 type="button"
                 className="navigation-bar__login"
                 onClick={() => setIsDisplayLoginModal(true)}
@@ -100,7 +102,7 @@ const MainHeader = () => {
                 <UserOutlined className="vertical-align-icon" />
                 <span>Đăng Nhập</span>
               </button>
-            }
+            )}
             <Link to="/cart" className="link--normalize navigation-bar__cart">
               <ShoppingCartOutlined className="vertical-align-icon" />
               <span>Giỏ Hàng</span>

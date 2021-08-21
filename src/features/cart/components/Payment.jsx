@@ -4,23 +4,26 @@ import ButtonUI from "components/UIKit/ButtonUI";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { NotifyHelper } from "helper/notify-helper";
-import { checkAuth } from 'helper/auth';
+import { checkAuth } from "helper/auth";
 import { fee } from "constants/fee";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 
 const Payment = () => {
   let history = useHistory();
   const handlePayment = () => {
     const isUserLoggedIn = checkAuth();
     if (!isUserLoggedIn) {
-      NotifyHelper.error('Vui lòng đăng nhập để tiến hành thanh toán !', 'Không thể thanh toán')
+      NotifyHelper.error(
+        "Vui lòng đăng nhập để tiến hành thanh toán !",
+        "Không thể thanh toán"
+      );
     } else {
       history.push("/order");
     }
   };
 
   const cart = useSelector((state) => state.cart);
-  const final = cart.totalPrice + fee.shipping
+  const final = cart.totalPrice + fee.shipping;
   return (
     <div className="border shadow-sm rounded-2 py-5 px-4 sticky-payment-form">
       <Row>

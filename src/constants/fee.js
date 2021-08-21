@@ -1,3 +1,3 @@
 export const fee = {
-    shipping: 20000,
-}
+  shipping: 20000,
+};

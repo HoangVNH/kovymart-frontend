@@ -1,27 +1,26 @@
-import { getProductsByCategoryId, selectProduct } from 'features/product/productSlice';
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ProductCardList from '../../components/ProductCardList';
-import './styles.scss';
+import {
+  getProductsByCategoryId,
+  selectProduct,
+} from "features/product/productSlice";
+import React, { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductCardList from "../../components/ProductCardList";
+import "./styles.scss";
 
 const HomePage = () => {
   const dispatch = useDispatch();
 
   const productData = useSelector(selectProduct);
 
-  const { 
-    productList1,
-    productList2,
-    productList3
-  } = productData;
+  const { productList1, productList2, productList3 } = productData;
 
   const layout = {
     gutter: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
-    span: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
+    span: { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 },
   };
 
   const handleAddToCart = useCallback(() => {
-    console.log('added to cart!');
+    console.log("added to cart!");
   }, []);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const HomePage = () => {
       <ProductCardList
         products={productList3.slice(0, 4)}
         title="Dầu ăn - Gia vị - Đồ khô"
-        layout={layout}  
+        layout={layout}
       />
     </>
   );

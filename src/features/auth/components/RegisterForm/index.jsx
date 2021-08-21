@@ -1,8 +1,6 @@
-import {
-  Button, Form, Input, Modal, Typography
-} from 'antd';
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Button, Form, Input, Modal, Typography } from "antd";
+import React from "react";
+import PropTypes from "prop-types";
 const { Title } = Typography;
 
 const RegisterForm = ({
@@ -11,7 +9,7 @@ const RegisterForm = ({
   onFinish,
   formInstance,
   onLoginClick,
-  isFetching
+  isFetching,
 }) => (
   <Modal
     title={<Title level={4}>Đăng ký</Title>}
@@ -22,7 +20,7 @@ const RegisterForm = ({
     <Form
       form={formInstance}
       onFinish={onFinish}
-      layout={'vertical'}
+      layout={"vertical"}
       name="register-form"
     >
       <Form.Item
@@ -30,13 +28,13 @@ const RegisterForm = ({
         name="email"
         rules={[
           {
-            type: 'email',
-            message: 'Email không hợp lệ!',
+            type: "email",
+            message: "Email không hợp lệ!",
           },
           {
             required: true,
-            message: 'Vui lòng nhập email!'
-          }
+            message: "Vui lòng nhập email!",
+          },
         ]}
       >
         <Input placeholder="Email" autoComplete="off" />
@@ -47,8 +45,8 @@ const RegisterForm = ({
         rules={[
           {
             required: true,
-            message: 'Please input your password!'
-          }
+            message: "Please input your password!",
+          },
         ]}
         hasFeedback
       >
@@ -57,20 +55,20 @@ const RegisterForm = ({
       <Form.Item
         label="Nhập lại mật khẩu"
         name="confirm"
-        dependencies={['password']}
+        dependencies={["password"]}
         hasFeedback
         rules={[
           {
             required: true,
-            message: 'Please input your password!'
+            message: "Please input your password!",
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
+              if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
 
-              return Promise.reject(new Error('Mật khẩu không trùng khớp!'));
+              return Promise.reject(new Error("Mật khẩu không trùng khớp!"));
             },
           }),
         ]}
@@ -112,7 +110,6 @@ RegisterForm.propTypes = {
 
 RegisterForm.defaultProps = {
   isFetching: false,
-}
-
+};
 
 export default RegisterForm;

@@ -1,11 +1,10 @@
-const LOCAL_STORAGE_ACCESS_TOKEN = 'access_token';
+const LOCAL_STORAGE_ACCESS_TOKEN = "access_token";
 
-export const setAccessTokenToLocalStorage =
-  (accessToken) => {
-    localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accessToken);
-  };
+export const setAccessTokenToLocalStorage = (accessToken) => {
+  localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN, accessToken);
+};
 
-export const getAccessTokenFromLocalStorage = () => 
+export const getAccessTokenFromLocalStorage = () =>
   localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
 
 export const checkAuth = () => {

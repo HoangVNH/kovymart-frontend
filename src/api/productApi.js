@@ -1,8 +1,8 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 const productApi = {
   getProductList() {
-    const url = '/product';
+    const url = "/product";
     return axiosClient.get(url);
   },
 
@@ -14,7 +14,7 @@ const productApi = {
   getProductsByCategoryId(id) {
     const url = `/product?category=${id}`;
     return axiosClient.get(url);
-  }
+  },
 };
 
 export default productApi;

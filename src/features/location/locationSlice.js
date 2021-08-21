@@ -75,18 +75,16 @@ const locationSlice = createSlice({
 
       //---------------PENDING & REJECTION---------------
       .addMatcher(isPendingAction, (state) => {
-				state.requesting = true;
-			})
-			.addMatcher(isRejectedAction, (state, action) => {
-				state.requesting = state.success = false;
-				state.message = action.error.message;
+        state.requesting = true;
+      })
+      .addMatcher(isRejectedAction, (state, action) => {
+        state.requesting = state.success = false;
+        state.message = action.error.message;
         NotifyHelper.error(action.error.message, "Yêu cầu thất bại!");
-			});
+      });
   },
 });
 
 // useSelector
-
-
 
 export default locationSlice.reducer;

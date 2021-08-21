@@ -5,18 +5,18 @@ import { ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ImageWithFallBack from "components/ImageWithFallback";
-import Utils from '../../../components/UIKit/Utils';
-import ButtonUI from '../../../components/UIKit/ButtonUI';
-import { getProductById, selectProductDetail } from '../productSlice';
+import Utils from "../../../components/UIKit/Utils";
+import ButtonUI from "../../../components/UIKit/ButtonUI";
+import { getProductById, selectProductDetail } from "../productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getImageOfProduct } from '../../../utils';
-import ReactHtmlParser from 'react-html-parser';
+import { getImageOfProduct } from "../../../utils";
+import ReactHtmlParser from "react-html-parser";
 
 const ProductDetails = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { productId } = useParams();
   const productDetail = useSelector(selectProductDetail);
-  const imageSize = 'largeImage';
+  const imageSize = "largeImage";
 
   const { name, price, description, discount } = productDetail;
 
@@ -25,7 +25,7 @@ const ProductDetails = () => {
       dispatch(getProductById(productId));
     }
   }, [dispatch, productId]);
-  return productId ?
+  return productId ? (
     <Col
       className="container my-5 shadow-sm  border border-1 rounded p-5"
       span={16}
@@ -81,16 +81,14 @@ const ProductDetails = () => {
       <Row className="mt-5">
         <Col lg={16}>
           <div className="mt-4">
-            <div>
-              {
-                ReactHtmlParser(description)
-              }
-            </div>
+            <div>{ReactHtmlParser(description)}</div>
           </div>
         </Col>
       </Row>
     </Col>
-    : <Skeleton />
+  ) : (
+    <Skeleton />
+  );
 };
 
 export default ProductDetails;

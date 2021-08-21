@@ -1,12 +1,6 @@
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Typography
-} from 'antd';
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Button, Form, Input, Modal, Typography } from "antd";
+import React from "react";
+import PropTypes from "prop-types";
 
 const { Title } = Typography;
 
@@ -16,7 +10,7 @@ const LoginForm = ({
   onClose,
   onFinish,
   onRegisterClick,
-  isFetching
+  isFetching,
 }) => (
   <Modal
     title={<Title level={4}>Đăng nhập</Title>}
@@ -27,7 +21,7 @@ const LoginForm = ({
     <Form
       form={formInstance}
       onFinish={onFinish}
-      layout={'vertical'}
+      layout={"vertical"}
       name="login-form"
     >
       <Form.Item
@@ -35,13 +29,13 @@ const LoginForm = ({
         name="email"
         rules={[
           {
-            type: 'email',
-            message: 'Email không hợp lệ!',
+            type: "email",
+            message: "Email không hợp lệ!",
           },
           {
             required: true,
-            message: 'Vui lòng nhập email!'
-          }
+            message: "Vui lòng nhập email!",
+          },
         ]}
       >
         <Input placeholder="Email" autoComplete="off" />
@@ -52,8 +46,8 @@ const LoginForm = ({
         rules={[
           {
             required: true,
-            message: 'Vui lòng nhập mật khẩu!'
-          }
+            message: "Vui lòng nhập mật khẩu!",
+          },
         ]}
       >
         <Input.Password placeholder="Mật khẩu" autoComplete="off" />
@@ -94,6 +88,6 @@ LoginForm.propTypes = {
 
 LoginForm.defaultProps = {
   isFetching: false,
-}
+};
 
 export default LoginForm;

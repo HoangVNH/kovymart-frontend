@@ -22,7 +22,7 @@ const ProductCardList = ({
       </div>
       <Row gutter={{ ...layout.gutter }} className="product-list__wrapper">
         {products.map((product) => (
-          <Col {...layout.span} key={`${product.id + product.categoryId}`}>
+          <Col style={{marginBottom:'2em'}} {...layout.span} key={`${product.id + product.categoryId}`}>
             <ProductCard
               id={product.id}
               image={getImageOfProduct(product.id, imageSize)}

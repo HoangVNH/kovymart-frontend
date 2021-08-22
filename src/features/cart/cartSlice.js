@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { quantity } from "../../constants/quantity";
 import { NotifyHelper } from "helper/notify-helper";
 
-var tempState = {
+const tempState = {
   totalPrice: 69900,
   totalItems: 2,
   items: [
@@ -24,6 +24,7 @@ var tempState = {
     },
   ],
 };
+
 const initialState = JSON.parse(localStorage.getItem("cart"))
   ? JSON.parse(localStorage.getItem("cart"))
   : tempState;
@@ -33,6 +34,14 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: initialState,
   reducers: {
+    addProductToCart: (state, action) => {
+      const isProductAlreadyOnCart = state.items.find(
+        (product) => product.productId === action.payload.productId
+      );
+
+      if (isProductAlreadyOnCart) {
+      }
+    },
     updateQuantity: (state, action) => {
       const index = state.items.findIndex(
         (item) => item.productId === action.payload.productId

@@ -32,6 +32,9 @@
 
   &__name {
     margin: 10px 0;
+    @include limitTextLines;
+    @include setFont(16px, 700, 17px, #333);
+    height: 44px;
   }
 
   &__price {
@@ -83,10 +86,5 @@
   &__list-price {
     @include setFont(12px, 500, 15px, #acacac);
     text-decoration: line-through;
-  }
-
-  &__name {
-    @include limitTextLines;
-    @include setFont(16px, 700, 17px, #333);
   }
 }

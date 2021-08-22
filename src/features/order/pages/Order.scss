@@ -1,0 +1,10 @@
+.card-shadow {
+  border: 1px solid #ced4da;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+  border-radius: 5px;
+}
+.align-end {
+  display: flex !important;
+  justify-content: flex-end !important;
+}

@@ -3,9 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import HomePage from "../features/homepage";
 import ProductDetails from "features/product/pages/ProductDetails";
 import Cart from "features/cart/pages/Cart";
-import Order from "features/Order/pages";
-import OrderSuccess from "features/Order/pages/OrderSuccess";
-import Category from "features/category/pages"
+import Category from "features/category/pages";
+import Order from "features/order/pages";
+import OrderSuccess from "features/order/pages/OrderSuccess";
+
 const routes = [
   {
     key: uuidv4(),

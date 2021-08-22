@@ -5,6 +5,7 @@ import ProductDetails from "features/product/pages/ProductDetails";
 import Cart from "features/cart/pages/Cart";
 import Order from "features/Order/pages";
 import OrderSuccess from "features/Order/pages/OrderSuccess";
+import Category from "features/category/pages"
 const routes = [
   {
     key: uuidv4(),
@@ -30,6 +31,11 @@ const routes = [
     key: uuidv4(),
     path: "/ordersuccess",
     component: OrderSuccess,
+  },
+  {
+    key: uuidv4(),
+    path: `/category/:categoryId`,
+    component: Category,
   },
 ];
 

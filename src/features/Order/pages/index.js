@@ -8,41 +8,40 @@ import {
   Input,
   Form,
   Divider,
-} from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
-import "./Order.scss";
-import ButtonUI from "components/UIKit/ButtonUI";
-import Utils from "components/UIKit/Utils";
-import { useHistory } from "react-router-dom";
-import { checkAuth } from "helper/auth";
-import { useEffect } from "react";
-const { Text, Title } = Typography;
-const { Option } = Select;
+} from "antd"
+import { ShoppingCartOutlined } from "@ant-design/icons"
+import ButtonUI from "components/UIKit/ButtonUI"
+import Utils from "components/UIKit/Utils"
+import { useHistory, Link } from "react-router-dom"
+import { checkAuth } from "helper/auth"
+import { useEffect } from "react"
+const { Text, Title } = Typography
+const { Option } = Select
 const Order = () => {
-  const history = useHistory();
-  const [form] = Form.useForm();
+  const history = useHistory()
+  const [form] = Form.useForm()
 
   useEffect(() => {
-    const isUserLoggedIn = checkAuth();
+    const isUserLoggedIn = checkAuth()
     if (!isUserLoggedIn) {
-      history.push("/");
+      history.push("/")
     }
-  }, [history]);
+  }, [history])
 
   const provinces = [
     { id: 1, name: "Lâm Đồng" },
     { id: 2, name: "Đà Lạt" },
     { id: 3, name: "Bình Thuận" },
-  ];
+  ]
   const districts = [
     { id: 1, name: "Đơn Dương" },
     { id: 2, name: "Bắc Hội" },
-  ];
+  ]
 
   const wards = [
     { id: 1, name: "Giải phóng" },
     { id: 2, name: "Ka Đô" },
-  ];
+  ]
 
   //handle dispatch location
 
@@ -75,8 +74,8 @@ const Order = () => {
     // dispatch data
 
     // Direct to page order success
-    history.push("/ordersuccess");
-  };
+    history.push("/ordersuccess")
+  }
 
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
@@ -230,7 +229,9 @@ const Order = () => {
             </Row>
             <Col style={{ textAlign: "center", marginTop: "2em" }}>
               <Space className="mt-4" size={20}>
-                <ButtonUI text="Quay lại" variant="secondary"></ButtonUI>
+                <Link to={'/'}>
+                  <ButtonUI text="Quay lại" variant="secondary"></ButtonUI>
+                </Link>
                 <ButtonUI
                   htmlType="submit"
                   text="Xác nhận thanh toán"
@@ -241,7 +242,7 @@ const Order = () => {
         </Card>
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default Order;
+export default Order

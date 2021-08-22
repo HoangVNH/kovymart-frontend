@@ -7,6 +7,7 @@ import cartReducer from "../features/cart/cartSlice";
 
 import rootSaga from "./rootSaga";
 import locationReducer from "../features/location/locationSlice";
+import categoryReducer from "../features/category/categorySlice";
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -16,6 +17,7 @@ export const store = configureStore({
     cart: cartReducer,
     auth: authReducer,
     location: locationReducer,
+    category: categoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

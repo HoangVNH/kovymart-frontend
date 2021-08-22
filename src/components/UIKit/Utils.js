@@ -1,8 +1,15 @@
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
+import { Spin } from 'antd'
 
 const Utils = {
+  Loading() {
+    return (
+        <Spin style={{ color: "#e99667" }} />
+    )
+  },
+
   Description(props) {
-    const text = props.text ? props.text : "";
+    const text = props.text ? props.text : ""
 
     return (
       <>
@@ -13,27 +20,27 @@ const Utils = {
           </>
         ))}
       </>
-    );
+    )
   },
   Money(props) {
-    const money = props.money ? props.money : 0;
+    const money = props.money ? props.money : 0
 
     const defaultOptions = {
       significantDigits: 1,
       thousandsSeparator: ",",
       decimalSeparator: ".",
       symbol: "đ",
-    };
+    }
 
     const currencyFormatter = (value) => {
       if (typeof value !== "number") {
-        value = 0.0;
+        value = 0.0
       }
 
-      const options = { ...defaultOptions };
-      value = value.toFixed(options.significantDigits);
+      const options = { ...defaultOptions }
+      value = value.toFixed(options.significantDigits)
 
-      const [currency, decimal] = value.split(".");
+      const [currency, decimal] = value.split(".")
 
       return (
         <>
@@ -56,21 +63,21 @@ const Utils = {
             </>
           )}
         </>
-      );
-    };
+      )
+    }
 
-    const output = currencyFormatter(money);
+    const output = currencyFormatter(money)
 
-    return <>{output}</>;
+    return <>{output}</>
   },
-};
+}
 
 Utils.Description.propTypes = {
   text: PropTypes.string,
-};
+}
 
 Utils.Money.propTypes = {
   money: PropTypes.number,
-};
+}
 
-export default Utils;
+export default Utils

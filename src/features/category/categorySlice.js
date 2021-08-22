@@ -48,7 +48,27 @@ const categorySlice = createSlice({
     name: "category",
     initialState: initialState,
     reducers: {
-
+        sortCategory: (state, action) => {
+            switch (action.payload.selected) {
+                case 'incrementPrice':
+                    state.list_products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+                    break
+                case 'decrementPrice':
+                    state.list_products.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+                    break
+                case 'alphabet':
+                    state.list_products.sort((a, b) => {
+                        if (a.productName < b.productName)
+                            return -1
+                        if (a.productName > b.productName)
+                            return 1
+                        return 0
+                    })
+                    break
+                default:
+                    break
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -89,4 +109,5 @@ const categorySlice = createSlice({
 export const selectCategory = (state) => state.category.category_detail
 export const selectProducts = (state) => state.category.list_products
 export const selectPagination = (state) => state.category.pagination.page
+export const { sortCategory } = categorySlice.actions
 export default categorySlice.reducer

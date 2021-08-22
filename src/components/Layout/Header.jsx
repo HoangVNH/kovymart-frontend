@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, Form, Layout, Row } from "antd";
+import { Col, Form, Layout, Row, Menu, Dropdown } from "antd";
 import {
   selectAuth,
   setSignInMsgToDefault,
@@ -62,6 +63,36 @@ const MainHeader = () => {
     dispatch(signIn(values));
   };
 
+  const renderMenuItem = () => {
+    const menu = (
+      <Menu>
+        <Menu.Item key="info">Thông Tin</Menu.Item>
+        <Menu.Item key="logout">Đăng Xuất</Menu.Item>
+      </Menu>
+    );
+
+    return isUserLoggedIn ? (
+      <Dropdown overlay={menu}>
+        <a
+          href="#"
+          className="link--normalize"
+          onClick={(e) => e.preventDefault()}
+        >
+          Tài Khoản <UserOutlined className="navigation-bar__login" />
+        </a>
+      </Dropdown>
+    ) : (
+      <button
+        type="button"
+        className="navigation-bar__login"
+        onClick={() => setIsDisplayLoginModal(true)}
+      >
+        <UserOutlined className="vertical-align-icon" />
+        <span>Đăng Nhập</span>
+      </button>
+    );
+  };
+
   useEffect(() => {
     if (signUpMsg === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success("Đăng ký thành công", "Thông báo");
@@ -93,16 +124,7 @@ const MainHeader = () => {
             <Search />
           </Col>
           <Col flex={2} className="navigation-bar__right">
-            {!isUserLoggedIn && (
-              <button
-                type="button"
-                className="navigation-bar__login"
-                onClick={() => setIsDisplayLoginModal(true)}
-              >
-                <UserOutlined className="vertical-align-icon" />
-                <span>Đăng Nhập</span>
-              </button>
-            )}
+            {renderMenuItem()}
             <Link to="/cart" className="link--normalize navigation-bar__cart">
               <ShoppingCartOutlined className="vertical-align-icon" />
               <span>Giỏ Hàng</span>

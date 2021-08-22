@@ -1,28 +1,12 @@
+/* eslint-disable array-callback-return */
 import { createSlice } from "@reduxjs/toolkit";
 import { quantity } from "../../constants/quantity";
 import { NotifyHelper } from "helper/notify-helper";
 
 const tempState = {
-  totalPrice: 69900,
-  totalItems: 2,
-  items: [
-    {
-      name: "Tương ớt CHIN-SU chai 250g",
-      discount: 0,
-      price: 12100,
-      productId: 14,
-      totalPrice: 12100,
-      quantity: 1,
-    },
-    {
-      name: "Mì gói ăn liền khoai tây vị xốt bò hầm Omachi gói 80g",
-      discount: 0,
-      price: 7100,
-      productId: 16,
-      totalPrice: 7100,
-      quantity: 1,
-    },
-  ],
+  totalPrice: 0,
+  items: [],
+  totalItems: 0,
 };
 
 const initialState = JSON.parse(localStorage.getItem("cart"))
@@ -35,12 +19,34 @@ const cartSlice = createSlice({
   initialState: initialState,
   reducers: {
     addProductToCart: (state, action) => {
-      const isProductAlreadyOnCart = state.items.find(
-        (product) => product.productId === action.payload.productId
+      console.log("action: ", action);
+      const existedProductIndex = state.items.findIndex(
+        (product) => product.id === action.payload.product.id
       );
 
-      if (isProductAlreadyOnCart) {
+      if (existedProductIndex !== -1) {
+        state.items.map((item) => {
+          if (item.id === action.payload.product.id) {
+            state.items[existedProductIndex]["quantity"] +=
+              action.payload.quantity;
+            state.items[existedProductIndex]["totalPrices"] =
+              state.items[existedProductIndex].price *
+              state.items[existedProductIndex]["quantity"];
+          }
+        });
+      } else {
+        state.items.push({
+          ...action.payload.product,
+          quantity: 1,
+          totalPrices: action.payload.product.price,
+        });
+        state.totalItems = state.items.length;
       }
+
+      state.totalPrice = state.items.reduce(
+        (total, currentValue) => total + currentValue.totalPrices,
+        0
+      );
     },
     updateQuantity: (state, action) => {
       const index = state.items.findIndex(
@@ -86,5 +92,6 @@ const cartSlice = createSlice({
 });
 
 export const selectProducts = (state) => state.cart.items;
-export const { updateQuantity, deleteCart, deleteProduct } = cartSlice.actions;
+export const { addProductToCart, updateQuantity, deleteCart, deleteProduct } =
+  cartSlice.actions;
 export default cartSlice.reducer;

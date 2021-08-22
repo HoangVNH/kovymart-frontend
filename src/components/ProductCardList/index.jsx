@@ -1,19 +1,24 @@
 import { Col, Row } from "antd";
+import { addProductToCart } from "features/cart/cartSlice";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { getImageOfProduct } from "utils";
 import ProductCard from "../../components/ProductCard";
 import "./styles.scss";
 
-const ProductCardList = ({
-  products,
-  title,
-  layout,
-  className,
-  style,
-  onClickHandler,
-}) => {
+const ProductCardList = ({ products, title, layout, className, style }) => {
+  const dispatch = useDispatch();
   const imageSize = "smallImage";
+
+  const handleAddToCart = useCallback(
+    (product, quantity = 1) => {
+      console.log("product: ", product);
+      console.log("quantity: ", quantity);
+      dispatch(addProductToCart({ product, quantity }));
+    },
+    [dispatch]
+  );
 
   return (
     <div className="product-list__container">
@@ -22,7 +27,11 @@ const ProductCardList = ({
       </div>
       <Row gutter={{ ...layout.gutter }} className="product-list__wrapper">
         {products.map((product) => (
-          <Col style={{marginBottom:'2em'}} {...layout.span} key={`${product.id + product.categoryId}`}>
+          <Col
+            style={{ marginBottom: "2em" }}
+            {...layout.span}
+            key={`${product.id + product.categoryId}`}
+          >
             <ProductCard
               id={product.id}
               image={getImageOfProduct(product.id, imageSize)}
@@ -30,7 +39,7 @@ const ProductCardList = ({
               price={product.price}
               netPrice={product.netPrice}
               discount={product.discount}
-              onAddToCart={onClickHandler}
+              onAddToCart={() => handleAddToCart(product)}
             />
           </Col>
         ))}
@@ -45,14 +54,12 @@ ProductCardList.propTypes = {
   className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   style: PropTypes.object,
   layout: PropTypes.object,
-  onClickHandler: PropTypes.func,
 };
 
 ProductCardList.defaultProps = {
   className: "",
   style: {},
   layout: {},
-  onClickHandler: () => {},
 };
 
 export default ProductCardList;

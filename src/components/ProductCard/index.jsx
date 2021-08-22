@@ -31,7 +31,9 @@ const ProductCard = ({
         <Tooltip title={name}>
           <p className="product-card__name">{name}</p>
         </Tooltip>
-        <div className="product-card__price">
+      </Link>
+      <div className="product-card__price">
+        <Link to={`/product/${id}`}>
           <div className="product-card__price--left">
             <span className="product-card__net-price">
               {Utils.Money({ money: price })}
@@ -40,11 +42,11 @@ const ProductCard = ({
               {price} đ
             </span> */}
           </div>
-          <Button className="product-card__button" onClick={onAddToCart}>
-            Thêm vào giỏ
-          </Button>
-        </div>
-      </Link>
+        </Link>
+        <Button className="product-card__button" onClick={onAddToCart}>
+          Thêm vào giỏ
+        </Button>
+      </div>
     </Card>
   )
 }

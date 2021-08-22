@@ -2,11 +2,13 @@ import { useParams } from 'react-router-dom'
 import ButtonUI from 'components/UIKit/ButtonUI'
 import Utils from 'components/UIKit/Utils'
 import { useDispatch, useSelector } from "react-redux"
-import { getProductsPagination, selectProducts, selectPagination, selectCategory, getCategoryById } from '../categorySlice'
-import { useEffect } from 'react'
+import { sortCategory, getProductsPagination, selectProducts, selectPagination, selectCategory, getCategoryById } from '../categorySlice'
+import { useState, useEffect } from 'react'
 import ProductCardList from 'components/ProductCardList'
-import { Row, Col } from 'antd'
+import { Row, Col, Typography, Select } from 'antd'
 
+const { Title } = Typography
+const { Option } = Select
 const Category = () => {
     const { categoryId } = useParams()
     const dispatch = useDispatch()
@@ -15,10 +17,11 @@ const Category = () => {
     const products = useSelector(selectProducts)
     const pagination = useSelector(selectPagination)
     const category = useSelector(selectCategory)
+
     useEffect(() => {
         if (category === null)
             dispatch(getCategoryById(categoryId))
-    }, [dispatch,categoryId, category])
+    }, [dispatch, categoryId, category])
 
     useEffect(() => {
         dispatch(getProductsPagination({ categoryId, page: 1 }))
@@ -32,28 +35,52 @@ const Category = () => {
     function handleLoadmore() {
         dispatch(getProductsPagination({ categoryId, page: pagination + 1 }))
     }
+    function handleSelect() {
+        dispatch(sortCategory({ selected }))
+    }
+    const [selected, setSelected] = useState('incrementPrice')
     return (
-        <Row type="flex" justify="center" className="mt-5">
-            <Col span={22}>
-                {products && category ?
-                    <>
-                        <ProductCardList
-                            products={products}
-                            title= {category.name}
-                            layout={layout}
-                        // onClickHandler={handleAddToCart}
-                        />
-                        <Row type="flex" justify="center">
+        <>{products.length > 0 ?
+            <Row className="mt-3 me-5" type="flex" justify="end">
+                <Col xs={12} md={8} xl={6}>
+                    <Title level={5}>Sắp xếp sản phẩm </Title>
+                    <Select defaultValue="incrementPrice"
+                        onChange={(e) => { setSelected((prevState) => prevState = e) }}
+                        style={{ width: '100%' }}
+                    >
+                        <Option value="incrementPrice">Giá tăng dần</Option>
+                        <Option value="decrementPrice">Giá giảm dần</Option>
+                        <Option value="alphabet">Sắp xếp a-z</Option>
+                    </Select>
+                    <Row type="flex" justify="end" className="mt-3">
+                        <ButtonUI text="Lọc sản phẩm" onClick={handleSelect} />
+                    </Row>
+                </Col>
+            </Row>
+            : ""
+        }
+            <Row type="flex" justify="center" className="mt-5">
+                <Col span={22}>
+                    {products && category ?
+                        <>
+                            <ProductCardList
+                                products={products}
+                                title={category.name}
+                                layout={layout}
+                            // onClickHandler={handleAddToCart}
+                            />
+                            <Row type="flex" justify="center">
 
-                            {requesting
-                                ? <> {Utils.Loading()} </>
-                                : <> {!finished ? <ButtonUI text="Xem thêm" onClick={handleLoadmore} /> : ""}</>
-                            }
-                        </Row>
-                    </>
-                    : ""}
-            </Col>
-        </Row>
+                                {requesting
+                                    ? <> {Utils.Loading()} </>
+                                    : <> {!finished ? <ButtonUI text="Xem thêm" onClick={handleLoadmore} /> : ""}</>
+                                }
+                            </Row>
+                        </>
+                        : ""}
+                </Col>
+            </Row>
+        </>
     )
 }
 

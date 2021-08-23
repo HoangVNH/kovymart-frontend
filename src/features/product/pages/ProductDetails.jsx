@@ -41,7 +41,8 @@ const ProductDetails = () => {
   return productId ? (
     <Col
       className="container my-5 shadow-sm  border border-1 rounded p-5"
-      span={16}
+      md={16}
+      xs={23}
     >
       <Row>
         <Col lg={12} className="pe-5">

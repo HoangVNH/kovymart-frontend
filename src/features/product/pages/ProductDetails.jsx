@@ -1,30 +1,43 @@
-import "./ProductDetails.scss";
+import "./ProductDetails.scss"
 
-import { Col, Row, Tag, Skeleton } from "antd";
-import { ShoppingCartOutlined, CheckOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import ImageWithFallBack from "components/ImageWithFallback";
-import Utils from "../../../components/UIKit/Utils";
-import ButtonUI from "../../../components/UIKit/ButtonUI";
-import { getProductById, selectProductDetail } from "../productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getImageOfProduct } from "../../../utils";
-import ReactHtmlParser from "react-html-parser";
-
+import { Col, Row, Tag, Skeleton, Space, InputNumber } from "antd"
+import { ShoppingCartOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons"
+import { useEffect, useState } from "react"
+import { useParams, useHistory } from "react-router-dom"
+import ImageWithFallBack from "components/ImageWithFallback"
+import Utils from "../../../components/UIKit/Utils"
+import ButtonUI from "../../../components/UIKit/ButtonUI"
+import { getProductById, selectProductDetail } from "../productSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { getImageOfProduct } from "../../../utils"
+import ReactHtmlParser from "react-html-parser"
+import { addProductToCart } from "features/cart/cartSlice"
+import { NotifyHelper } from "helper/notify-helper"
 const ProductDetails = () => {
-  const dispatch = useDispatch();
-  const { productId } = useParams();
-  const productDetail = useSelector(selectProductDetail);
-  const imageSize = "largeImage";
+  let history = useHistory()
+  const dispatch = useDispatch()
+  const { productId } = useParams()
+  const productDetail = useSelector(selectProductDetail)
+  const imageSize = "largeImage"
 
-  const { name, price, description, discount } = productDetail;
+  const { name, price, description, discount } = productDetail
 
   useEffect(() => {
     if (Number(productId)) {
-      dispatch(getProductById(productId));
+      dispatch(getProductById(productId))
     }
-  }, [dispatch, productId]);
+  }, [dispatch, productId])
+
+  const [quantity, setQuantity] = useState(1)
+  function handleBuyNow(product) {
+    dispatch(addProductToCart({ product, quantity }))
+    history.push('/cart')
+  }
+  function handleAddToCart(product) {
+    dispatch(addProductToCart({ product, quantity }))
+    NotifyHelper.success('', 'Thêm sản phẩm thành công !')
+  }
+
   return productId ? (
     <Col
       className="container my-5 shadow-sm  border border-1 rounded p-5"
@@ -57,12 +70,23 @@ const ProductDetails = () => {
             </span>
             <h5 className="text-muted">(Đã tính thuế)</h5>
           </div>
-          <Link to={`/cart`}>
+          <InputNumber className="mb-3"
+            defaultValue={quantity}
+            onChange={(e) => { setQuantity(prevState => prevState = e) }}
+          />
+          <br />
+          <Space>
+            <ButtonUI
+              text="Thêm vào giỏ hàng"
+              withIcon={<PlusOutlined className="align-baseline" />}
+              onClick={() => { handleAddToCart(productDetail) }}
+            />
             <ButtonUI
               text="Mua ngay"
               withIcon={<ShoppingCartOutlined className="align-baseline" />}
+              onClick={() => { handleBuyNow(productDetail) }}
             />
-          </Link>
+          </Space>
           <div className="mt-5">
             <span>Lý do nên mua sản phẩm ?</span>
             <br />
@@ -88,7 +112,7 @@ const ProductDetails = () => {
     </Col>
   ) : (
     <Skeleton />
-  );
-};
+  )
+}
 
-export default ProductDetails;
+export default ProductDetails

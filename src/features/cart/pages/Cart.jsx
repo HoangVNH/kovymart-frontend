@@ -46,13 +46,15 @@ const Cart = () => {
           <Link to={"/"}>
             <ButtonUI text="Tiếp tục mua hàng" />
           </Link>
-          <ButtonUI
-            text="Xóa giỏ hàng"
-            variant="danger"
-            onClick={() => {
-              setIsModalVisible(true)
-            }}
-          />
+          {products_list.length > 0 ?
+            <ButtonUI
+              text="Xóa giỏ hàng"
+              variant="danger"
+              onClick={() => {
+                setIsModalVisible(true)
+              }}
+            />
+            : ''}
         </Space>
         <Row className="mt-5 "
           type="flex"
@@ -63,20 +65,19 @@ const Cart = () => {
             lg={16}
             className="px-3 d-flex justify-content-center"
           >
-            <div>
-              {products_list ? (
-                <>
-                  {products_list.map((item) => {
-                    return <ProductItem key={item.productId} product={item} />
-                  })}
-                </>
-              ) : (
-                ""
-              )}
-            </div>
+            {products_list ? (
+              <Row span={24} >
+                {products_list.map((item) => {
+                  return <ProductItem key={item.productId} product={item} />
+                })}
+              </Row>
+              // </>
+            ) : (
+              ""
+            )}
           </Col>
           <Col span={22} sm={11} lg={8} className="px-5">
-            <Payment />
+            {products_list.length > 0 ? <Payment /> : ''}
           </Col>
         </Row>
       </Col>

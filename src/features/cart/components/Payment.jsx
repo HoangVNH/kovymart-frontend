@@ -23,7 +23,6 @@ const Payment = () => {
   };
 
   const cart = useSelector((state) => state.cart);
-  const final = cart.totalPrice + fee.shipping;
   return (
     <div className="border shadow-sm rounded-2 py-5 px-4 sticky-payment-form">
       <Row>
@@ -37,7 +36,7 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <h4>{Utils.Money({ money: cart.totalPrice })}</h4>
+          <h4>{Utils.Money({ money: cart.totalPrices })}</h4>
         </Col>
       </Row>
       <Row>
@@ -65,7 +64,7 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <h4>{Utils.Money({ money: final })}</h4>
+          <h4>{Utils.Money({ money: cart.finalPrices })}</h4>
         </Col>
       </Row>
       <div className="text-center mt-5">

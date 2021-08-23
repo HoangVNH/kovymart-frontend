@@ -68,7 +68,7 @@ const Cart = () => {
             {products_list ? (
               <Row span={24} >
                 {products_list.map((item) => {
-                  return <ProductItem key={item.productId} product={item} />
+                  return <ProductItem key={item.id} product={item} />
                 })}
               </Row>
               // </>

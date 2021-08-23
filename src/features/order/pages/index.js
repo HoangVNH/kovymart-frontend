@@ -31,7 +31,6 @@ const Order = () => {
 
   useEffect(() => {
     const isUserLoggedIn = checkAuth()
-    console.log('effect')
     if (!isUserLoggedIn || cart.totalItems === 0) {
       history.push("/")
     }
@@ -74,10 +73,10 @@ const Order = () => {
 
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
-      <Col lg={14} xs={22}>
-        <Card className="card-shadow px-5">
+      <Col lg={14} xs={23}>
+        <Card className="card-shadow px-2">
           <Row>
-            <Col span={24}>
+            <Col xs={24} md={22}>
               <Title level={4} style={{ color: "#e99667" }}>
                 <Space>
                   <ShoppingCartOutlined className="align-baseline" />
@@ -196,27 +195,27 @@ const Order = () => {
                 value={30}
               >
                 <Row align="middle" justify="center">
-                  <Col xs={24} md={14}>
+                  <Col xs={14} md={8}>
                     <Text strong>Tạm tính:</Text>
                   </Col>
-                  <Col xs={24} md={4} className="align-end">
+                  <Col xs={10} md={8} className="align-end">
                     <Text strong>{Utils.Money({ money: cart.totalPrices })}</Text>
                   </Col>
                 </Row>
                 <Row align="middle" justify="center">
-                  <Col xs={24} md={14}>
+                  <Col xs={14} md={8}>
                     <Text strong>Phí vận chuyển:</Text>
                   </Col>
-                  <Col xs={24} md={4} className="align-end">
+                  <Col xs={10} md={8} className="align-end">
                     <Text strong>{Utils.Money({ money: fee.shipping })}</Text>
                   </Col>
                 </Row>
                 <Divider />
                 <Row align="middle" justify="center">
-                  <Col xs={24} md={14}>
+                  <Col xs={14} md={8}>
                     <Text strong>Tổng tiền:</Text>
                   </Col>
-                  <Col xs={24} md={4} className="align-end">
+                  <Col xs={10} md={8} className="align-end">
                     <Text strong>{Utils.Money({ money: cart.finalPrices })}</Text>
                   </Col>
                 </Row>

@@ -1,3 +1,4 @@
+
 import { Row, Col, Typography } from "antd"
 import Utils from "components/UIKit/Utils"
 import ButtonUI from "components/UIKit/ButtonUI"
@@ -10,26 +11,27 @@ import { useSelector } from "react-redux"
 
 const {  Text } = Typography
 
+
 const Payment = () => {
-  let history = useHistory()
+  let history = useHistory();
   const handlePayment = () => {
-    const isUserLoggedIn = checkAuth()
+    const isUserLoggedIn = checkAuth();
     if (!isUserLoggedIn) {
       NotifyHelper.error(
         "Vui lòng đăng nhập để tiến hành thanh toán !",
         "Không thể thanh toán"
-      )
+      );
     } else {
-      history.push("/order")
+      history.push("/order");
     }
-  }
+  };
 
-  const cart = useSelector((state) => state.cart)
+  const cart = useSelector((state) => state.cart);
   return (
     <div className="border shadow-sm rounded-2 py-5 px-4 sticky-payment-form">
-      <Row className="mb-3">
+      <Row>
         <Col xs={12} sm={24} md={12} span={12}>
-          <Text strong >Tạm tính:</Text>
+          <span className="fw-bold"> Tạm tính:</span>
         </Col>
         <Col
           xs={12}
@@ -38,12 +40,12 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <Text>{Utils.Money({ money: cart.totalPrices })}</Text>
+          <h4>{Utils.Money({ money: cart.totalPrices })}</h4>
         </Col>
       </Row>
-      <Row className="mb-3">
+      <Row>
         <Col xs={12} sm={24} md={12} span={12}>
-          <Text strong >Phí vận chuyển:</Text>
+          <span className="fw-bold"> Phí vận chuyển:</span>
         </Col>
         <Col
           xs={12}
@@ -52,12 +54,12 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <Text>{Utils.Money({ money: fee.shipping })}</Text>
+          <h4>{Utils.Money({ money: fee.shipping })}</h4>
         </Col>
       </Row>
-      <Row >
+      <Row>
         <Col xs={12} sm={24} md={12} span={12}>
-          <Text strong> Tổng tiền:</Text>
+          <span className="fw-bold"> Tổng tiền:</span>
         </Col>
         <Col
           xs={12}
@@ -66,16 +68,16 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <Text>{Utils.Money({ money: cart.finalPrices })}</Text>
+          <h4>{Utils.Money({ money: cart.finalPrices })}</h4>
         </Col>
       </Row>
       <div className="text-center mt-5">
         <ButtonUI text="Thanh toán" onClick={handlePayment} />
       </div>
     </div>
-  )
-}
+  );
+};
 Payment.propTypes = {
   products: PropTypes.array,
-}
-export default Payment
+};
+export default Payment;

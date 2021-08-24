@@ -4,7 +4,7 @@ import { DeleteOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons"
 import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
 import PropTypes from "prop-types"
-import { updateQuantity, deleteProduct, } from "../cartSlice"
+import { updateQuantity, deleteProduct } from "../cartSlice"
 import { useDispatch } from "react-redux"
 import { getImageOfProduct } from "../../../utils"
 import { useState } from "react"
@@ -22,6 +22,7 @@ const ProductItem = (props) => {
   }
 
   const [isModalVisible, setIsModalVisible] = useState(false)
+
   return (
     <Col span={24} className="rounded-3 mb-3 border p-2 shadow-sm">
       <Modal
@@ -78,9 +79,9 @@ const ProductItem = (props) => {
           // lg={}
           className="pe-3 d-flex justify-content-end align-items-end"
         >
-          <Title level={5} className="me-4 mb-2">
+          <h4 className="fw-bold me-4">
             {Utils.Money({ money: product.totalPrices })}
-          </Title>
+          </h4>
           <ButtonUI
             className="mb-2"
             onClick={() => {
@@ -95,8 +96,6 @@ const ProductItem = (props) => {
             style={{ maxWidth: "4em" }}
             bordered={true}
             value={product.quantity}
-            min={1}
-            max={99}
           />
           <ButtonUI
             className="mb-2"

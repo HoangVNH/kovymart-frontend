@@ -1,4 +1,4 @@
-import { Row, Col, Typography, Space } from "antd"
+import { Row, Col, Typography } from "antd"
 import Utils from "components/UIKit/Utils"
 import ButtonUI from "components/UIKit/ButtonUI"
 import PropTypes from "prop-types"
@@ -8,7 +8,7 @@ import { checkAuth } from "helper/auth"
 import { fee } from "constants/fee"
 import { useSelector } from "react-redux"
 
-const { Title, Text } = Typography
+const {  Text } = Typography
 
 const Payment = () => {
   let history = useHistory()

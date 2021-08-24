@@ -21,7 +21,7 @@ const ProductDetails = () => {
   const imageSize = "largeImage"
 
   const { name, price, description, discount } = productDetail
-  const { Text, Title } = Typography
+  const { Text } = Typography
   useEffect(() => {
     if (Number(productId)) {
       dispatch(getProductById(productId))

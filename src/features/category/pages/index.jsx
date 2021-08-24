@@ -73,7 +73,7 @@ const Category = () => {
 
                                 {requesting
                                     ? <> {Utils.Loading()} </>
-                                    : <> {!finished ? <ButtonUI className="mb-5" text="Xem thêm" onClick={handleLoadmore} /> : ""}</>
+                                    : <> {!finished ? <ButtonUI text="Xem thêm" onClick={handleLoadmore} /> : ""}</>
                                 }
                             </Row>
                         </>

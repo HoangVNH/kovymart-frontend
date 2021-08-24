@@ -74,12 +74,12 @@ const Order = () => {
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
       <Col lg={14} xs={23}>
-        <Card className="card-shadow border px-2">
+        <Card className="card-shadow px-2">
           <Row>
             <Col xs={24} md={22}>
               <Title level={4} style={{ color: "#e99667" }}>
                 <Space>
-                  <ShoppingCartOutlined />
+                  <ShoppingCartOutlined className="align-baseline" />
                   Thông tin đơn hàng
                 </Space>
               </Title>

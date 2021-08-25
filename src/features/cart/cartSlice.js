@@ -71,9 +71,6 @@ const cartSlice = createSlice({
       ) {
         state.items[index].quantity--
       }
-      if (action.payload.doing === "input") {
-        state.items[index].quantity = action.payload.value
-      }
       state.items[index].totalPrices =
         state.items[index].price * state.items[index].quantity
 

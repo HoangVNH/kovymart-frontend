@@ -29,7 +29,7 @@ const cartSlice = createSlice({
   initialState: initialState,
   reducers: {
     addProductToCart: (state, action) => {
-      console.log('Action: ' + action)
+      // console.log('Action: ' + action)
       const existedProductIndex = state.items.findIndex(
         (product) => product.id === action.payload.product.id
       )
@@ -56,11 +56,9 @@ const cartSlice = createSlice({
       state = refreshState(state)
     },
     updateQuantity: (state, action) => {
-      console.log(action.payload)
       const index = state.items.findIndex(
         (item) => item.id === action.payload.id
       )
-      console.log(index)
       if (
         action.payload.doing === "increment" &&
         state.items[index].quantity < quantity.MAX
@@ -96,6 +94,7 @@ const cartSlice = createSlice({
     },
   },
 })
+
 
 export const selectProducts = (state) => state.cart.items
 export const { addProductToCart, updateQuantity, deleteCart, deleteProduct } =

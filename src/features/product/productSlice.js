@@ -12,9 +12,12 @@ const initialState = {
   list: [],
   pagination: {},
   detail: {
+    id: 0,
     name: "",
+    sku: "",
+    description: "",
     price: 0,
-    discount: 10,
+    discount: 0,
   },
 };
 
@@ -53,7 +56,11 @@ const isRejectedAction = (action) =>
 const productSlice = createSlice({
   name: "product",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setDataToEmpty: (state) => {
+      state.detail = initialState.detail;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProductById.fulfilled, (state, action) => {
@@ -88,6 +95,8 @@ const productSlice = createSlice({
       });
   },
 });
+
+export const { setDataToEmpty } = productSlice.actions;
 
 export const selectProduct = (state) => state.product;
 export const selectProductDetail = (state) => state.product.detail;

@@ -11,13 +11,20 @@ const ProductCardList = ({ products, title, layout, className, style }) => {
   const dispatch = useDispatch();
   const imageSize = "smallImage";
 
+  const modifyProduct = useCallback((product, quantity) => {
+    const modifiedProduct = { ...product, quantity, productId: product.id };
+    delete modifiedProduct["id"];
+
+    return modifiedProduct;
+  }, []);
+
   const handleAddToCart = useCallback(
     (product, quantity = 1) => {
-      console.log("product: ", product);
-      console.log("quantity: ", quantity);
-      dispatch(addProductToCart({ product, quantity }));
+      const modifiedProduct = modifyProduct(product, quantity);
+
+      dispatch(addProductToCart(modifiedProduct));
     },
-    [dispatch]
+    [dispatch, modifyProduct]
   );
 
   return (

@@ -1,42 +1,72 @@
-import "./ProductDetails.scss"
+import "./ProductDetails.scss";
 
-import { Col, Row, Tag, Skeleton, Space, InputNumber, Typography } from "antd"
-import { ShoppingCartOutlined, CheckOutlined, PlusOutlined } from "@ant-design/icons"
-import { useEffect, useState } from "react"
-import { useParams, useHistory } from "react-router-dom"
-import ImageWithFallBack from "components/ImageWithFallback"
-import Utils from "../../../components/UIKit/Utils"
-import ButtonUI from "../../../components/UIKit/ButtonUI"
-import { getProductById, selectProductDetail } from "../productSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { getImageOfProduct } from "../../../utils"
-import ReactHtmlParser from "react-html-parser"
-import { addProductToCart } from "features/cart/cartSlice"
-import { NotifyHelper } from "helper/notify-helper"
+import { Col, Row, Tag, Skeleton, Space, InputNumber, Typography } from "antd";
+import {
+  ShoppingCartOutlined,
+  CheckOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import React, { useEffect, useState, useCallback } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import ImageWithFallBack from "components/ImageWithFallback";
+import Utils from "../../../components/UIKit/Utils";
+import ButtonUI from "../../../components/UIKit/ButtonUI";
+import {
+  getProductById,
+  selectProductDetail,
+  setDataToEmpty,
+} from "../productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getImageOfProduct } from "../../../utils";
+import ReactHtmlParser from "react-html-parser";
+import { addProductToCart } from "features/cart/cartSlice";
+
 const ProductDetails = () => {
-  let history = useHistory()
-  const dispatch = useDispatch()
-  const { productId } = useParams()
-  const productDetail = useSelector(selectProductDetail)
-  const imageSize = "largeImage"
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { productId } = useParams();
+  const productDetail = useSelector(selectProductDetail);
+  const imageSize = "largeImage";
 
-  const { name, price, description, discount } = productDetail
-  const { Text } = Typography
+  const { name, price, description, discount } = productDetail;
+  const { Text } = Typography;
+  const [quantity, setQuantity] = useState(1);
+
+  const modifyProduct = useCallback((product, quantity) => {
+    const modifiedProduct = { ...product, quantity, productId: product.id };
+    delete modifiedProduct["id"];
+
+    return modifiedProduct;
+  }, []);
+
+  const handleBuyNow = useCallback(
+    (product) => {
+      const modifiedProduct = modifyProduct(product, 1);
+
+      dispatch(addProductToCart(modifiedProduct));
+      history.push("/cart");
+    },
+    [dispatch, modifyProduct, history]
+  );
+
+  const handleAddToCart = useCallback(
+    (product, quantity = 1) => {
+      const modifiedProduct = modifyProduct(product, quantity);
+
+      dispatch(addProductToCart(modifiedProduct));
+    },
+    [dispatch, modifyProduct]
+  );
+
   useEffect(() => {
-    if (Number(productId)) {
-      dispatch(getProductById(productId))
+    if (Number(productId) > 0) {
+      dispatch(getProductById(productId));
     }
-  }, [dispatch, productId])
 
-  const [quantity, setQuantity] = useState(1)
-  function handleBuyNow(product) {
-    dispatch(addProductToCart({ product, quantity }))
-    history.push('/cart')
-  }
-  function handleAddToCart(product) {
-    dispatch(addProductToCart({ product, quantity }))
-    NotifyHelper.success('', 'Thêm sản phẩm thành công !')
-  }
+    return () => {
+      dispatch(setDataToEmpty());
+    };
+  }, [dispatch, productId]);
 
   return productId ? (
     <Row type="flex" justify="center">
@@ -54,7 +84,10 @@ const ProductDetails = () => {
           </Col>
           <Col lg={12} className="px-2">
             <Tag className="mb-2" color="warning">
-              <Text strong type="warning"> {discount}% OFF</Text>
+              <Text strong type="warning">
+                {" "}
+                {discount}% OFF
+              </Text>
             </Tag>
             <br />
             <h2 className="fw-bold mb-0"> {name}</h2>
@@ -66,27 +99,36 @@ const ProductDetails = () => {
               <Text strong style={{ lineHeight: "0" }}>
                 Giá:
                 {Utils.Money({ money: price })}
-              </Text><br />
+              </Text>
+              <br />
               <Text delete type="secondary">
                 {Utils.Money({ money: price * (1 + discount * 0.01) })}
-              </Text><br />
-              <Text type="secondary" >(Đã tính thuế)</Text>
+              </Text>
+              <br />
+              <Text type="secondary">(Đã tính thuế)</Text>
             </div>
-            <InputNumber className="mb-3"
+            <InputNumber
+              className="mb-3"
               defaultValue={quantity}
-              onChange={(e) => { setQuantity(prevState => prevState = e) }}
+              onChange={(e) => {
+                setQuantity((prevState) => (prevState = e));
+              }}
             />
             <br />
             <Space>
               <ButtonUI
                 text="Thêm vào giỏ hàng"
                 withIcon={<PlusOutlined className="align-baseline" />}
-                onClick={() => { handleAddToCart(productDetail) }}
+                onClick={() => {
+                  handleAddToCart(productDetail);
+                }}
               />
               <ButtonUI
                 text="Mua ngay"
                 withIcon={<ShoppingCartOutlined className="align-baseline" />}
-                onClick={() => { handleBuyNow(productDetail) }}
+                onClick={() => {
+                  handleBuyNow(productDetail);
+                }}
               />
             </Space>
             <div className="mt-5">
@@ -115,7 +157,7 @@ const ProductDetails = () => {
     </Row>
   ) : (
     <Skeleton />
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;

@@ -1,5 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  ShoppingCartOutlined,
+  UserOutlined,
+  PoweroffOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { Col, Form, Layout, Row, Menu, Dropdown } from "antd";
 import {
   selectAuth,
@@ -8,10 +13,10 @@ import {
   signIn,
   signUp,
 } from "features/auth/authSlice";
-import { checkAuth } from "helper/auth";
+import { checkAuth, clearAccessToken } from "helper/auth";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ASYNC_STATUS } from "../../constants";
 import LoginForm from "../../features/auth/components/LoginForm";
 import RegisterForm from "../../features/auth/components/RegisterForm";
@@ -26,6 +31,7 @@ const MainHeader = () => {
   const [loginFormInstance] = Form.useForm();
   const [registerFormInstance] = Form.useForm();
   const dispatch = useDispatch();
+  const history = useHistory();
   const {
     isFetching,
     signUp: { msg: signUpMsg },
@@ -63,11 +69,28 @@ const MainHeader = () => {
     dispatch(signIn(values));
   };
 
+  const handleLogout = useCallback(() => {
+    clearAccessToken();
+    history.push("/");
+  }, [history]);
+
   const renderMenuItem = () => {
     const menu = (
       <Menu>
-        <Menu.Item key="info">Thông Tin</Menu.Item>
-        <Menu.Item key="logout">Đăng Xuất</Menu.Item>
+        <Menu.Item
+          key="info"
+          icon={<InfoCircleOutlined />}
+          onClick={() => history.push("/info")}
+        >
+          Thông Tin
+        </Menu.Item>
+        <Menu.Item
+          key="logout"
+          icon={<PoweroffOutlined />}
+          onClick={handleLogout}
+        >
+          Đăng Xuất
+        </Menu.Item>
       </Menu>
     );
 
@@ -78,7 +101,7 @@ const MainHeader = () => {
           className="link--normalize"
           onClick={(e) => e.preventDefault()}
         >
-          Tài Khoản <UserOutlined className="navigation-bar__login" />
+          <UserOutlined className="navigation-bar__login" /> Tài Khoản
         </a>
       </Dropdown>
     ) : (

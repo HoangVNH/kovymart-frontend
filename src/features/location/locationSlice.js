@@ -6,41 +6,32 @@ const initialState = {
   requesting: false,
   success: false,
   message: null,
-  provinces: [
-    { id: 1, name: "Lâm Đồng" },
-    { id: 2, name: "Đà Lạt" },
-    { id: 3, name: "Bình Thuận" },
-  ],
-  districts: [
-    { id: 1, name: "Đơn Dương", provinces_id: 1 },
-    { id: 2, name: "Bắc Hội", provinces_id: 1 },
-    { id: 3, name: "Đơn ", provinces_id: 2 },
-  ],
-  wards: [
-    { id: 1, name: "Giải phóng", district_id: 1 },
-    { id: 2, name: "Ka Đô", district_id: 2 },
-  ],
+  provinces: [],
+  districts: [],
+  wards: [],
 }
 
 //----------ACTIONS----------
 export const getProvinces = createAsyncThunk(
   "location/getProvinces",
   async () => {
-    return await locationApi.getprovices()
+    return await locationApi.getProvinces()
   }
 )
 export const getDistricts = createAsyncThunk(
   "location/getDistricts",
   async (provinces_id) => {
-    return await locationApi.getdistricts(provinces_id)
+    return await locationApi.getDistricts(provinces_id)
   }
 )
 export const getWards = createAsyncThunk(
-  "location/getwards",
+  "location/getWards",
   async (district_id) => {
-    return await locationApi.getwards({ district_id })
+    return await locationApi.getWards({ district_id })
   }
 )
+
+
 //------------------------UTILITIES------------------------
 const isPendingAction = (action) =>
   action.type.endsWith("/pending") && action.type.includes("location")
@@ -58,19 +49,23 @@ const locationSlice = createSlice({
       .addCase(getProvinces.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
+        // state.provinces = provinces
         state.provinces = action.payload.data
+
       })
       //------------------DISTRICT------------------
       .addCase(getDistricts.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
         state.districts = action.payload.data
+        // state.districts = districts
       })
       //------------------WARD------------------
       .addCase(getWards.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
         state.wards = action.payload.data
+        // state.wards = wards
       })
 
       //---------------PENDING & REJECTION---------------

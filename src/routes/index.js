@@ -1,12 +1,12 @@
-import { Route } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import HomePage from "../features/homepage";
-import ProductDetails from "features/product/pages/ProductDetails";
-import Cart from "features/cart/pages/Cart";
-import Category from "features/category/pages";
-import Order from "features/order/pages";
-import OrderSuccess from "features/order/pages/OrderSuccess";
-
+import { Route } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid"
+import HomePage from "../features/homepage"
+import ProductDetails from "features/product/pages/ProductDetails"
+import Cart from "features/cart/pages/Cart"
+import Category from "features/category/pages"
+import Order from "features/order/pages"
+import OrderSuccess from "features/order/pages/OrderSuccess"
+import AddAddress from "features/address/pages/AddAddress"
 const routes = [
   {
     key: uuidv4(),
@@ -38,10 +38,15 @@ const routes = [
     path: `/category/:categoryId`,
     component: Category,
   },
-];
+  {
+    key: uuidv4(),
+    path: `/address/add`,
+    component: AddAddress,
+  },
+]
 
 const mappedRoutes = routes.map((route) => (
   <Route exact path={route.path} component={route.component} key={route.key} />
-));
+))
 
-export default mappedRoutes;
+export default mappedRoutes

@@ -27,14 +27,20 @@ const ProductDetails = () => {
   const { productId } = useParams();
   const productDetail = useSelector(selectProductDetail);
   const imageSize = "largeImage";
-
-  const { name, price, description, discount } = productDetail;
-  const { Text } = Typography;
   const [quantity, setQuantity] = useState(1);
 
+  const { productName, price, description, discount } = productDetail;
+  const { Text } = Typography;
+
   const modifyProduct = useCallback((product, quantity) => {
-    const modifiedProduct = { ...product, quantity, productId: product.id };
+    const modifiedProduct = {
+      ...product,
+      quantity,
+      productId: product.id,
+      productName: product.name,
+    };
     delete modifiedProduct["id"];
+    delete modifiedProduct["name"];
 
     return modifiedProduct;
   }, []);
@@ -50,7 +56,7 @@ const ProductDetails = () => {
   );
 
   const handleAddToCart = useCallback(
-    (product, quantity = 1) => {
+    (product, quantity) => {
       const modifiedProduct = modifyProduct(product, quantity);
 
       dispatch(addProductToCart(modifiedProduct));
@@ -90,7 +96,7 @@ const ProductDetails = () => {
               </Text>
             </Tag>
             <br />
-            <h2 className="fw-bold mb-0"> {name}</h2>
+            <h2 className="fw-bold mb-0"> {productName}</h2>
             <div className="text-muted mb-5">
               {/* <CheckCircleOutlined className="me-2 align-baseline" />
             <span className="mb-2"></span>Sẵn có 5kg */}
@@ -110,25 +116,21 @@ const ProductDetails = () => {
             <InputNumber
               className="mb-3"
               defaultValue={quantity}
-              onChange={(e) => {
-                setQuantity((prevState) => (prevState = e));
-              }}
+              onChange={(e) => setQuantity(e)}
+              min={1}
+              max={99}
             />
             <br />
             <Space>
               <ButtonUI
                 text="Thêm vào giỏ hàng"
                 withIcon={<PlusOutlined className="align-baseline" />}
-                onClick={() => {
-                  handleAddToCart(productDetail);
-                }}
+                onClick={() => handleAddToCart(productDetail, quantity)}
               />
               <ButtonUI
                 text="Mua ngay"
                 withIcon={<ShoppingCartOutlined className="align-baseline" />}
-                onClick={() => {
-                  handleBuyNow(productDetail);
-                }}
+                onClick={() => handleBuyNow(productDetail)}
               />
             </Space>
             <div className="mt-5">

@@ -25,9 +25,9 @@ export const getCart = createAsyncThunk("cart/getCart", async () => {
 export const addProductToCart = createAsyncThunk(
   "cart/addProductToCart",
   async (product) => {
-    const { status } = await cartApi.addProductToCart(product);
+    const response = await cartApi.addProductToCart(product);
 
-    if (status === 201) {
+    if (Array.isArray(response?.items) && response?.items.length > 0) {
       NotifyHelper.success("", "Sản phẩm đã được thêm vào Giỏ hàng");
     }
   }
@@ -57,31 +57,6 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: initialState,
   reducers: {
-    addProductToCart: (state, action) => {
-      // console.log('Action: ' + action)
-      // const existedProductIndex = state.items.findIndex(
-      //   (product) => product.id === action.payload.product.id
-      // );
-      // if (existedProductIndex !== -1) {
-      //   state.items.map((item) => {
-      //     if (item.id === action.payload.product.id) {
-      //       state.items[existedProductIndex]["quantity"] +=
-      //         action.payload.quantity;
-      //       state.items[existedProductIndex]["totalPrices"] =
-      //         state.items[existedProductIndex].price *
-      //         state.items[existedProductIndex]["quantity"];
-      //     }
-      //   });
-      // } else {
-      //   state.items.push({
-      //     ...action.payload.product,
-      //     quantity: 1,
-      //     totalPrices: action.payload.product.price,
-      //   });
-      //   state.totalItems = state.items.length;
-      // }
-      // state = refreshState(state);
-    },
     updateQuantity: (state, action) => {
       const index = state.items.findIndex(
         (item) => item.id === action.payload.id

@@ -8,19 +8,21 @@
     display: flex !important;
     justify-content: flex-end !important;
 }
+
 .text-wrap {
     white-space: normal!important;
 }
 
+.float-right{
+    float: right !important;
+}
 .lh-1 {
     line-height: 1!important;
 }
 .mt-5 {
     margin-top: 3rem!important;
 }
-.mt-5 {
-    margin-top: 1.5rem!important;
-}
+
 .mt-3 {
     margin-top: 1rem!important;
 }
@@ -35,6 +37,10 @@
 }
 .mb-5 {
     margin-bottom: 3rem!important;
+}
+.my-1 {
+    margin-top: .25rem!important;
+    margin-bottom: .25rem!important;
 }
 .my-3 {
     margin-top: 1rem!important;
@@ -65,6 +71,12 @@
 }
 .ps-3{
     padding-left: 1rem !important;
+}
+.pb-4 {
+    padding-bottom: 1.5rem!important;
+}
+.pb-3{
+    padding-bottom: 1rem !important;
 }
 .px-4 {
     padding-right: 1.5rem!important;

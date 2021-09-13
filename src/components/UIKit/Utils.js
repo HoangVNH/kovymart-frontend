@@ -4,7 +4,7 @@ import { Spin } from 'antd'
 const Utils = {
   Loading() {
     return (
-        <Spin style={{ color: "#e99667" }} />
+      <Spin style={{ color: "#e99667" }} />
     )
   },
 

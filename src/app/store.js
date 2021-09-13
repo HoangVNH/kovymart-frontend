@@ -8,6 +8,7 @@ import addressReducer from "../features/address/addressSlice";
 import rootSaga from "./rootSaga";
 import locationReducer from "../features/location/locationSlice";
 import categoryReducer from "../features/category/categorySlice";
+import orderReducer from "../features/order/orderSlice";
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     location: locationReducer,
     category: categoryReducer,
     address: addressReducer,
+    order: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

@@ -1,0 +1,57 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import orderApi from "api/orderApi"
+import { NotifyHelper } from "helper/notify-helper"
+import { ASYNC_STATUS } from "../../constants"
+const initialState = {
+    requesting: false,
+    success: false,
+    message: ASYNC_STATUS.IDLE,
+    order_details: {}
+}
+
+//----------ACTIONS----------
+export const insertOrder = createAsyncThunk(
+    "order/insertOrder",
+    async (data) => {
+        return await orderApi.insertOrder(data)
+    }
+)
+//------------------------UTILITIES------------------------
+const isPendingAction = (action) =>
+    action.type.endsWith("/pending") && action.type.includes("order")
+const isRejectedAction = (action) =>
+    action.type.endsWith("/rejected") && action.type.includes("order")
+
+//----------REDUCERS----------
+const orderSlice = createSlice({
+    name: "order",
+    initialState: initialState,
+    reducers: {
+        setMessageToDefault: (state) => {
+            state.message = ASYNC_STATUS.IDLE
+        }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(insertOrder.fulfilled, (state, action) => {
+                state.requesting = false
+                state.success = true
+                NotifyHelper.success("", "Thanh toán thành công !")
+            })
+            //---------------PENDING & REJECTION---------------
+            .addMatcher(isPendingAction, (state) => {
+                state.requesting = true
+                state.success = false
+            })
+            .addMatcher(isRejectedAction, (state, action) => {
+                state.requesting = state.success = false
+                state.message = action.error.message
+                NotifyHelper.error(action.error.message, "Yêu cầu thất bại!")
+            })
+    },
+})
+
+// useSelector
+export const {setMessageToDefault} = orderSlice.actions
+
+export default orderSlice.reducer

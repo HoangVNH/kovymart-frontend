@@ -35,13 +35,6 @@ const Order = () => {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-
-  //handle dispatch location
-
-  //handle payment actions
-  // const getID = (value) => {
-  //   return value ? JSON.parse(value)[0] : -1;
-  // };
   const handleSubmit = (e) => {
     // console.log(e);
     // let location = {

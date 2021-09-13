@@ -1,10 +1,10 @@
-import { Button, Card, Tag, Tooltip } from "antd"
-import React from "react"
-import { Link } from "react-router-dom"
-import ImageWithFallBack from "../ImageWithFallback"
-import PropTypes from "prop-types"
-import Utils from 'components/UIKit/Utils'
-import "./styles.scss"
+import { Button, Card, Tag, Tooltip } from "antd";
+import React from "react";
+import { Link } from "react-router-dom";
+import ImageWithFallBack from "../ImageWithFallback";
+import PropTypes from "prop-types";
+import Utils from "components/UIKit/Utils";
+import "./styles.scss";
 
 const ProductCard = ({
   id,
@@ -19,7 +19,7 @@ const ProductCard = ({
 }) => {
   return (
     <Card
-    hoverable
+      hoverable
       className={`product-card__wrapper ${className}`}
       style={style}
     >
@@ -38,9 +38,6 @@ const ProductCard = ({
             <span className="product-card__net-price">
               {Utils.Money({ money: price })}
             </span>
-            {/* <span className="product-card__list-price">
-              {price} đ
-            </span> */}
           </div>
         </Link>
         <Button className="product-card__button" onClick={onAddToCart}>
@@ -48,8 +45,8 @@ const ProductCard = ({
         </Button>
       </div>
     </Card>
-  )
-}
+  );
+};
 
 ProductCard.propTypes = {
   id: PropTypes.number.isRequired,
@@ -61,13 +58,13 @@ ProductCard.propTypes = {
   className: PropTypes.string,
   style: PropTypes.shape({}),
   onAddToCart: PropTypes.func.isRequired,
-}
+};
 
 ProductCard.defaultProps = {
   netPrice: 0,
   discount: 0,
   className: "",
   style: {},
-}
+};
 
-export default ProductCard
+export default ProductCard;

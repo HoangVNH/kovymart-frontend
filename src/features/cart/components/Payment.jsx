@@ -1,35 +1,36 @@
-import { Row, Col, Typography } from "antd"
-import Utils from "components/UIKit/Utils"
-import ButtonUI from "components/UIKit/ButtonUI"
-import PropTypes from "prop-types"
-import { useHistory } from "react-router-dom"
-import { NotifyHelper } from "helper/notify-helper"
-import { checkAuth } from "helper/auth"
-import { fee } from "constants/fee"
-import { useSelector } from "react-redux"
+import { Row, Col, Typography } from "antd";
+import Utils from "components/UIKit/Utils";
+import ButtonUI from "components/UIKit/ButtonUI";
+import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+import { NotifyHelper } from "helper/notify-helper";
+import { checkAuth } from "helper/auth";
+import { fee } from "constants/fee";
+import React, { useCallback } from "react";
 
-const {  Text } = Typography
+const { Text } = Typography;
 
-const Payment = () => {
-  let history = useHistory()
-  const handlePayment = () => {
-    const isUserLoggedIn = checkAuth()
+const Payment = ({ totalPrice }) => {
+  const history = useHistory();
+
+  const handlePayment = useCallback(() => {
+    const isUserLoggedIn = checkAuth();
+
     if (!isUserLoggedIn) {
       NotifyHelper.error(
         "Vui lòng đăng nhập để tiến hành thanh toán !",
         "Không thể thanh toán"
-      )
+      );
     } else {
-      history.push("/order")
+      history.push("/order");
     }
-  }
+  }, [history]);
 
-  const cart = useSelector((state) => state.cart)
   return (
     <div className="border shadow-sm rounded-2 py-5 px-4 sticky-payment-form">
       <Row className="mb-3">
         <Col xs={12} sm={24} md={12} span={12}>
-          <Text strong >Tạm tính:</Text>
+          <Text strong>Tạm tính:</Text>
         </Col>
         <Col
           xs={12}
@@ -38,12 +39,12 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <Text>{Utils.Money({ money: cart.totalPrices })}</Text>
+          <Text>{Utils.Money({ money: totalPrice })}</Text>
         </Col>
       </Row>
       <Row className="mb-3">
         <Col xs={12} sm={24} md={12} span={12}>
-          <Text strong >Phí vận chuyển:</Text>
+          <Text strong>Phí vận chuyển:</Text>
         </Col>
         <Col
           xs={12}
@@ -55,7 +56,7 @@ const Payment = () => {
           <Text>{Utils.Money({ money: fee.shipping })}</Text>
         </Col>
       </Row>
-      <Row >
+      <Row>
         <Col xs={12} sm={24} md={12} span={12}>
           <Text strong> Tổng tiền:</Text>
         </Col>
@@ -66,16 +67,22 @@ const Payment = () => {
           span={12}
           className="d-flex justify-content-end align-items-end"
         >
-          <Text>{Utils.Money({ money: cart.finalPrices })}</Text>
+          <Text>{Utils.Money({ money: totalPrice + fee.shipping })}</Text>
         </Col>
       </Row>
       <div className="text-center mt-5">
         <ButtonUI text="Thanh toán" onClick={handlePayment} />
       </div>
     </div>
-  )
-}
+  );
+};
+
 Payment.propTypes = {
-  products: PropTypes.array,
-}
-export default Payment
+  totalPrice: PropTypes.number,
+};
+
+Payment.defaultProps = {
+  totalPrice: 0,
+};
+
+export default Payment;

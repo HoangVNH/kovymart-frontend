@@ -5,21 +5,17 @@ import { NotifyHelper } from "helper/notify-helper";
 import { fee } from "../../constants/fee";
 import cartApi from "api/cartApi";
 
-const tempState = {
+const initialState = {
   finalPrices: fee.shipping,
-  totalPrices: 0,
+  totalPrice: 0,
   items: [],
   totalItems: 0,
+  isFetching: false,
 };
-
-const initialState = JSON.parse(localStorage.getItem("cart"))
-  ? JSON.parse(localStorage.getItem("cart"))
-  : tempState;
 
 export const getCart = createAsyncThunk("cart/getCart", async () => {
   const response = await cartApi.getCart();
-  console.log("getCart response: ", response);
-  return response.data;
+  return response;
 });
 
 export const addProductToCart = createAsyncThunk(
@@ -55,7 +51,7 @@ function refreshState(state) {
 //----------REDUCERS----------
 const cartSlice = createSlice({
   name: "cart",
-  initialState: initialState,
+  initialState,
   reducers: {
     updateQuantity: (state, action) => {
       const index = state.items.findIndex(
@@ -80,8 +76,6 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
     deleteCart: (state) => {
-      localStorage.removeItem("cart");
-      state = tempState;
       NotifyHelper.success("", "Xóa giỏ hàng thành công !");
       return state;
     },
@@ -95,8 +89,22 @@ const cartSlice = createSlice({
       NotifyHelper.success("", "Xóa sản phẩm thành công !");
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getCart.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(getCart.fulfilled, (state, { payload }) => {
+        state.isFetching = false;
+        state.items = payload.items;
+        state.totalItems = payload.items?.length;
+        state.totalPrice = payload.totalPrice;
+      });
+  },
 });
 
-export const selectProducts = (state) => state.cart.items;
+export const selectCartItems = (state) => state.cart.items;
+export const selectIsCartFetching = (state) => state.cart.isFetching;
+export const selectTotalPrice = (state) => state.cart.totalPrice;
 export const { updateQuantity, deleteCart, deleteProduct } = cartSlice.actions;
 export default cartSlice.reducer;

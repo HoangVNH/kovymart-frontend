@@ -10,7 +10,7 @@ import {
 } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
 import ButtonUI from "components/UIKit/ButtonUI"
-import { useHistory, Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { checkAuth } from "helper/auth"
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from 'react-redux'
@@ -69,6 +69,7 @@ const AddAddress = () => {
     }
 
     const handleDistricts = (e) => {
+        console.log((getId(e)))
         dispatch(getWards(getId(e)))
         setDisableLocation((preState) => {
             return {
@@ -85,7 +86,6 @@ const AddAddress = () => {
         return JSON.parse(string)[0]
     }
     const handleSubmit = (e) => {
-        console.log(e)
         const address = {
             name: e.name,
             phone: e.phone,
@@ -94,16 +94,9 @@ const AddAddress = () => {
             wardId: getId(e.wardId),
             address: e.address
         }
-        console.log(address)
         dispatch(insertAddress(address))
     }
-    const onScroll = (e) => {
-        e.persist()
-        let target = e.target
-        if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
-           
-        }
-    }
+    
     return (
         <Row type="flex" align="middle" justify="center" className="my-5">
             <Col lg={14} xs={23}>
@@ -121,8 +114,8 @@ const AddAddress = () => {
                     <Form
                         className="mt-5"
                         layout="vertical"
-                        onFinish={handleSubmit}
                         form={form}
+                        onFinish={handleSubmit}
                     >
                         {/* User information */}
                         <Row gutter={20} type="flex">
@@ -162,7 +155,6 @@ const AddAddress = () => {
                                     <Select showSearch
                                         onSelect={handleProvinces}
                                         placeholder="Chọn tỉnh"
-                                        onPopupScroll={(e => onScroll(e))}
                                     >
                                         {provinces.map((prov) => (
                                             <Option
@@ -235,7 +227,7 @@ const AddAddress = () => {
 
                         <Col style={{ textAlign: "center", marginTop: "2em" }}>
                             <Space className="mt-4" size={20}>
-                                <ButtonUI text="Quay lại" variant="secondary" onClick={goBack}></ButtonUI>
+                                <ButtonUI htmlType="button" text="Quay lại" variant="secondary" onClick={goBack}></ButtonUI>
                                 <ButtonUI
                                     htmlType="submit"
                                     text="Xác nhận"

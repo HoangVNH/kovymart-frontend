@@ -8,7 +8,8 @@ const initialState = {
   message: null,
   address_details: null,
   list_address: [],
-  default_address: {}
+  default_address: {},
+
 }
 
 //----------ACTIONS----------
@@ -37,7 +38,8 @@ export const updateAddress = createAsyncThunk(
 export const deleteAddress = createAsyncThunk(
   "address/deleteAddress",
   async (id) => {
-    return await addressApi.deleteAddress(id)
+    const res = await addressApi.deleteAddressById(id)
+    return [res, id]
   }
 )
 export const insertAddress = createAsyncThunk(
@@ -59,7 +61,6 @@ const addressSlice = createSlice({
   initialState: initialState,
   reducers: {
     setDefaultAddress: (state, action) => {
-      console.log(action.payload)
       state.default_address = action.payload
       NotifyHelper.success("", "Đặt địa chỉ mặc định thành công !")
     }
@@ -74,7 +75,6 @@ const addressSlice = createSlice({
       .addCase(getAddressList.fulfilled, (state, action) => {
         state.requesting = false
         state.list_address = action.payload.data
-        console.log(action.payload)
         state.default_address = action.payload.data[0]
       })
       .addCase(updateAddress.fulfilled, (state) => {
@@ -82,9 +82,10 @@ const addressSlice = createSlice({
         state.success = true
         NotifyHelper.success("", "Cập nhật thành công !")
       })
-      .addCase(deleteAddress.fulfilled, (state) => {
+      .addCase(deleteAddress.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
+        state.list_address = state.list_address.filter((address) => address.id !== action.payload[1])
         NotifyHelper.success("", "Xóa thành công !")
       })
       .addCase(insertAddress.fulfilled, (state) => {
@@ -100,7 +101,6 @@ const addressSlice = createSlice({
       .addMatcher(isRejectedAction, (state, action) => {
         state.requesting = state.success = false
         state.message = action.error.message
-        console.log(action)
         NotifyHelper.error(action.error.message, "Yêu cầu thất bại!")
       })
   },

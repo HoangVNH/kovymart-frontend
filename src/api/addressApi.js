@@ -9,7 +9,7 @@ const addressApi = {
   },
 
   getAddressList() {
-    const url = `${prefix}?page=1&limit=20`
+    const url = `${prefix}`
     return axiosClient.get(url)
   },
 

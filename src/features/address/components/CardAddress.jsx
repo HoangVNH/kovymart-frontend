@@ -1,26 +1,32 @@
-import { Card, Row, Col, Typography, Modal } from 'antd'
+import { Card, Row, Col, Typography, Modal, Tag } from 'antd'
 import ButtonUI from '../../../components/UIKit/ButtonUI'
-import { setDefaultAddress, deleteAddress } from '../addressSlice'
-import { useDispatch } from 'react-redux'
+import { setDefaultAddress, deleteAddress, selectDefaultAddress } from '../addressSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
+import PropTypes from "prop-types"
+
+// import Address from '../../location/components/Address'
 const { Text } = Typography
 
 const CardAddress = (props) => {
     const dispatch = useDispatch()
+    const default_address = useSelector(selectDefaultAddress)
     const handleSetDefault = () => {
         dispatch(setDefaultAddress(props.address))
     }
     const handleDelete = () => {
         setVisibilityDelete(true)
     }
-    const handleConfirmDelete = (addressId) => {
-        dispatch(deleteAddress(addressId))
+    const handleConfirmDelete = () => {
+        dispatch(deleteAddress(props.address.id))
+        setVisibilityDelete(false)
     }
     const handleCancelDelete = () => {
         setVisibilityDelete(false)
     }
 
     const [visibilityDelete, setVisibilityDelete] = useState(false)
+
     return (
         <Card className="mb-4 shadow-sm border">
             <Modal
@@ -33,6 +39,7 @@ const CardAddress = (props) => {
                     <ButtonUI text="Xóa" variant="danger" key="submit" onClick={handleConfirmDelete} />
                 ]}
             >
+                Bạn có chắc chắn muốn xóa địa chỉ này ?
             </Modal>
             <Row >
                 {/* Name */}
@@ -60,24 +67,32 @@ const CardAddress = (props) => {
             <Row >
                 <Col span={10}>
                     <Text strong>
-                        Địa chỉ:
+                        Địa chỉ: {props.address.wardId}
                     </Text>
                 </Col>
                 <Col>
-                    <Text> {props.address.address} - {props.address.provinceId} - {props.address.districtId} - {props.address.wardId}</Text>
-
+                    <Text> {props.address.address} - {props.address.provinceId} - {props.address.districtId} - {props.address.wardId} </Text>
+                    {/* <Text><Address address={props.address} /></Text> */}
                 </Col>
             </Row>
-
-            <Row className="mt-5" type="flex" justify="center">
-                <ButtonUI className="mx-1 my-1" variant="light" text="Đặt làm mặc định"
-                    onClick={handleSetDefault}
-                />
-                <ButtonUI className="mx-1 my-1" variant="danger" text="Xóa" onClick={handleDelete} />
-            </Row>
-
+            {default_address.id === props.address.id
+                ?
+                <Tag className="mt-3" color="orange">Địa chỉ mặc định</Tag>
+                :
+                <Row className="mt-5" type="flex" justify="center">
+                    <ButtonUI className="mx-1 my-1" variant="light" text="Đặt làm mặc định"
+                        onClick={handleSetDefault}
+                    />
+                    <ButtonUI className="mx-1 my-1" variant="danger" text="Xóa" onClick={handleDelete} />
+                </Row>
+            }
         </Card>
     )
 }
+
+CardAddress.propTypes = {
+    address: PropTypes.object
+}
+
 
 export default CardAddress

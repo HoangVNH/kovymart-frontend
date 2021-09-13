@@ -4,7 +4,6 @@ import {
   Card,
   Typography,
   Space,
-  Form,
   Divider,
   Skeleton
 } from "antd"
@@ -13,7 +12,7 @@ import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
 import { useHistory, Link } from "react-router-dom"
 import { checkAuth } from "helper/auth"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { fee } from 'constants/fee'
 import ModalListAddress from "features/address/components/ModalListAdress"
@@ -23,12 +22,10 @@ const { Text, Title } = Typography
 
 const Order = () => {
   const history = useHistory()
-  const [form] = Form.useForm()
   const cart = useSelector((state) => state.cart)
   const default_address = useSelector(selectDefaultAddress)
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log('run')
     const isUserLoggedIn = checkAuth()
     if (!isUserLoggedIn || cart.totalItems === 0) {
       history.push("/")
@@ -77,11 +74,15 @@ const Order = () => {
   const handleChangeAddress = () => {
     setVisibleListAddress(true)
   }
+
+  const callbackVisibleListAddress = useCallback(val => {
+    setVisibleListAddress(val)
+  }, [setVisibleListAddress])
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
       <ModalListAddress
         visible={visibleListAddress}
-        setVisibility={setVisibleListAddress}
+        setVisibility={callbackVisibleListAddress}
       />
       <Col lg={14} xs={23}>
         <Card className="card-shadow border-3 px-4 pb-4">
@@ -95,10 +96,10 @@ const Order = () => {
                 </Space>
               </Title>
               <Row >
-                {default_address !== null || requesting?
+                {default_address && !requesting ? 
                   <Col md={20} xs={24}>
                     {/* Name */}
-                    <Row>
+                    <Row  className="mt-3">
                       <Col md={5} xs={10}>
                         <Text strong>
                           Tên:
@@ -116,7 +117,7 @@ const Order = () => {
                         </Text>
                       </Col>
                       <Col>
-                        <Text> {default_address.name}</Text>
+                        <Text> {default_address.phone}</Text>
                       </Col>
                     </Row>
                     {/* Address */}
@@ -128,6 +129,7 @@ const Order = () => {
                       </Col>
                       <Col>
                         <Text> {default_address.address} - {default_address.provinceId} - {default_address.districtId} - {default_address.wardId}</Text>
+                        {/* <Text /><Address address={default_address} /> */}
                       </Col>
                     </Row>
                   </Col>

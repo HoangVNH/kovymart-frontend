@@ -69,7 +69,6 @@ const AddAddress = () => {
     }
 
     const handleDistricts = (e) => {
-        console.log((getId(e)))
         dispatch(getWards(getId(e)))
         setDisableLocation((preState) => {
             return {

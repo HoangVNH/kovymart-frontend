@@ -4,3 +4,5 @@ export const ASYNC_STATUS = {
   ERROR: "ERROR",
   PENDING: "PENDING",
 };
+
+export const paymentId = 1;

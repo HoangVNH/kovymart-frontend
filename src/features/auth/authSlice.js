@@ -4,13 +4,13 @@ import { setAccessTokenToLocalStorage } from "helper/auth";
 import { ASYNC_STATUS } from "../../constants";
 
 export const signUp = createAsyncThunk("auth/signUp", async (values) => {
-  const { data } = await authApi.signUp(values);
-  return data;
+  const response = await authApi.signUp(values);
+  return response.data;
 });
 
 export const signIn = createAsyncThunk("auth/signIn", async (values) => {
   const response = await authApi.signIn(values);
-  return response;
+  return response.data;
 });
 
 export const authSlice = createSlice({

@@ -25,24 +25,24 @@ const initialState = {
 export const getProductList = createAsyncThunk(
   "product/getProductList",
   async () => {
-    const { data } = await productApi.getProductList();
-    return data;
+    const response = await productApi.getProductList();
+    return response.data;
   }
 );
 
 export const getProductById = createAsyncThunk(
   "product/getProductById",
   async (id) => {
-    const res = await productApi.getProductById(id);
-    return res;
+    const response = await productApi.getProductById(id);
+    return response.data;
   }
 );
 
 export const getProductsByCategoryId = createAsyncThunk(
   "product/getProductsByCategoryId",
   async (id) => {
-    const res = await productApi.getProductsByCategoryId(id);
-    return { res, id };
+    const { data } = await productApi.getProductsByCategoryId(id);
+    return { data, id };
   }
 );
 
@@ -76,11 +76,11 @@ const productSlice = createSlice({
         state.requesting = false;
 
         if (action.payload.id === 1) {
-          state.productList1 = action.payload.res.data;
+          state.productList1 = action.payload.data.data;
         } else if (action.payload.id === 2) {
-          state.productList2 = action.payload.res.data;
+          state.productList2 = action.payload.data.data;
         } else {
-          state.productList3 = action.payload.res.data;
+          state.productList3 = action.payload.data.data;
         }
       })
 

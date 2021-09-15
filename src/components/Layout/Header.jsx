@@ -28,6 +28,7 @@ const { Header } = Layout;
 const MainHeader = () => {
   const [isDisplayLoginModal, setIsDisplayLoginModal] = useState(false);
   const [isDisplayRegisterModal, setIsDisplayRegisterModal] = useState(false);
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
   const [loginFormInstance] = Form.useForm();
   const [registerFormInstance] = Form.useForm();
   const dispatch = useDispatch();
@@ -61,17 +62,25 @@ const MainHeader = () => {
     setIsDisplayLoginModal(true);
   }, [registerFormInstance]);
 
-  const handleRegister = (values) => {
-    dispatch(signUp(values));
-  };
+  const handleRegister = useCallback(
+    (values) => {
+      dispatch(signUp(values));
+    },
+    [dispatch]
+  );
 
-  const handleLogin = (values) => {
-    dispatch(signIn(values));
-  };
+  const handleLogin = useCallback(
+    (values) => {
+      dispatch(signIn(values));
+      setIsLoggedOut(false);
+    },
+    [dispatch]
+  );
 
   const handleLogout = useCallback(() => {
     clearAccessToken();
     history.push("/");
+    setIsLoggedOut(true);
   }, [history]);
 
   const renderMenuItem = () => {
@@ -94,7 +103,7 @@ const MainHeader = () => {
       </Menu>
     );
 
-    return isUserLoggedIn ? (
+    return isUserLoggedIn && !isLoggedOut ? (
       <Dropdown overlay={menu}>
         <a
           href="#"

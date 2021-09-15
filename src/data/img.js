@@ -70,38 +70,18 @@ const images = [
       "https://lh3.googleusercontent.com/2uHQ26t330GLfqagFGyMcU54C90g16GPB6laJ8DcgZ0xT1S-S-7sZ2l3ZTyYI3iQrRFkvtFzsFju9W54qftM",
   },
   {
-    productId: 13,
-    smallImage:
-      "https://lh3.googleusercontent.com/vSi1clK-xrWuY_2wjEag8_bqY20PIjPMTB0e2HMUyEtyHSBhVVolCj4SFyFEkQHH86ZZf28j0bVcNGg6gA=w185",
-    largeImage:
-      "https://lh3.googleusercontent.com/vSi1clK-xrWuY_2wjEag8_bqY20PIjPMTB0e2HMUyEtyHSBhVVolCj4SFyFEkQHH86ZZf28j0bVcNGg6gA",
-  },
-
-  {
-    productId: 4,
-    smallImage:
-      "https://lh3.googleusercontent.com/u3UxoKnW7inVD9hnpRBeTa-foyOeq2zMXYZ81CpSfMnffMQD-5D3VdybtMYwpZRvwJngOY088_rbBDb80g=w185",
-    largeImage:
-      "https://lh3.googleusercontent.com/u3UxoKnW7inVD9hnpRBeTa-foyOeq2zMXYZ81CpSfMnffMQD-5D3VdybtMYwpZRvwJngOY088_rbBDb80g",
-  },
-  {
-    productId: 8,
-    smallImage:
-      "https://lh3.googleusercontent.com/frNEki7SOCgRA-8-3aY1qCDmUFqr1ehmdreM_oc5a21hsihAtelO4H0H_Xi8r5pG2hZVmml3LBQYGNUtn1c=w185",
-    largeImage: "",
-  },
-  {
-    productId: 8,
-    smallImage:
-      "https://lh3.googleusercontent.com/2uHQ26t330GLfqagFGyMcU54C90g16GPB6laJ8DcgZ0xT1S-S-7sZ2l3ZTyYI3iQrRFkvtFzsFju9W54qftM=w185",
-    largeImage: "",
-  },
-  {
     productId: 11,
+    smallImage:
+      "https://lh3.googleusercontent.com/L-Wd2w-iqsrPRQBrbJfwobHCifAAESB_k_tJlCEHtGq-SChb49ARA3QB7uyDLRjWvBDHsTmY8Ffci4KQitQU5agr9uAKK7UK=w185",
+    largeImage:
+      "https://lh3.googleusercontent.com/L-Wd2w-iqsrPRQBrbJfwobHCifAAESB_k_tJlCEHtGq-SChb49ARA3QB7uyDLRjWvBDHsTmY8Ffci4KQitQU5agr9uAKK7UK",
+  },
+  {
+    productId: 13,
     smallImage:
       "https://lh3.googleusercontent.com/ML0_0Mb1JAnoCCvi2GSpCco5ULGJBqwfmrN6na0099kFrDcOF0HL1f_WGbqA-ySl_cw54_sJeK3OQBOuhhEqQRi-mH0lOddC=w185",
     largeImage:
-      "https://lh3.googleusercontent.com/HupGIWatCpEfQiOjDd_9Fjkx6qVSDmpySIZqCmuoEVvwbikzNHqMa5pMpQKyRuR3r_3cvDdjLtiiFgD25h2qf3PcsESSJ8fa",
+      "https://lh3.googleusercontent.com/ML0_0Mb1JAnoCCvi2GSpCco5ULGJBqwfmrN6na0099kFrDcOF0HL1f_WGbqA-ySl_cw54_sJeK3OQBOuhhEqQRi-mH0lOddC",
   },
   {
     productId: 14,

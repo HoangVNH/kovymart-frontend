@@ -15,7 +15,7 @@ const initialState = {
 
 export const getCart = createAsyncThunk("cart/getCart", async () => {
   const response = await cartApi.getCart();
-  return response;
+  return response.data;
 });
 
 export const addProductToCart = createAsyncThunk(
@@ -33,7 +33,6 @@ export const changeQuantity = createAsyncThunk(
   "cart/changeQuantity",
   async (productId, quantity) => {
     const response = await cartApi.changeQuantity({ productId, quantity });
-
     return response;
   }
 );

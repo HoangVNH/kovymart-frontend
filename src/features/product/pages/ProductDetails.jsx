@@ -13,6 +13,7 @@ import { getImageOfProduct } from "../../../utils"
 import ReactHtmlParser from "react-html-parser"
 import { addProductToCart } from "features/cart/cartSlice"
 import { NotifyHelper } from "helper/notify-helper"
+
 const ProductDetails = () => {
   let history = useHistory()
   const dispatch = useDispatch()

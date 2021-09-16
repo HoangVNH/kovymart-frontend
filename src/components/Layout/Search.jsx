@@ -1,9 +1,16 @@
 import React from "react";
 import { Input } from "antd";
+import {
+  useHistory
+} from "react-router-dom";
+import { isValidSearchString } from "utils";
 
 const Search = () => {
+  const history = useHistory()
+
   const handleSearch = (value) => {
-    console.log(value);
+      if(isValidSearchString(value))
+        history.push(`/product?search=${value}`);
   };
 
   return (

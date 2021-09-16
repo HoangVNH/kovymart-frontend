@@ -16,10 +16,8 @@ const productApi = {
     return axiosClient.get(url)
   },
 
-  getProductsPagination(data) {
-    const limit = 10
-    const search = data.search ? data.search : ''
-    const url = `/product?category=${data.categoryId}&search=${search}&page=${data.page}&limit=${limit}`
+  getProductsbySearch(search) {
+    const url = `/product?search=${search}`
     return axiosClient.get(url)
   }
 }

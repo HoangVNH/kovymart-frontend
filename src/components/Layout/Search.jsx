@@ -1,9 +1,15 @@
 import React from "react";
 import { Input } from "antd";
+import {
+  useHistory
+} from "react-router-dom";
 
 const Search = () => {
+  const history = useHistory()
+
   const handleSearch = (value) => {
-    console.log(value);
+      if(value && value.length > 1)
+        history.push(`/product?search=${value}`);
   };
 
   return (

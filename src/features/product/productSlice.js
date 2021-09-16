@@ -46,6 +46,17 @@ export const getProductsByCategoryId = createAsyncThunk(
   }
 );
 
+export const getProductsbySearch = createAsyncThunk(
+  "product/getProductsbySearch",
+  async (search) => {
+    const res = await productApi.getProductsbySearch(search);
+    if (Array.isArray(res?.items) && res?.items.length > 0) {
+      NotifyHelper.success("", "Sản phẩm đã được thêm vào Giỏ hàng");
+    }
+    return res;
+  }
+);
+
 //------------------------UTILITIES------------------------
 const isPendingAction = (action) =>
   action.type.endsWith("/pending") && action.type.includes("product");
@@ -82,6 +93,10 @@ const productSlice = createSlice({
         } else {
           state.productList3 = action.payload.data.data;
         }
+      }).addCase(getProductsbySearch.fulfilled, (state, action) => {
+        state.requesting = false;
+        if(action.payload)
+          state.list = action.payload.data.data;
       })
 
       //---------------PENDING & REJECTION---------------

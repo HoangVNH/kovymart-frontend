@@ -6,12 +6,18 @@ import Cart from "features/cart/pages/Cart";
 import Category from "features/category/pages";
 import Order from "features/order/pages";
 import OrderSuccess from "features/order/pages/OrderSuccess";
+import SearchResult from "features/searchResult/pages/SearchResult";
 
 const routes = [
   {
     key: uuidv4(),
     path: "/",
     component: HomePage,
+  },
+  {
+    key: uuidv4(),
+    path: `/product`,
+    component: SearchResult,
   },
   {
     key: uuidv4(),

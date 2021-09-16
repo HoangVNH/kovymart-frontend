@@ -10,15 +10,19 @@ import {
   getCart,
   selectTotalPrice,
 } from "../cartSlice";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import React, { useState, useCallback, useEffect } from "react";
+import { NotifyHelper } from "helper/notify-helper";
+import { checkAuth } from "helper/auth";
 const { Text } = Typography;
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const cartItems = useSelector(selectCartItems);
   const totalPrice = useSelector(selectTotalPrice);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const isUserLoggedIn = checkAuth();
 
   const handleDeleteCart = useCallback(() => {
     dispatch(deleteCart());
@@ -26,8 +30,13 @@ const Cart = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getCart());
-  }, [dispatch]);
+    if (isUserLoggedIn) {
+      dispatch(getCart());
+    } else {
+      NotifyHelper.error("", "Cần đăng nhập để thực hiện thao tác này");
+      history.push("/");
+    }
+  }, [dispatch, isUserLoggedIn, history]);
 
   return (
     <>

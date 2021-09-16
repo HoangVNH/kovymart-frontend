@@ -1,8 +1,7 @@
-import React from 'react';
-import './assests/scss/index.scss';
-// import "./assests/css/bootstrap.min.css";
+import React from "react";
+import "./assests/scss/index.scss";
 import "./assests/css/index.css";
-import MainLayout from './components/Layout';
+import MainLayout from "./components/Layout";
 
 function App() {
   return (

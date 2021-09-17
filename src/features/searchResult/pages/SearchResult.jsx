@@ -38,9 +38,8 @@ const SearchResult = () => {
 
     useEffect(() => {
         dispatch(getProductsbySearch(queryString));
-        
     },[dispatch,queryString]);
-    console.log(list)
+    
     return (
         <div className="product-list__container">
             <div className={`product-list__header`} >
@@ -70,7 +69,6 @@ const SearchResult = () => {
                 ) : (
                     <h1>Không có kết quả phù hợp</h1>
                 )
-
             }
 
         </div>

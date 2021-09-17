@@ -50,10 +50,11 @@ export const getProductsbySearch = createAsyncThunk(
   "product/getProductsbySearch",
   async (search) => {
     const res = await productApi.getProductsbySearch(search);
-    if (Array.isArray(res?.items) && res?.items.length > 0) {
-      NotifyHelper.success("", "Sản phẩm đã được thêm vào Giỏ hàng");
+    console.log(res)
+    if(res && res.data.totalCount > 0){
+      return res;
     }
-    return res;
+    return 0;
   }
 );
 
@@ -95,8 +96,13 @@ const productSlice = createSlice({
         }
       }).addCase(getProductsbySearch.fulfilled, (state, action) => {
         state.requesting = false;
-        if(action.payload)
-          state.list = action.payload.data.data;
+        console.log( action.payload.data.data)
+        //action.payload ? (state.list = action.payload.data.data) : (state.list = [])
+        if (Array.isArray(action.payload?.data.data) ) {
+          state.list = action.payload?.data?.data
+        }
+        else
+          state.list = []
       })
 
       //---------------PENDING & REJECTION---------------

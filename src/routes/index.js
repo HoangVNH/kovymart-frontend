@@ -1,12 +1,19 @@
 import { Route } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import SearchResult from "features/searchResult/pages/SearchResult";
 import { lazy } from "react";
+
 
 const routes = [
   {
     key: uuidv4(),
     path: "/",
     component: lazy(() => import("features/homepage")),
+  },
+  {
+    key: uuidv4(),
+    path: `/product`,
+    component: SearchResult,
   },
   {
     key: uuidv4(),
@@ -32,6 +39,11 @@ const routes = [
     key: uuidv4(),
     path: `/category/:categoryId`,
     component: lazy(() => import("features/category/pages")),
+  },
+  {
+    key: uuidv4(),
+    path: `/address/add`,
+    component: lazy(() => import("features/address/pages/AddAddress")),
   },
 ];
 

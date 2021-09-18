@@ -6,39 +6,49 @@ const initialState = {
   requesting: false,
   success: false,
   message: null,
-  provinces: [
-    { id: 1, name: "Lâm Đồng" },
-    { id: 2, name: "Đà Lạt" },
-    { id: 3, name: "Bình Thuận" },
-  ],
-  districts: [
-    { id: 1, name: "Đơn Dương", provinces_id: 1 },
-    { id: 2, name: "Bắc Hội", provinces_id: 1 },
-    { id: 3, name: "Đơn ", provinces_id: 2 },
-  ],
-  wards: [
-    { id: 1, name: "Giải phóng", district_id: 1 },
-    { id: 2, name: "Ka Đô", district_id: 2 },
-  ],
+  provinces: [],
+  districts: [],
+  wards: [],
+  list_province_details: {},
+  list_district_details: {},
+  ward_details: {}
 }
 
 //----------ACTIONS----------
 export const getProvinces = createAsyncThunk(
   "location/getProvinces",
   async () => {
-    return await locationApi.getprovices()
+    return await locationApi.getProvinces()
+  }
+)
+export const getProvinceById = createAsyncThunk(
+  "location/getProvinceById",
+  async (id) => {
+    return await locationApi.getProvinceById(id)
   }
 )
 export const getDistricts = createAsyncThunk(
   "location/getDistricts",
-  async (provinces_id) => {
-    return await locationApi.getdistricts(provinces_id)
+  async (provinceId) => {
+    return await locationApi.getDistricts(provinceId)
+  }
+)
+export const getDistrictById = createAsyncThunk(
+  "location/getDistrictById",
+  async (id) => {
+    return await locationApi.getDistrictById(id)
   }
 )
 export const getWards = createAsyncThunk(
-  "location/getwards",
-  async (district_id) => {
-    return await locationApi.getwards({ district_id })
+  "location/getWards",
+  async (districtId) => {
+    return await locationApi.getWards(districtId)
+  }
+)
+export const getWardById = createAsyncThunk(
+  "location/getWardById",
+  async (id) => {
+    return await locationApi.getWardById(id)
   }
 )
 //------------------------UTILITIES------------------------
@@ -58,21 +68,36 @@ const locationSlice = createSlice({
       .addCase(getProvinces.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        state.provinces = action.payload.data
+        console.log(action)
+        state.provinces = action.payload.data.data
+      })
+      .addCase(getProvinceById.fulfilled, (state, action) => {
+        state.requesting = false
+        state.success = true
+        state.province_details = action.payload
       })
       //------------------DISTRICT------------------
       .addCase(getDistricts.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        state.districts = action.payload.data
+        state.districts = action.payload.data.data
+      })
+      .addCase(getDistrictById.fulfilled, (state, action) => {
+        state.requesting = false
+        state.success = true
+        state.district_details = action.payload
       })
       //------------------WARD------------------
       .addCase(getWards.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        state.wards = action.payload.data
+        state.wards = action.payload.data.data
       })
-
+      .addCase(getWardById.fulfilled, (state, action) => {
+        state.requesting = false
+        state.success = true
+        state.ward_details = action.payload
+      })
       //---------------PENDING & REJECTION---------------
       .addMatcher(isPendingAction, (state) => {
         state.requesting = true
@@ -89,6 +114,7 @@ const locationSlice = createSlice({
 export const selectProvinces = state => state.location.provinces
 export const selectDistricts = state => state.location.districts
 export const selectWards = state => state.location.wards
-
-
+export const selectProvinceDetails = state => state.location.province_details
+export const selectDistrictDetails = state => state.location.district_details
+export const selectWardDetails = state => state.location.ward_details
 export default locationSlice.reducer

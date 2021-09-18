@@ -46,6 +46,17 @@ export const getProductsByCategoryId = createAsyncThunk(
   }
 );
 
+export const getProductsbySearch = createAsyncThunk(
+  "product/getProductsbySearch",
+  async (search) => {
+    const res = await productApi.getProductsbySearch(search);
+    if(res && res.data.totalCount > 0){
+      return res;
+    }
+    return 0;
+  }
+);
+
 //------------------------UTILITIES------------------------
 const isPendingAction = (action) =>
   action.type.endsWith("/pending") && action.type.includes("product");
@@ -74,7 +85,6 @@ const productSlice = createSlice({
       })
       .addCase(getProductsByCategoryId.fulfilled, (state, action) => {
         state.requesting = false;
-
         if (action.payload.id === 1) {
           state.productList1 = action.payload.data.data;
         } else if (action.payload.id === 2) {
@@ -82,6 +92,13 @@ const productSlice = createSlice({
         } else {
           state.productList3 = action.payload.data.data;
         }
+      }).addCase(getProductsbySearch.fulfilled, (state, action) => {
+        state.requesting = false;
+        if (Array.isArray(action.payload?.data?.data) ) {
+          state.list = action.payload?.data?.data
+        }
+        else
+          state.list = []
       })
 
       //---------------PENDING & REJECTION---------------

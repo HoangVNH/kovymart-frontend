@@ -3,189 +3,188 @@ import {
   Row,
   Card,
   Typography,
-  Select,
   Space,
+  Divider,
+  Skeleton,
   Input,
   Form,
-  Divider,
+  Tag
 } from "antd"
-import { ShoppingCartOutlined } from "@ant-design/icons"
+import { HomeOutlined } from "@ant-design/icons"
 import ButtonUI from "components/UIKit/ButtonUI"
 import Utils from "components/UIKit/Utils"
 import { useHistory, Link } from "react-router-dom"
 import { checkAuth } from "helper/auth"
-import { useEffect } from "react"
-import "./Order.scss"
-import { selectProvinces, selectDistricts, selectWards } from '../../location/locationSlice'
-import { useSelector } from 'react-redux'
-import { fee } from 'constants/fee'
+import { useEffect, useState, useCallback } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { fee } from "constants/fee"
+import ModalListAddress from "features/address/components/ModalListAdress"
+import {
+  getAddressList,
+  selectDefaultAddress,
+  selectRequesting,
+} from "../../address/addressSlice"
+import {
+  selectOrderMessage,
+  setMessageOrderToDefault,
+  insertOrder,
+} from "../orderSlice"
+import { paymentId, ASYNC_STATUS } from "../../../constants"
+import { selectCartItems } from "features/cart/cartSlice"
+
 const { Text, Title } = Typography
-const { Option } = Select
+const { TextArea } = Input
+
 const Order = () => {
   const history = useHistory()
-  const [form] = Form.useForm()
   const cart = useSelector((state) => state.cart)
-  const provinces = useSelector(selectProvinces)
-  const districts = useSelector(selectDistricts)
-  const wards = useSelector(selectWards)
-
+  const default_address = useSelector(selectDefaultAddress)
+  const order_message = useSelector(selectOrderMessage)
+  const dispatch = useDispatch()
   useEffect(() => {
+    console.log(cart)
     const isUserLoggedIn = checkAuth()
     if (!isUserLoggedIn || cart.totalItems === 0) {
       history.push("/")
+    } else {
+      dispatch(getAddressList())
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-
-  //handle dispatch location
-
-  //handle payment actions
-  // const getID = (value) => {
-  //   return value ? JSON.parse(value)[0] : -1;
-  // };
   const handleSubmit = (e) => {
-    // console.log(e);
-    // let location = {
-    //   provinces_id: getID(e.provincesId),
-    //   district_id: getID(e.districtId),
-    //   ward_id: getID(e.wardId),
-    //   address: e.address,
-    // }
-    // let data = {
-    //   totalPrice: 35000,
-    //   note: "noted",
-    //   paymentId: 1,
-    //   items: [
-    //     {
-    //       quantity: 1,
-    //       price: 50000,
-    //       productId: 1,
-    //       total: 50000
-    //     }
-    //   ]
-    // }
-    // console.log(location)
-    // dispatch data
-
-    // Direct to page order success
-    history.push("/ordersuccess")
+    const data = {
+      note: e.note,
+      totalPrice: 35000,
+      paymentId: paymentId,
+      addressId: default_address.id,
+      items: [
+        {
+          quantity: 1,
+          price: 35000,
+          productId: 1,
+          total: 35000,
+        },
+      ],
+    }
+    dispatch(insertOrder(data))
   }
+
+  useEffect(() => {
+    if (order_message === ASYNC_STATUS.SUCCESS) {
+      dispatch(setMessageOrderToDefault())
+      history.push("/ordersuccess")
+    }
+  }, [dispatch, order_message, history])
+
+  const requesting = useSelector(selectRequesting)
+  const [visibleListAddress, setVisibleListAddress] = useState(false)
+  const handleChangeAddress = () => {
+    setVisibleListAddress(true)
+  }
+
+  const callbackVisibleListAddress = useCallback(
+    (val) => {
+      setVisibleListAddress(val)
+    },
+    [setVisibleListAddress]
+  )
 
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
+      <ModalListAddress
+        visible={visibleListAddress}
+        setVisibility={callbackVisibleListAddress}
+      />
       <Col lg={14} xs={23}>
-        <Card className="card-shadow border px-2">
-          <Row>
-            <Col xs={24} md={22}>
-              <Title level={4} style={{ color: "#e99667" }}>
-                <Space>
-                  <ShoppingCartOutlined />
-                  Thông tin đơn hàng
-                </Space>
-              </Title>
+        <Card className="card-shadow border-3 px-4 pb-4">
+          <Form onFinish={handleSubmit}>
+            <Row>
+              <Col span={24}>
+                <Title level={4} style={{ color: "#e99667" }}>
+                  <Space>
+                    <HomeOutlined />
+                    Thông tin địa chỉ
+                  </Space>
+                </Title>
+                <Row>
+                  <Col md={20} xs={24}>
+                    {/* Name */}
+                    {default_address && !requesting ? (
+                      <>
+                        {" "}
+                        <Row className="mt-3">
+                          <Col md={5} xs={10}>
+                            <Text strong>Tên:</Text>
+                          </Col>
+                          <Col>
+                            <Text> {default_address.name}</Text>
+                          </Col>
+                        </Row>
+                        {/* Phone */}
+                        <Row>
+                          <Col md={5} xs={10}>
+                            <Text strong>Số điện thoại:</Text>
+                          </Col>
+                          <Col>
+                            <Text> {default_address.phone}</Text>
+                          </Col>
+                        </Row>
+                        {/* Address */}
+                        <Row>
+                          <Col md={5} xs={10}>
+                            <Text strong>Địa chỉ:</Text>
+                          </Col>
+                          <Col>
+                            <Text>
+                              {default_address.address} -{" "}
+                              {default_address.provinceId} -{" "}
+                              {default_address.districtId} -{" "}
+                              {default_address.wardId}
+                            </Text>
+                            {/* <Text /><Address address={default_address} /> */}
+                          </Col>
+                        </Row>
+                          {/* Payment method */}
+                          <Row>
+                          <Col md={5} xs={10}>
+                          </Col>
+                          <Col>
+                          <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
+                          </Col>
+                        </Row>
+                      </>
+                    ) : (
+                      <Skeleton />
+                    )}
+                  </Col>
+                  <Col xs={24} md={4} className="mt-3">
+                    <ButtonUI
+                      className="float-right"
+                      text="Thay đổi"
+                      variant="light"
+                      htmlType="button"
+                      onClick={handleChangeAddress}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <Col span={16}>
+              <Form.Item
+                label={<Text strong>Ghi chú</Text>}
+                name="note"
+                className="mt-4"
+                rules={[
+                  {
+                    required: true,
+                    message: "Bạn phải nhập thông tin này!",
+                  },
+                ]}
+              >
+                <TextArea rows={4} />
+              </Form.Item>
             </Col>
-          </Row>
-          <Form
-            className="mt-5"
-            layout="vertical"
-            onFinish={handleSubmit}
-            form={form}
-          >
-            {/* User information */}
-            <Row gutter={20} type="flex">
-              <Col xs={24} lg={12}>
-                <Form.Item
-                  label="Họ tên người nhận"
-                  name="name"
-                  rules={[
-                    { required: true, message: "Bạn phải nhập thông tin này!" },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col xs={24} lg={12}>
-                <Form.Item
-                  label="Số điện thoại"
-                  name="phonenumber"
-                  rules={[
-                    { required: true, message: "Bạn phải nhập thông tin này!" },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Address information */}
-            <Row gutter={20}>
-              <Col xs={24} lg={12}>
-                <Form.Item
-                  label="Tỉnh/thành phố"
-                  name="provinceId"
-                  rules={[
-                    { required: true, message: "Bạn phải nhập thông tin này!" },
-                  ]}
-                >
-                  <Select showSearch placeholder="Chọn tỉnh">
-                    {provinces.map((prov) => (
-                      <Option
-                        key={prov.id}
-                        value={JSON.stringify([prov.id, prov.name])}
-                      >
-                        {prov.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} lg={12}>
-                <Form.Item
-                  label="Quận/ huyện"
-                  name="districtId"
-                  rules={[
-                    { required: true, message: "Bạn phải nhập thông tin này!" },
-                  ]}
-                >
-                  <Select showSearch placeholder="Chọn tỉnh">
-                    {districts.map((prov) => (
-                      <Option
-                        key={prov.id}
-                        value={JSON.stringify([prov.id, prov.name])}
-                      >
-                        {prov.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} lg={12}>
-                <Form.Item
-                  label="Phường/ xã"
-                  name="wardId"
-                  rules={[
-                    { required: true, message: "Bạn phải nhập thông tin này!" },
-                  ]}
-                >
-                  <Select showSearch placeholder="Chọn phường xã">
-                    {wards.map((prov) => (
-                      <Option
-                        key={prov.id}
-                        value={JSON.stringify([prov.id, prov.name])}
-                      >
-                        {prov.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} lg={24}>
-                <Form.Item label="Địa chỉ" name="address">
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            {/* Cash information */}
-            <Row className="mt-5">
+            <Row style={{ marginTop: "14%" }}>
               <Space
                 type="flex"
                 align="middle"
@@ -199,7 +198,9 @@ const Order = () => {
                     <Text strong>Tạm tính:</Text>
                   </Col>
                   <Col xs={10} md={8} className="align-end">
-                    <Text strong>{Utils.Money({ money: cart.totalPrices })}</Text>
+                    <Text strong>
+                      {Utils.Money({ money: cart.totalPrice })}
+                    </Text>
                   </Col>
                 </Row>
                 <Row align="middle" justify="center">
@@ -216,21 +217,33 @@ const Order = () => {
                     <Text strong>Tổng tiền:</Text>
                   </Col>
                   <Col xs={10} md={8} className="align-end">
-                    <Text strong>{Utils.Money({ money: cart.finalPrices })}</Text>
+                    <Text strong>
+                      {Utils.Money({ money: cart.finalPrices })}
+                    </Text>
                   </Col>
                 </Row>
               </Space>
             </Row>
+
+            
             <Col style={{ textAlign: "center", marginTop: "2em" }}>
-              <Space className="mt-4" size={20}>
+              <Row type="flex" justify="center">
                 <Link to={"/"}>
-                  <ButtonUI text="Quay lại" variant="secondary"></ButtonUI>
+                  <ButtonUI
+                    className="mt-2 mx-1"
+                    text="Quay lại"
+                    variant="secondary"
+                    htmlType="button"
+                  ></ButtonUI>
                 </Link>
-                <ButtonUI
-                  htmlType="submit"
-                  text="Xác nhận thanh toán"
-                ></ButtonUI>
-              </Space>
+                {default_address ? (
+                  <ButtonUI
+                    className="mt-2 mx-1"
+                    htmlType="submit"
+                    text="Xác nhận thanh toán"
+                  ></ButtonUI>
+                ) : null}
+              </Row>
             </Col>
           </Form>
         </Card>

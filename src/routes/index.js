@@ -1,12 +1,25 @@
 import { Route } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import HomePage from "../features/homepage";
+import ProductDetails from "features/product/pages/ProductDetails";
+import Cart from "features/cart/pages/Cart";
+import Category from "features/category/pages";
+import Order from "features/order/pages";
+import OrderSuccess from "features/order/pages/OrderSuccess";
+import SearchResult from "features/searchResult/pages/SearchResult";
 import { lazy } from "react";
+
 
 const routes = [
   {
     key: uuidv4(),
     path: "/",
     component: lazy(() => import("features/homepage")),
+  },
+  {
+    key: uuidv4(),
+    path: `/product`,
+    component: SearchResult,
   },
   {
     key: uuidv4(),

@@ -21,6 +21,11 @@ const productApi = {
     const search = data.search ? data.search : ''
     const url = `/product?category=${data.categoryId}&search=${search}&page=${data.page}&limit=${limit}`
     return axiosClient.get(url)
+  },
+
+  getProductsbySearch(search) {
+    const url = `/product?search=${search}`
+    return axiosClient.get(url)
   }
 }
 

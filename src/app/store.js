@@ -20,7 +20,10 @@ export const store = configureStore({
     category: categoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sagaMiddleware),
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
+    .concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);

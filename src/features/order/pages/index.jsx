@@ -48,7 +48,7 @@ const Order = () => {
     } else {
       dispatch(getAddressList());
     }
-  }, [dispatch]);
+  }, [dispatch, history, cart.totalItems]);
 
   const handleSubmit = (e) => {
     const data = {

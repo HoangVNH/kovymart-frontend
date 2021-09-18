@@ -1,36 +1,60 @@
-import { Col, Row, Input, Typography, Modal } from "antd";
+import { Col, Row, Typography, Modal, Input } from "antd";
 import ImageWithFallBack from "components/ImageWithFallback";
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import ButtonUI from "components/UIKit/ButtonUI";
 import Utils from "components/UIKit/Utils";
 import PropTypes from "prop-types";
-import { updateQuantity, deleteProduct } from "../cartSlice";
+import { changeQuantity, removeProductFromCart } from "../cartSlice";
 import { useDispatch } from "react-redux";
 import { getImageOfProduct } from "../../../utils";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const { Text, Title } = Typography;
 
-const ProductCartItem = (props) => {
-  const product = props.product;
+const ProductCartItem = ({ product }) => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [productQuantity, setProductQuantity] = useState(product.quantity);
 
-  const handleUpdate = useCallback(
-    (id, doing) => {
-      dispatch(updateQuantity({ id, doing }));
+  const handleChange = (e) => {
+    const { value } = e.target;
+    const reg = /^-?\d*(\.\d*)?$/;
+    if ((!isNaN(value) && reg.test(value)) || value === "" || value === "-") {
+      setProductQuantity(+value);
+      handleChangeQuantity(product.productId, +value);
+    }
+  };
+
+  const handleChangeQuantity = useCallback(
+    (productId, quantity) => {
+      dispatch(changeQuantity({ productId, quantity }));
     },
     [dispatch]
   );
 
   const handleDeleteProduct = useCallback(
-    (id) => {
-      dispatch(deleteProduct({ id }));
+    (itemId) => {
+      dispatch(removeProductFromCart({ itemId }));
       setIsModalVisible(false);
     },
     [dispatch]
   );
+
+  const handleIncrease = () => {
+    setProductQuantity(productQuantity + 1);
+    handleChangeQuantity(product.productId, productQuantity + 1);
+  };
+
+  const handleDecrease = () => {
+    setProductQuantity(productQuantity - 1);
+    handleChangeQuantity(product.productId, productQuantity - 1);
+  };
+
+  useEffect(() => {
+    setProductQuantity(product.quantity);
+  }, [product.quantity]);
 
   return (
     <Col span={24} className="rounded-3 mb-3 border p-2 shadow-sm">
@@ -42,11 +66,13 @@ const ProductCartItem = (props) => {
             variant="light"
             onClick={() => setIsModalVisible(false)}
             text="Quay lại"
+            key={uuidv4()}
           />,
           <ButtonUI
             variant="danger"
             text="Xóa"
-            onClick={() => handleDeleteProduct(product.id)}
+            onClick={() => handleDeleteProduct(product.productId)}
+            key={uuidv4()}
           />,
         ]}
       >
@@ -88,7 +114,7 @@ const ProductCartItem = (props) => {
           </Title>
           <ButtonUI
             className="mb-2"
-            onClick={() => handleUpdate(product.id, "decrement")}
+            onClick={handleDecrease}
             type="default"
             normal={true}
             withIcon={<MinusOutlined />}
@@ -97,13 +123,15 @@ const ProductCartItem = (props) => {
             className="mb-2 text-center mx-1"
             style={{ maxWidth: "4em" }}
             bordered={true}
-            value={product.quantity}
+            value={productQuantity || 1}
             min={1}
             max={99}
+            controls={false}
+            onChange={handleChange}
           />
           <ButtonUI
             className="mb-2"
-            onClick={() => handleUpdate(product.id, "increment")}
+            onClick={handleIncrease}
             type="default"
             normal={true}
             withIcon={<PlusOutlined />}
@@ -116,6 +144,7 @@ const ProductCartItem = (props) => {
 
 ProductCartItem.propTypes = {
   product: PropTypes.object,
+  onChangeQuantity: PropTypes.func,
 };
 
 export default ProductCartItem;

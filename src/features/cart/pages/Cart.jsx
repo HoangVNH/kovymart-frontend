@@ -9,11 +9,13 @@ import {
   selectCartItems,
   getCart,
   selectTotalPrice,
+  clearCart,
 } from "../cartSlice";
 import { Link, useHistory } from "react-router-dom";
 import React, { useState, useCallback, useEffect } from "react";
 import { NotifyHelper } from "helper/notify-helper";
 import { checkAuth } from "helper/auth";
+import { v4 as uuidv4 } from "uuid";
 const { Text } = Typography;
 
 const Cart = () => {
@@ -29,6 +31,16 @@ const Cart = () => {
     setIsModalVisible(false);
   }, [dispatch]);
 
+  const handleClearCart = useCallback(() => {
+    dispatch(clearCart());
+    setIsModalVisible(true);
+  }, [dispatch]);
+
+  const checkCartHasItems = (cartItems) =>
+    Array.isArray(cartItems) && cartItems.length > 0;
+
+  const hasItems = checkCartHasItems(cartItems);
+
   useEffect(() => {
     if (isUserLoggedIn) {
       dispatch(getCart());
@@ -38,7 +50,7 @@ const Cart = () => {
     }
   }, [dispatch, isUserLoggedIn, history]);
 
-  return (
+  return hasItems ? (
     <>
       <Modal
         title="Thông báo ?"
@@ -50,8 +62,14 @@ const Cart = () => {
               setIsModalVisible(false);
             }}
             text="Quay lại"
+            key={uuidv4()}
           />,
-          <ButtonUI variant="danger" text="Xóa" onClick={handleDeleteCart} />,
+          <ButtonUI
+            variant="danger"
+            text="Xóa"
+            onClick={handleDeleteCart}
+            key={uuidv4()}
+          />,
         ]}
       >
         <Text>Bạn có chắc chắn muốn xóa giỏ hàng ?</Text>
@@ -62,11 +80,11 @@ const Cart = () => {
             <Link to="/">
               <ButtonUI text="Tiếp tục mua hàng" />
             </Link>
-            {Array.isArray(cartItems) && cartItems.length > 0 && (
+            {hasItems && (
               <ButtonUI
                 text="Xóa giỏ hàng"
                 variant="danger"
-                onClick={() => setIsModalVisible(true)}
+                onClick={handleClearCart}
               />
             )}
           </Space>
@@ -77,15 +95,15 @@ const Cart = () => {
               lg={16}
               className="mb-4 px-3 d-flex justify-content-center"
             >
-              {cartItems && (
+              {hasItems && (
                 <Row span={24}>
                   {cartItems.map((item) => (
-                    <ProductCartItem key={item.id} product={item} />
+                    <ProductCartItem key={item.productId} product={item} />
                   ))}
                 </Row>
               )}
             </Col>
-            {Array.isArray(cartItems) && cartItems.length > 0 && (
+            {hasItems && (
               <Col span={22} sm={11} lg={8} className="px-5">
                 <Payment totalPrice={totalPrice} />
               </Col>
@@ -94,6 +112,17 @@ const Cart = () => {
         </Col>
       </Row>
     </>
+  ) : (
+    <div className="cart--no-items">
+      <p>Giỏ hàng của bạn còn trống</p>
+      <ButtonUI
+        variant="success"
+        text="Tiếp tục mua hàng"
+        onClick={() => {
+          history.push("/");
+        }}
+      />
+    </div>
   );
 };
 

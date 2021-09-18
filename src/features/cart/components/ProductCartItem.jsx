@@ -35,8 +35,8 @@ const ProductCartItem = ({ product }) => {
   );
 
   const handleDeleteProduct = useCallback(
-    (itemId) => {
-      dispatch(removeProductFromCart({ itemId }));
+    (id) => {
+      dispatch(removeProductFromCart({ itemId: id }));
       setIsModalVisible(false);
     },
     [dispatch]
@@ -71,7 +71,7 @@ const ProductCartItem = ({ product }) => {
           <ButtonUI
             variant="danger"
             text="Xóa"
-            onClick={() => handleDeleteProduct(product.productId)}
+            onClick={() => handleDeleteProduct(product.id)}
             key={uuidv4()}
           />,
         ]}

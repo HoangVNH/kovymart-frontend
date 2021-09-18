@@ -4,10 +4,11 @@ import authReducer from "../features/auth/authSlice";
 import counterReducer from "../features/counter/counterSlice";
 import productReducer from "../features/product/productSlice";
 import cartReducer from "../features/cart/cartSlice";
-
+import addressReducer from "../features/address/addressSlice";
 import rootSaga from "./rootSaga";
 import locationReducer from "../features/location/locationSlice";
 import categoryReducer from "../features/category/categorySlice";
+import orderReducer from "../features/order/orderSlice";
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -18,6 +19,8 @@ export const store = configureStore({
     auth: authReducer,
     location: locationReducer,
     category: categoryReducer,
+    address: addressReducer,
+    order: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -50,7 +50,6 @@ export const getProductsbySearch = createAsyncThunk(
   "product/getProductsbySearch",
   async (search) => {
     const res = await productApi.getProductsbySearch(search);
-    console.log(res)
     if(res && res.data.totalCount > 0){
       return res;
     }
@@ -86,7 +85,6 @@ const productSlice = createSlice({
       })
       .addCase(getProductsByCategoryId.fulfilled, (state, action) => {
         state.requesting = false;
-
         if (action.payload.id === 1) {
           state.productList1 = action.payload.data.data;
         } else if (action.payload.id === 2) {
@@ -96,9 +94,7 @@ const productSlice = createSlice({
         }
       }).addCase(getProductsbySearch.fulfilled, (state, action) => {
         state.requesting = false;
-        console.log( action.payload.data.data)
-        //action.payload ? (state.list = action.payload.data.data) : (state.list = [])
-        if (Array.isArray(action.payload?.data.data) ) {
+        if (Array.isArray(action.payload?.data?.data) ) {
           state.list = action.payload?.data?.data
         }
         else

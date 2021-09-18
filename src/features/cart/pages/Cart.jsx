@@ -5,7 +5,6 @@ import ButtonUI from "components/UIKit/ButtonUI";
 import "./Cart.scss";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteCart,
   selectCartItems,
   getCart,
   selectTotalPrice,
@@ -26,14 +25,9 @@ const Cart = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const isUserLoggedIn = checkAuth();
 
-  const handleDeleteCart = useCallback(() => {
-    dispatch(deleteCart());
-    setIsModalVisible(false);
-  }, [dispatch]);
-
   const handleClearCart = useCallback(() => {
     dispatch(clearCart());
-    setIsModalVisible(true);
+    setIsModalVisible(false);
   }, [dispatch]);
 
   const checkCartHasItems = (cartItems) =>
@@ -67,7 +61,7 @@ const Cart = () => {
           <ButtonUI
             variant="danger"
             text="Xóa"
-            onClick={handleDeleteCart}
+            onClick={handleClearCart}
             key={uuidv4()}
           />,
         ]}
@@ -84,7 +78,9 @@ const Cart = () => {
               <ButtonUI
                 text="Xóa giỏ hàng"
                 variant="danger"
-                onClick={handleClearCart}
+                onClick={() => {
+                  setIsModalVisible(true);
+                }}
               />
             )}
           </Space>

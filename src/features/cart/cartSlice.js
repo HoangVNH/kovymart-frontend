@@ -66,12 +66,7 @@ export const clearCart = createAsyncThunk("cart/clearCart", async () => {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {
-    deleteCart: (state) => {
-      NotifyHelper.success("", "Xóa giỏ hàng thành công !");
-      return state;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [getCart.pending]: (state) => {
       if (state.isFetching === false) {
@@ -117,5 +112,5 @@ const cartSlice = createSlice({
 export const selectCartItems = (state) => state.cart.items;
 export const selectIsCartFetching = (state) => state.cart.isFetching;
 export const selectTotalPrice = (state) => state.cart.totalPrice;
-export const { updateQuantity, deleteCart, deleteProduct } = cartSlice.actions;
+
 export default cartSlice.reducer;

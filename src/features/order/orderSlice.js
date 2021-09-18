@@ -7,6 +7,7 @@ const initialState = {
   success: false,
   message: ASYNC_STATUS.IDLE,
   order_details: {},
+  order_message: ASYNC_STATUS.IDLE
 }
 
 //----------ACTIONS----------
@@ -36,7 +37,9 @@ const orderSlice = createSlice({
       .addCase(insertOrder.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
+        state.order_message = ASYNC_STATUS.SUCCESS
         NotifyHelper.success("", "Thanh toán thành công !")
+
       })
       //---------------PENDING & REJECTION---------------
       .addMatcher(isPendingAction, (state) => {
@@ -53,5 +56,5 @@ const orderSlice = createSlice({
 
 // useSelector
 export const { setMessageOrderToDefault } = orderSlice.actions
-export const selectOrderMessage = (state) => state.order.message
+export const selectOrderMessage = (state) => state.order.order_message
 export default orderSlice.reducer

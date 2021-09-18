@@ -30,7 +30,6 @@ import {
   insertOrder,
 } from "../orderSlice"
 import { paymentId, ASYNC_STATUS } from "../../../constants"
-import { selectCartItems } from "features/cart/cartSlice"
 
 const { Text, Title } = Typography
 const { TextArea } = Input
@@ -54,17 +53,10 @@ const Order = () => {
   const handleSubmit = (e) => {
     const data = {
       note: e.note,
-      totalPrice: 35000,
+      totalPrice: cart.totalPrice + fee.shipping,
       paymentId: paymentId,
       addressId: default_address.id,
-      items: [
-        {
-          quantity: 1,
-          price: 35000,
-          productId: 1,
-          total: 35000,
-        },
-      ],
+      items: cart.items,
     }
     dispatch(insertOrder(data))
   }
@@ -144,12 +136,12 @@ const Order = () => {
                             {/* <Text /><Address address={default_address} /> */}
                           </Col>
                         </Row>
-                          {/* Payment method */}
-                          <Row>
+                        {/* Payment method */}
+                        <Row>
                           <Col md={5} xs={10}>
                           </Col>
                           <Col>
-                          <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
+                            <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
                           </Col>
                         </Row>
                       </>
@@ -218,14 +210,14 @@ const Order = () => {
                   </Col>
                   <Col xs={10} md={8} className="align-end">
                     <Text strong>
-                      {Utils.Money({ money: cart.finalPrices })}
+                      {Utils.Money({ money: (cart.totalPrice + fee.shipping) })}
                     </Text>
                   </Col>
                 </Row>
               </Space>
             </Row>
 
-            
+
             <Col style={{ textAlign: "center", marginTop: "2em" }}>
               <Row type="flex" justify="center">
                 <Link to={"/"}>

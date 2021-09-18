@@ -68,7 +68,6 @@ const locationSlice = createSlice({
       .addCase(getProvinces.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        console.log(action)
         state.provinces = action.payload.data.data
       })
       .addCase(getProvinceById.fulfilled, (state, action) => {

@@ -40,30 +40,23 @@ const Order = () => {
   const default_address = useSelector(selectDefaultAddress);
   const order_message = useSelector(selectOrderMessage);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log(cart);
     const isUserLoggedIn = checkAuth();
     if (!isUserLoggedIn || cart.totalItems === 0) {
       history.push("/");
     } else {
       dispatch(getAddressList());
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     const data = {
       note: e.note,
-      totalPrice: 35000,
+      totalPrice: cart.totalPrice + fee.shipping,
       paymentId: paymentId,
       addressId: default_address.id,
-      items: [
-        {
-          quantity: 1,
-          price: 35000,
-          productId: 1,
-          total: 35000,
-        },
-      ],
+      items: cart.items,
     };
     dispatch(insertOrder(data));
   };
@@ -216,13 +209,12 @@ const Order = () => {
                   </Col>
                   <Col xs={10} md={8} className="align-end">
                     <Text strong>
-                      {Utils.Money({ money: cart.finalPrices })}
+                      {Utils.Money({ money: cart.totalPrice + fee.shipping })}
                     </Text>
                   </Col>
                 </Row>
               </Space>
             </Row>
-
             <Col style={{ textAlign: "center", marginTop: "2em" }}>
               <Row type="flex" justify="center">
                 <Link to={"/"}>

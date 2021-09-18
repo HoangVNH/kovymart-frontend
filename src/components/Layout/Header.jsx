@@ -157,10 +157,12 @@ const MainHeader = () => {
           </Col>
           <Col flex={2} className="navigation-bar__right">
             {renderMenuItem()}
-            <Link to="/cart" className="link--normalize navigation-bar__cart">
-              <ShoppingCartOutlined className="vertical-align-icon" />
-              <span>Giỏ Hàng</span>
-            </Link>
+            {isUserLoggedIn && !isLoggedOut && (
+              <Link to="/cart" className="link--normalize navigation-bar__cart">
+                <ShoppingCartOutlined className="vertical-align-icon" />
+                <span>Giỏ Hàng</span>
+              </Link>
+            )}
           </Col>
         </Row>
       </Header>

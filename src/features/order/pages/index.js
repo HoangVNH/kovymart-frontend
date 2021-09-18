@@ -30,6 +30,7 @@ import {
   insertOrder,
 } from "../orderSlice"
 import { paymentId, ASYNC_STATUS } from "../../../constants"
+import { selectCartItems } from "features/cart/cartSlice"
 
 const { Text, Title } = Typography
 const { TextArea } = Input
@@ -41,6 +42,7 @@ const Order = () => {
   const order_message = useSelector(selectOrderMessage)
   const dispatch = useDispatch()
   useEffect(() => {
+    console.log(cart)
     const isUserLoggedIn = checkAuth()
     if (!isUserLoggedIn || cart.totalItems === 0) {
       history.push("/")
@@ -197,7 +199,7 @@ const Order = () => {
                   </Col>
                   <Col xs={10} md={8} className="align-end">
                     <Text strong>
-                      {Utils.Money({ money: cart.totalPrices })}
+                      {Utils.Money({ money: cart.totalPrice })}
                     </Text>
                   </Col>
                 </Row>

@@ -68,7 +68,8 @@ const locationSlice = createSlice({
       .addCase(getProvinces.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        state.provinces = action.payload.data
+        console.log(action)
+        state.provinces = action.payload.data.data
       })
       .addCase(getProvinceById.fulfilled, (state, action) => {
         state.requesting = false
@@ -79,7 +80,7 @@ const locationSlice = createSlice({
       .addCase(getDistricts.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        state.districts = action.payload.data
+        state.districts = action.payload.data.data
       })
       .addCase(getDistrictById.fulfilled, (state, action) => {
         state.requesting = false
@@ -90,7 +91,7 @@ const locationSlice = createSlice({
       .addCase(getWards.fulfilled, (state, action) => {
         state.requesting = false
         state.success = true
-        state.wards = action.payload.data
+        state.wards = action.payload.data.data
       })
       .addCase(getWardById.fulfilled, (state, action) => {
         state.requesting = false

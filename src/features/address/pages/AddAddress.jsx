@@ -95,7 +95,7 @@ const AddAddress = () => {
         }
         dispatch(insertAddress(address))
     }
-    
+
     return (
         <Row type="flex" align="middle" justify="center" className="my-5">
             <Col lg={14} xs={23}>
@@ -143,6 +143,7 @@ const AddAddress = () => {
                         </Row>
                         {/* Address information */}
                         <Row gutter={20}>
+                            { }
                             <Col xs={24} lg={12}>
                                 <Form.Item
                                     label="Tỉnh/thành phố"
@@ -155,7 +156,7 @@ const AddAddress = () => {
                                         onSelect={handleProvinces}
                                         placeholder="Chọn tỉnh"
                                     >
-                                        {provinces.map((prov) => (
+                                        {provinces.length > 0 && provinces.map((prov) => (
                                             <Option
                                                 key={prov.id}
                                                 value={JSON.stringify([prov.id, prov.name])}

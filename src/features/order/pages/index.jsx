@@ -8,48 +8,47 @@ import {
   Skeleton,
   Input,
   Form,
-  Tag
-} from "antd"
-import { HomeOutlined } from "@ant-design/icons"
-import ButtonUI from "components/UIKit/ButtonUI"
-import Utils from "components/UIKit/Utils"
-import { useHistory, Link } from "react-router-dom"
-import { checkAuth } from "helper/auth"
-import { useEffect, useState, useCallback } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { fee } from "constants/fee"
-import ModalListAddress from "features/address/components/ModalListAdress"
+  Tag,
+} from "antd";
+import { HomeOutlined } from "@ant-design/icons";
+import ButtonUI from "components/UIKit/ButtonUI";
+import Utils from "components/UIKit/Utils";
+import { useHistory, Link } from "react-router-dom";
+import { checkAuth } from "helper/auth";
+import { useEffect, useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fee } from "constants/fee";
+import ModalListAddress from "features/address/components/ModalListAdress";
 import {
   getAddressList,
   selectDefaultAddress,
   selectRequesting,
-} from "../../address/addressSlice"
+} from "../../address/addressSlice";
 import {
   selectOrderMessage,
   setMessageOrderToDefault,
   insertOrder,
-} from "../orderSlice"
-import { paymentId, ASYNC_STATUS } from "../../../constants"
-import { selectCartItems } from "features/cart/cartSlice"
+} from "../orderSlice";
+import { paymentId, ASYNC_STATUS } from "../../../constants";
 
-const { Text, Title } = Typography
-const { TextArea } = Input
+const { Text, Title } = Typography;
+const { TextArea } = Input;
 
 const Order = () => {
-  const history = useHistory()
-  const cart = useSelector((state) => state.cart)
-  const default_address = useSelector(selectDefaultAddress)
-  const order_message = useSelector(selectOrderMessage)
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const cart = useSelector((state) => state.cart);
+  const default_address = useSelector(selectDefaultAddress);
+  const order_message = useSelector(selectOrderMessage);
+  const dispatch = useDispatch();
   useEffect(() => {
-    console.log(cart)
-    const isUserLoggedIn = checkAuth()
+    console.log(cart);
+    const isUserLoggedIn = checkAuth();
     if (!isUserLoggedIn || cart.totalItems === 0) {
-      history.push("/")
+      history.push("/");
     } else {
-      dispatch(getAddressList())
+      dispatch(getAddressList());
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = (e) => {
     const data = {
@@ -65,29 +64,29 @@ const Order = () => {
           total: 35000,
         },
       ],
-    }
-    dispatch(insertOrder(data))
-  }
+    };
+    dispatch(insertOrder(data));
+  };
 
   useEffect(() => {
     if (order_message === ASYNC_STATUS.SUCCESS) {
-      dispatch(setMessageOrderToDefault())
-      history.push("/ordersuccess")
+      dispatch(setMessageOrderToDefault());
+      history.push("/ordersuccess");
     }
-  }, [dispatch, order_message, history])
+  }, [dispatch, order_message, history]);
 
-  const requesting = useSelector(selectRequesting)
-  const [visibleListAddress, setVisibleListAddress] = useState(false)
+  const requesting = useSelector(selectRequesting);
+  const [visibleListAddress, setVisibleListAddress] = useState(false);
   const handleChangeAddress = () => {
-    setVisibleListAddress(true)
-  }
+    setVisibleListAddress(true);
+  };
 
   const callbackVisibleListAddress = useCallback(
     (val) => {
-      setVisibleListAddress(val)
+      setVisibleListAddress(val);
     },
     [setVisibleListAddress]
-  )
+  );
 
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
@@ -144,12 +143,11 @@ const Order = () => {
                             {/* <Text /><Address address={default_address} /> */}
                           </Col>
                         </Row>
-                          {/* Payment method */}
-                          <Row>
-                          <Col md={5} xs={10}>
-                          </Col>
+                        {/* Payment method */}
+                        <Row>
+                          <Col md={5} xs={10}></Col>
                           <Col>
-                          <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
+                            <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
                           </Col>
                         </Row>
                       </>
@@ -225,7 +223,6 @@ const Order = () => {
               </Space>
             </Row>
 
-            
             <Col style={{ textAlign: "center", marginTop: "2em" }}>
               <Row type="flex" justify="center">
                 <Link to={"/"}>
@@ -249,7 +246,7 @@ const Order = () => {
         </Card>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default Order
+export default Order;

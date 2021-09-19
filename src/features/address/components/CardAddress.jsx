@@ -67,11 +67,11 @@ const CardAddress = (props) => {
             <Row >
                 <Col span={10}>
                     <Text strong>
-                        Địa chỉ: {props.address.wardId}
+                        Địa chỉ:
                     </Text>
                 </Col>
                 <Col>
-                    <Text> {props.address.address} - {props.address.provinceId} - {props.address.districtId} - {props.address.wardId} </Text>
+                    <Text> {props.address.address} - {props.address.ward.name} - {props.address.district.name} - {props.address.province.name}  </Text>
                     {/* <Text><Address address={props.address} /></Text> */}
                 </Col>
             </Row>

@@ -101,7 +101,7 @@ const Order = () => {
                 <Row>
                   <Col md={20} xs={24}>
                     {/* Name */}
-                    {default_address && !requesting ? (
+                    {Object.keys(default_address).length > 0 && !requesting ? (
                       <>
                         {" "}
                         <Row className="mt-3">
@@ -129,11 +129,10 @@ const Order = () => {
                           <Col>
                             <Text>
                               {default_address.address} -{" "}
-                              {default_address.provinceId} -{" "}
-                              {default_address.districtId} -{" "}
-                              {default_address.wardId}
+                              {default_address.ward.name} -{" "}
+                              {default_address.district.name} -{" "}
+                              {default_address.province.name}
                             </Text>
-                            {/* <Text /><Address address={default_address} /> */}
                           </Col>
                         </Row>
                         {/* Payment method */}

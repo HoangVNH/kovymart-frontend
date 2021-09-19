@@ -56,9 +56,6 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(getCategoryList());
   }, [dispatch]);
-  console.log(productList1);
-  console.log(productList2);
-  console.log(productList3);
 
   return (
     <>

@@ -49,7 +49,6 @@ const ProductCard = ({
 
 ProductCard.propTypes = {
   id: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   smallImage: PropTypes.string,
   price: PropTypes.number.isRequired,

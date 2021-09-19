@@ -20,11 +20,16 @@ export const getCart = createAsyncThunk("cart/getCart", async () => {
 export const addProductToCart = createAsyncThunk(
   "cart/addProductToCart",
   async (product) => {
-    const response = await cartApi.addProductToCart(product);
+    const { status, data } = await cartApi.addProductToCart(product);
+    const checkItemsIsArray =
+      Array.isArray(data?.items) && data.items.length > 0;
+    const shouldShowToast = checkItemsIsArray && status === 201;
 
-    if (Array.isArray(response?.items) && response?.items.length > 0) {
+    if (shouldShowToast) {
       NotifyHelper.success("", "Sản phẩm đã được thêm vào Giỏ hàng");
     }
+
+    return data;
   }
 );
 

@@ -10,94 +10,112 @@ const RegisterForm = ({
   formInstance,
   onLoginClick,
   isFetching,
-}) => (
-  <Modal
-    title={<Title level={4}>Đăng ký</Title>}
-    onCancel={onClose}
-    visible={isDisplay}
-    footer={null}
-  >
-    <Form
-      form={formInstance}
-      onFinish={onFinish}
-      layout={"vertical"}
-      name="register-form"
-    >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[
-          {
-            type: "email",
-            message: "Email không hợp lệ!",
-          },
-          {
-            required: true,
-            message: "Vui lòng nhập email!",
-          },
-        ]}
-      >
-        <Input placeholder="Email" autoComplete="off" />
-      </Form.Item>
-      <Form.Item
-        label="Mật khẩu"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password placeholder="Mật khẩu" autoComplete="off" />
-      </Form.Item>
-      <Form.Item
-        label="Nhập lại mật khẩu"
-        name="confirm"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
+}) => {
+  const checkPassword = (_, value) => {
+    const reg = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
-              return Promise.reject(new Error("Mật khẩu không trùng khớp!"));
-            },
-          }),
-        ]}
+    if (reg.test(value)) {
+      return Promise.resolve();
+    }
+
+    return Promise.reject(new Error("Mật khẩu không hợp lệ!"));
+  };
+
+  return (
+    <Modal
+      title={<Title level={4}>Đăng ký</Title>}
+      onCancel={onClose}
+      visible={isDisplay}
+      footer={null}
+    >
+      <Form
+        form={formInstance}
+        onFinish={onFinish}
+        layout={"vertical"}
+        name="register-form"
       >
-        <Input.Password placeholder="Mật khẩu" autoComplete="off" />
-      </Form.Item>
-      <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="full-width-button"
-          loading={isFetching}
-          disabled={isFetching}
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              type: "email",
+              message: "Email không hợp lệ!",
+            },
+            {
+              required: true,
+              message: "Vui lòng nhập email!",
+            },
+          ]}
         >
-          Đăng ký
-        </Button>
-        Đã có tài khoản?
-        <Button
-          type="link"
-          htmlType="button"
-          onClick={onLoginClick}
-          style={{ paddingLeft: 5 }}
+          <Input placeholder="Email" autoComplete="off" />
+        </Form.Item>
+        <Form.Item
+          label="Mật khẩu"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập mật khảu!",
+            },
+            {
+              validator: checkPassword,
+            },
+          ]}
+          hasFeedback
         >
-          Đăng nhập
-        </Button>
-      </Form.Item>
-    </Form>
-  </Modal>
-);
+          <Input.Password placeholder="Mật khẩu" autoComplete="off" />
+        </Form.Item>
+        <Form.Item
+          label="Nhập lại mật khẩu"
+          name="confirm"
+          dependencies={["password"]}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập lại mật khẩu!",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+
+                return Promise.reject(new Error("Mật khẩu không trùng khớp!"));
+              },
+            }),
+            {
+              validator: checkPassword,
+            },
+          ]}
+        >
+          <Input.Password placeholder="Mật khẩu" autoComplete="off" />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="full-width-button"
+            loading={isFetching}
+            disabled={isFetching}
+          >
+            Đăng ký
+          </Button>
+          Đã có tài khoản?
+          <Button
+            type="link"
+            htmlType="button"
+            onClick={onLoginClick}
+            style={{ paddingLeft: 5 }}
+          >
+            Đăng nhập
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
 
 RegisterForm.propTypes = {
   isDisplay: PropTypes.bool.isRequired,

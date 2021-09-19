@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { getImageOfCategory } from "utils";
 import "./styles.scss";
+import ImageWithFallBack from "components/ImageWithFallback";
 
-const CircleCategory = ({ id, name }) => {
+const CircleCategory = ({ id, name, image }) => {
   return (
     <Link
       to={`/category/${id}`}
       className="link--normalize category-item__wrapper"
     >
       <div className="category-item__icon">
-        <img src={getImageOfCategory(id)} alt="" />
+        <ImageWithFallBack src={image || ""} alt={name} />
       </div>
       <div className="category-item__label">{name}</div>
     </Link>
@@ -21,11 +21,13 @@ const CircleCategory = ({ id, name }) => {
 CircleCategory.propTypes = {
   id: PropTypes.number,
   name: PropTypes.string,
+  image: PropTypes.string,
 };
 
 CircleCategory.defaultProps = {
   id: "",
   name: "",
+  image: "",
 };
 
 export default CircleCategory;

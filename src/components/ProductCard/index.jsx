@@ -8,10 +8,9 @@ import "./styles.scss";
 
 const ProductCard = ({
   id,
-  image,
+  smallImage,
   name,
   price,
-  netPrice,
   discount,
   className,
   style,
@@ -26,7 +25,7 @@ const ProductCard = ({
       <Link to={`/product/${id}`}>
         <div className="product-card__image">
           {discount ? <Tag color="warning">{discount}%</Tag> : null}
-          <ImageWithFallBack src={image} alt={name} />
+          <ImageWithFallBack src={smallImage} alt={name} />
         </div>
         <Tooltip title={name}>
           <p className="product-card__name">{name}</p>
@@ -52,8 +51,8 @@ ProductCard.propTypes = {
   id: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  smallImage: PropTypes.string,
   price: PropTypes.number.isRequired,
-  netPrice: PropTypes.number,
   discount: PropTypes.number,
   className: PropTypes.string,
   style: PropTypes.shape({}),
@@ -61,7 +60,7 @@ ProductCard.propTypes = {
 };
 
 ProductCard.defaultProps = {
-  netPrice: 0,
+  smallImage: "",
   discount: 0,
   className: "",
   style: {},

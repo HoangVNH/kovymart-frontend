@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import SearchResult from "features/searchResult/pages/SearchResult";
 import { lazy } from "react";
 
-
 const routes = [
   {
     key: uuidv4(),

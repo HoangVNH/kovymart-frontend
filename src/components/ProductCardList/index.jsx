@@ -3,13 +3,11 @@ import { addProductToCart } from "features/cart/cartSlice";
 import PropTypes from "prop-types";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { getImageOfProduct } from "utils";
 import ProductCard from "../../components/ProductCard";
 import "./styles.scss";
 
 const ProductCardList = ({ products, title, layout, className, style }) => {
   const dispatch = useDispatch();
-  const imageSize = "smallImage";
 
   const modifyProduct = useCallback((product, quantity) => {
     const modifiedProduct = { ...product, quantity, productId: product.id };
@@ -41,12 +39,12 @@ const ProductCardList = ({ products, title, layout, className, style }) => {
           >
             <ProductCard
               id={product.id}
-              image={getImageOfProduct(product.id, imageSize)}
               name={product.productName}
               price={product.price}
               netPrice={product.netPrice}
               discount={product.discount}
               onAddToCart={() => handleAddToCart(product)}
+              smallImage={product.smallImage}
             />
           </Col>
         ))}

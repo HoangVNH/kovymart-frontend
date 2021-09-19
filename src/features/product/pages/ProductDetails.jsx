@@ -17,7 +17,6 @@ import {
   setDataToEmpty,
 } from "../productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getImageOfProduct } from "../../../utils";
 import ReactHtmlParser from "react-html-parser";
 import { addProductToCart } from "features/cart/cartSlice";
 
@@ -26,10 +25,10 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const productDetail = useSelector(selectProductDetail);
-  const imageSize = "largeImage";
   const [quantity, setQuantity] = useState(1);
 
-  const { productName, price, description, discount } = productDetail;
+  const { productName, price, description, discount, largeImage } =
+    productDetail;
   const { Text } = Typography;
 
   const modifyProduct = useCallback((product, quantity) => {
@@ -85,7 +84,8 @@ const ProductDetails = () => {
           <Col lg={12} className="pe-5">
             <ImageWithFallBack
               className="rounded"
-              src={getImageOfProduct(productId, imageSize)}
+              src={largeImage}
+              alt={productName}
             />
           </Col>
           <Col lg={12} className="px-2">

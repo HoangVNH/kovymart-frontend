@@ -35,7 +35,11 @@ const HomePage = () => {
             className="category-list__item-wrapper"
             key={category.id}
           >
-            <CircleCategory id={category.id} name={category.name} />
+            <CircleCategory
+              id={category.id}
+              name={category.name}
+              image={category.image}
+            />
           </Col>
         ))}
       </Row>

@@ -41,7 +41,6 @@ const Order = () => {
   const order_message = useSelector(selectOrderMessage)
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log(cart)
     const isUserLoggedIn = checkAuth()
     if (!isUserLoggedIn || cart.totalItems === 0) {
       history.push("/")

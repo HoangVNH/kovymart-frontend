@@ -6,7 +6,6 @@ import Utils from "components/UIKit/Utils";
 import PropTypes from "prop-types";
 import { changeQuantity, removeProductFromCart } from "../cartSlice";
 import { useDispatch } from "react-redux";
-import { getImageOfProduct } from "../../../utils";
 import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -48,8 +47,12 @@ const ProductCartItem = ({ product }) => {
   };
 
   const handleDecrease = () => {
-    setProductQuantity(productQuantity - 1);
-    handleChangeQuantity(product.productId, productQuantity - 1);
+    if (productQuantity - 1 > 0) {
+      setProductQuantity(productQuantity - 1);
+      handleChangeQuantity(product.productId, productQuantity - 1);
+    } else {
+      dispatch(removeProductFromCart({ itemId: product.id }));
+    }
   };
 
   useEffect(() => {
@@ -84,7 +87,7 @@ const ProductCartItem = ({ product }) => {
           <Link to={`/product/${product.productId}`}>
             <ImageWithFallBack
               className="rounded"
-              src={getImageOfProduct(product?.productId)}
+              src={product.smallImage || ""}
             />
           </Link>
         </Col>

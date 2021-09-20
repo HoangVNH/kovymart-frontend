@@ -75,7 +75,7 @@ const addressSlice = createSlice({
       .addCase(getAddressList.fulfilled, (state, action) => {
         state.requesting = false
         state.list_address = action.payload.data.data
-        state.default_address = action.payload.data.data[0]
+        state.default_address = action.payload.data.data[0] ? action.payload.data.data[0] : {}
       })
       .addCase(updateAddress.fulfilled, (state) => {
         state.requesting = false

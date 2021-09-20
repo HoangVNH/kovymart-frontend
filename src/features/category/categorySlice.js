@@ -8,11 +8,16 @@ const initialState = {
   success: false,
   message: null,
   list_products: [],
-  category_detail: null,
+  category_detail: {
+    id: 0,
+    name: "",
+    description: "",
+  },
   pagination: {
     page: 0,
     finished: false,
   },
+  categories: [],
 };
 
 //----------ACTIONS----------
@@ -100,6 +105,13 @@ const categorySlice = createSlice({
         state.success = true;
         state.category_detail = action.payload;
       })
+      .addCase(getCategoryList.pending, (state) => {
+        state.requesting = true;
+      })
+      .addCase(getCategoryList.fulfilled, (state, { payload }) => {
+        state.requesting = false;
+        state.categories = payload.data;
+      })
       //---------------PENDING & REJECTION---------------
       .addMatcher(isPendingAction, (state) => {
         state.requesting = true;
@@ -115,5 +127,6 @@ const categorySlice = createSlice({
 export const selectCategory = (state) => state.category.category_detail;
 export const selectProducts = (state) => state.category.list_products;
 export const selectPagination = (state) => state.category.pagination.page;
+export const selectCategories = (state) => state.category.categories;
 export const { sortCategory } = categorySlice.actions;
 export default categorySlice.reducer;

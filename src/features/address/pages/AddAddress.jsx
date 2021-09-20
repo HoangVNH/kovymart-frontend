@@ -219,7 +219,13 @@ const AddAddress = () => {
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={24}>
-                                <Form.Item label="Địa chỉ" name="address">
+                                <Form.Item
+                                    label="Địa chỉ"
+                                    name="address"
+                                    rules={[
+                                        { required: true, message: "Bạn phải nhập thông tin này!" },
+                                    ]}
+                                >
                                     <Input />
                                 </Form.Item>
                             </Col>

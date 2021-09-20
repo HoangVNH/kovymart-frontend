@@ -216,7 +216,7 @@ const Order = () => {
             </Row>
             <Col style={{ textAlign: "center", marginTop: "2em" }}>
               <Row type="flex" justify="center">
-                <Link to={"/"}>
+                <Link to={"/cart"}>
                   <ButtonUI
                     className="mt-2 mx-1"
                     text="Quay lại"

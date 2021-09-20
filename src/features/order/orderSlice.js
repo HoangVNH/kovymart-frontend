@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import orderApi from "api/orderApi"
 import { NotifyHelper } from "helper/notify-helper"
 import { ASYNC_STATUS } from "../../constants"
+
+
 const initialState = {
   requesting: false,
   success: false,
@@ -13,10 +15,18 @@ const initialState = {
 //----------ACTIONS----------
 export const insertOrder = createAsyncThunk(
   "order/insertOrder",
-  async (data) => {
-    return await orderApi.insertOrder(data)
-  }
-)
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await orderApi.insertOrder(data);
+      return res;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 //------------------------UTILITIES------------------------
 const isPendingAction = (action) =>
   action.type.endsWith("/pending") && action.type.includes("order")
@@ -49,7 +59,8 @@ const orderSlice = createSlice({
       .addMatcher(isRejectedAction, (state, action) => {
         state.requesting = state.success = false
         state.message = action.error.message
-        NotifyHelper.error(action.error.message, "Yêu cầu thất bại!")
+        NotifyHelper.error(action.payload?.message ? action.payload.message
+          : action.error.message, "Yêu cầu thất bại!");
       })
   },
 })

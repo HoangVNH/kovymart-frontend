@@ -22,7 +22,8 @@ import {
     selectDistricts,
     selectWards,
 } from '../../location/locationSlice'
-import { insertAddress } from "../addressSlice"
+import { insertAddress, selectAddressMessage, setDefaultAddressMessage } from "../addressSlice"
+import { ASYNC_STATUS } from "../../../constants"
 
 const { Title } = Typography
 const { Option } = Select
@@ -33,6 +34,7 @@ const AddAddress = () => {
     }
     const provinces = useSelector(selectProvinces)
     const districts = useSelector(selectDistricts)
+    const address_message = useSelector(selectAddressMessage)
     const wards = useSelector(selectWards)
     const history = useHistory()
     const [form] = Form.useForm()
@@ -52,6 +54,13 @@ const AddAddress = () => {
             dispatch(getProvinces())
         }
     }, [history, dispatch])
+
+    useEffect(() => {
+        if (address_message === ASYNC_STATUS.SUCCESS) {
+            dispatch(setDefaultAddressMessage())
+            history.push('/order')
+        }
+    }, [dispatch, address_message, history])
 
     const handleProvinces = (e) => {
         dispatch(getDistricts(getId(e)))

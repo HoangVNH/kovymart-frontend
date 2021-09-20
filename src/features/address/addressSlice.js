@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import addressApi from "api/addressApi"
 import { NotifyHelper } from "helper/notify-helper"
+import { ASYNC_STATUS } from "../../constants"
 
 const initialState = {
   requesting: false,
@@ -9,7 +10,6 @@ const initialState = {
   address_details: null,
   list_address: [],
   default_address: {},
-
 }
 
 //----------ACTIONS----------
@@ -63,6 +63,9 @@ const addressSlice = createSlice({
     setDefaultAddress: (state, action) => {
       state.default_address = action.payload
       NotifyHelper.success("", "Đặt địa chỉ mặc định thành công !")
+    },
+    setDefaultAddressMessage: (state) => {
+      state.message = ASYNC_STATUS.IDLE
     }
   },
   extraReducers: (builder) => {
@@ -91,6 +94,7 @@ const addressSlice = createSlice({
       .addCase(insertAddress.fulfilled, (state) => {
         state.requesting = false
         state.success = true
+        state.message = ASYNC_STATUS.SUCCESS
         NotifyHelper.success("", "Thêm thành công !")
       })
 
@@ -110,8 +114,9 @@ const addressSlice = createSlice({
 export const selectAddressList = (state) => state.address.list_address
 export const selectAddressById = (state) => state.address.address_details
 export const selectDefaultAddress = (state) => state.address.default_address
+export const selectAddressMessage = (state) => state.address.message
 export const selectRequesting = (state) => state.address.requesting
-export const { setDefaultAddress } =
+export const { setDefaultAddress, setDefaultAddressMessage } = 
   addressSlice.actions
 
 export default addressSlice.reducer

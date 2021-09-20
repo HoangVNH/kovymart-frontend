@@ -31,6 +31,7 @@ import {
 } from "../orderSlice";
 import { getCart } from "features/cart/cartSlice";
 import { paymentId, ASYNC_STATUS } from "../../../constants";
+import { NotifyHelper } from "../../../helper/notify-helper";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -53,14 +54,19 @@ const Order = () => {
   }, [dispatch, history, cart.totalItems]);
 
   const handleSubmit = (e) => {
-    const data = {
-      note: e.note,
-      totalPrice: cart.totalPrice + fee.shipping,
-      paymentId: paymentId,
-      addressId: default_address.id,
-      items: cart.items,
-    };
-    dispatch(insertOrder(data));
+    if (default_address.id) {
+      const data = {
+        note: e.note,
+        totalPrice: cart.totalPrice + fee.shipping,
+        paymentId: paymentId,
+        addressId: default_address.id,
+        items: cart.items,
+      };
+      dispatch(insertOrder(data));
+    }
+    else {
+      NotifyHelper.error('Vui lòng thêm địa chỉ', 'Yêu cầu thất bại');
+    }
   };
 
   useEffect(() => {
@@ -148,17 +154,36 @@ const Order = () => {
                           </Row>
                         </>
                       ) : (
-                        <Skeleton />
+                        <>
+                          {Object.keys(default_address).length === 0
+                            ? <>
+                              <Text strong> Vui lòng thêm địa chỉ để tiến hành thanh toán</Text>
+
+                            </>
+                            : null
+                          }
+                          <Skeleton />
+                        </>
                       )}
                     </Col>
                     <Col xs={24} md={4} className="mt-3">
-                      <ButtonUI
-                        className="float-right"
-                        text="Thay đổi"
-                        variant="light"
-                        htmlType="button"
-                        onClick={handleChangeAddress}
-                      />
+                      {Object.keys(default_address).length === 0
+                        ? <>
+                          <Link to="/address/add">
+                            <ButtonUI
+                              htmlType="button"
+                              variant="light"
+                              text="Thêm địa chỉ" />
+                          </Link>
+                        </>
+                        : <ButtonUI
+                          className="float-right"
+                          text="Thay đổi"
+                          variant="light"
+                          htmlType="button"
+                          onClick={handleChangeAddress}
+                        />
+                      }
                     </Col>
                   </Row>
                 </Col>
@@ -168,12 +193,6 @@ const Order = () => {
                   label={<Text strong>Ghi chú</Text>}
                   name="note"
                   className="mt-4"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Bạn phải nhập thông tin này!",
-                    },
-                  ]}
                 >
                   <TextArea rows={4} />
                 </Form.Item>

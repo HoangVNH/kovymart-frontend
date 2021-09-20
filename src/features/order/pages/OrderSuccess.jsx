@@ -1,10 +1,17 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Card, Row, Col, Typography } from "antd";
 import ButtonUI from "components/UIKit/ButtonUI";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { setMessageOrderToDefault } from "../orderSlice";
 const { Text, Title } = Typography;
 
 const OrderSuccess = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setMessageOrderToDefault());
+  })
   return (
     <Row type="flex" align="middle" justify="center" className="my-5">
       <Col lg={14} xs={22}>

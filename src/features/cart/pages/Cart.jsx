@@ -12,7 +12,6 @@ import {
 } from "../cartSlice";
 import { Link, useHistory } from "react-router-dom";
 import React, { useState, useCallback, useEffect } from "react";
-import { NotifyHelper } from "helper/notify-helper";
 import { checkAuth } from "helper/auth";
 import { v4 as uuidv4 } from "uuid";
 const { Text } = Typography;
@@ -39,7 +38,6 @@ const Cart = () => {
     if (isUserLoggedIn) {
       dispatch(getCart());
     } else {
-      NotifyHelper.error("", "Cần đăng nhập để thực hiện thao tác này");
       history.push("/");
     }
   }, [dispatch, isUserLoggedIn, history]);

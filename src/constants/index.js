@@ -1,8 +1,7 @@
 export const ASYNC_STATUS = {
-  IDLE: "idle",
+  IDLE: "IDLE",
   SUCCESS: "SUCCESS",
   ERROR: "ERROR",
-  PENDING: "PENDING",
 };
 
 export const paymentId = 1;

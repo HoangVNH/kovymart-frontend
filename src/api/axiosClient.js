@@ -1,7 +1,6 @@
 import axios from "axios";
 import queryString from "querystring";
 import { getAccessTokenFromLocalStorage } from "helper/auth";
-import { NotifyHelper } from "helper/notify-helper";
 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -37,10 +36,6 @@ axiosClient.interceptors.response.use(
     return response;
   },
   function (error) {
-    const { response } = error;
-    if (response.statusText === "Unauthorized") {
-      NotifyHelper.error("", "Cần đăng nhập để thực hiện thao tác này");
-    }
     return Promise.reject(error);
   }
 );

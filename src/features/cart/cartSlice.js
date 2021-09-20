@@ -19,53 +19,57 @@ export const getCart = createAsyncThunk("cart/getCart", async () => {
 
 export const addProductToCart = createAsyncThunk(
   "cart/addProductToCart",
-  async (product) => {
-    const { status, data } = await cartApi.addProductToCart(product);
-    const checkItemsIsArray =
-      Array.isArray(data?.items) && data.items.length > 0;
-    const shouldShowToast = checkItemsIsArray && status === 201;
-
-    if (shouldShowToast) {
+  async (product, { rejectWithValue }) => {
+    try {
+      const { data } = await cartApi.addProductToCart(product);
       NotifyHelper.success("", "Sản phẩm đã được thêm vào Giỏ hàng");
+      return data;
+    } catch (error) {
+      NotifyHelper.error("", "Cần đăng nhập để thực hiện thao tác này");
+      return rejectWithValue(error.response.data);
     }
-
-    return data;
   }
 );
 
 export const changeQuantity = createAsyncThunk(
   "cart/changeQuantity",
-  async (data) => {
-    const response = await cartApi.changeQuantity(data);
-    return response.data;
+  async (quantity, { rejectWithValue }) => {
+    try {
+      const { data } = await cartApi.changeQuantity(quantity);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
 export const removeProductFromCart = createAsyncThunk(
   "cart/removeProduct",
-  async (itemId) => {
-    const { data, status } = await cartApi.removeProductFromCart(itemId);
-
-    if (status === 200) {
+  async (itemId, { rejectWithValue }) => {
+    try {
+      const { data } = await cartApi.removeProductFromCart(itemId);
       NotifyHelper.success("", "Xóa sản phẩm thành công!");
-    } else {
+      return data;
+    } catch (error) {
       NotifyHelper.error("", "Xóa sản phẩm thất bại!");
+      return rejectWithValue(error.response.data);
     }
-
-    return data;
   }
 );
 
-export const clearCart = createAsyncThunk("cart/clearCart", async () => {
-  const { data, status } = await cartApi.clearCart();
-  if (status === 200) {
-    NotifyHelper.success("", "Xoá giỏ hàng thành công!");
-  } else {
-    NotifyHelper.error("", "Xóa giỏ hàng thất bại!");
+export const clearCart = createAsyncThunk(
+  "cart/clearCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await cartApi.clearCart();
+      NotifyHelper.success("", "Xoá giỏ hàng thành công!");
+      return data;
+    } catch (error) {
+      NotifyHelper.error("", "Xóa giỏ hàng thất bại!");
+      return rejectWithValue(error.response.data);
+    }
   }
-
-  return data;
-});
+);
 
 //----------REDUCERS----------
 const cartSlice = createSlice({

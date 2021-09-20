@@ -18,7 +18,7 @@ const RegisterForm = ({
       return Promise.resolve();
     }
 
-    return Promise.reject(new Error("Mật khẩu không hợp lệ!"));
+    return Promise.reject(new Error("Mật khẩu yếu!"));
   };
 
   return (
@@ -37,6 +37,7 @@ const RegisterForm = ({
         <Form.Item
           label="Email"
           name="email"
+          validateFirst
           rules={[
             {
               type: "email",
@@ -53,6 +54,7 @@ const RegisterForm = ({
         <Form.Item
           label="Mật khẩu"
           name="password"
+          validateFirst
           rules={[
             {
               required: true,
@@ -71,6 +73,7 @@ const RegisterForm = ({
           name="confirm"
           dependencies={["password"]}
           hasFeedback
+          validateFirst
           rules={[
             {
               required: true,

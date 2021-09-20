@@ -9,6 +9,8 @@ import { Col, Form, Layout, Row, Menu, Dropdown } from "antd";
 import {
   selectAuth,
   setSignInMsgToDefault,
+  setSignOutMsgToDefault,
+  setSignOutMsgToSuccess,
   setSignUpMsgToDefault,
   signIn,
   signUp,
@@ -33,11 +35,8 @@ const MainHeader = () => {
   const [registerFormInstance] = Form.useForm();
   const dispatch = useDispatch();
   const history = useHistory();
-  const {
-    isFetching,
-    signUp: { msg: signUpMsg },
-    signIn: { msg: signInMsg },
-  } = useSelector(selectAuth);
+  const { isFetching, signUpStatus, signInStatus, signOutStatus } =
+    useSelector(selectAuth);
   const isUserLoggedIn = checkAuth();
 
   const handleCloseLoginModal = useCallback(() => {
@@ -81,7 +80,8 @@ const MainHeader = () => {
     clearAccessToken();
     history.push("/");
     setIsLoggedOut(true);
-  }, [history]);
+    dispatch(setSignOutMsgToSuccess());
+  }, [history, dispatch]);
 
   const renderMenuItem = () => {
     const menu = (
@@ -126,24 +126,27 @@ const MainHeader = () => {
   };
 
   useEffect(() => {
-    if (signUpMsg === ASYNC_STATUS.SUCCESS) {
+    if (signUpStatus === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success("Đăng ký thành công", "Thông báo");
       handleCloseRegisterModal();
       dispatch(setSignUpMsgToDefault());
-    } else if (signUpMsg === ASYNC_STATUS.ERROR) {
-      NotifyHelper.error("Đăng ký thất bại", "Thông báo");
     }
-  }, [signUpMsg, handleCloseRegisterModal, dispatch]);
+  }, [signUpStatus, handleCloseRegisterModal, dispatch]);
 
   useEffect(() => {
-    if (signInMsg === ASYNC_STATUS.SUCCESS) {
+    if (signInStatus === ASYNC_STATUS.SUCCESS) {
       NotifyHelper.success("Đăng nhập thành công", "Thông báo");
       handleCloseLoginModal();
       dispatch(setSignInMsgToDefault());
-    } else if (signInMsg === ASYNC_STATUS.ERROR) {
-      NotifyHelper.error("Đăng nhập thất bại", "Thông báo");
     }
-  }, [signInMsg, handleCloseLoginModal, dispatch]);
+  }, [signInStatus, handleCloseLoginModal, dispatch]);
+
+  useEffect(() => {
+    if (signOutStatus === ASYNC_STATUS.SUCCESS) {
+      NotifyHelper.success("Đăng xuất thành công", "Thông báo");
+      dispatch(setSignOutMsgToDefault());
+    }
+  }, [signOutStatus, dispatch]);
 
   return (
     <>

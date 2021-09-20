@@ -29,6 +29,7 @@ import {
   setMessageOrderToDefault,
   insertOrder,
 } from "../orderSlice";
+import { getCart } from "features/cart/cartSlice";
 import { paymentId, ASYNC_STATUS } from "../../../constants";
 
 const { Text, Title } = Typography;
@@ -43,10 +44,11 @@ const Order = () => {
 
   useEffect(() => {
     const isUserLoggedIn = checkAuth();
-    if (!isUserLoggedIn || cart.totalItems === 0) {
+    if (!isUserLoggedIn) {
       history.push("/");
     } else {
       dispatch(getAddressList());
+      dispatch(getCart());
     }
   }, [dispatch, history, cart.totalItems]);
 
@@ -89,151 +91,160 @@ const Order = () => {
       />
       <Col lg={14} xs={23}>
         <Card className="card-shadow border-3 px-4 pb-4">
-          <Form onFinish={handleSubmit}>
-            <Row>
-              <Col span={24}>
-                <Title level={4} style={{ color: "#e99667" }}>
-                  <Space>
-                    <HomeOutlined />
-                    Thông tin địa chỉ
-                  </Space>
-                </Title>
-                <Row>
-                  <Col md={20} xs={24}>
-                    {/* Name */}
-                    {Object.keys(default_address).length > 0 && !requesting ? (
-                      <>
-                        {" "}
-                        <Row className="mt-3">
-                          <Col md={5} xs={10}>
-                            <Text strong>Tên:</Text>
-                          </Col>
-                          <Col>
-                            <Text> {default_address.name}</Text>
-                          </Col>
-                        </Row>
-                        {/* Phone */}
-                        <Row>
-                          <Col md={5} xs={10}>
-                            <Text strong>Số điện thoại:</Text>
-                          </Col>
-                          <Col>
-                            <Text> {default_address.phone}</Text>
-                          </Col>
-                        </Row>
-                        {/* Address */}
-                        <Row>
-                          <Col md={5} xs={10}>
-                            <Text strong>Địa chỉ:</Text>
-                          </Col>
-                          <Col>
-                            <Text>
-                              {default_address.address} -{" "}
-                              {default_address.ward.name} -{" "}
-                              {default_address.district.name} -{" "}
-                              {default_address.province.name}
-                            </Text>
-                          </Col>
-                        </Row>
-                        {/* Payment method */}
-                        <Row>
-                          <Col md={5} xs={10}></Col>
-                          <Col>
-                            <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
-                          </Col>
-                        </Row>
-                      </>
-                    ) : (
-                      <Skeleton />
-                    )}
-                  </Col>
-                  <Col xs={24} md={4} className="mt-3">
+          {cart.totalItems > 0
+            ?
+            <Form onFinish={handleSubmit}>
+              <Row>
+                <Col span={24}>
+                  <Title level={4} style={{ color: "#e99667" }}>
+                    <Space>
+                      <HomeOutlined />
+                      Thông tin địa chỉ
+                    </Space>
+                  </Title>
+                  <Row>
+                    <Col md={20} xs={24}>
+                      {/* Name */}
+                      {Object.keys(default_address).length > 0 && !requesting ? (
+                        <>
+                          {" "}
+                          <Row className="mt-3">
+                            <Col md={5} xs={10}>
+                              <Text strong>Tên: </Text>
+                            </Col>
+                            <Col>
+                              <Text> {default_address.name}</Text>
+                            </Col>
+                          </Row>
+                          {/* Phone */}
+                          <Row>
+                            <Col md={5} xs={10}>
+                              <Text strong>Số điện thoại: </Text>
+                            </Col>
+                            <Col>
+                              <Text> {default_address.phone}</Text>
+                            </Col>
+                          </Row>
+                          {/* Address */}
+                          <Row>
+                            <Col md={5} xs={10}>
+                              <Text strong>Địa chỉ: </Text>
+                            </Col>
+                            <Col>
+                              <Text>
+                                {default_address.address} -{" "}
+                                {default_address.ward.name} -{" "}
+                                {default_address.district.name} -{" "}
+                                {default_address.province.name}
+                              </Text>
+                            </Col>
+                          </Row>
+                          {/* Payment method */}
+                          <Row>
+                            <Col md={5} xs={10}></Col>
+                            <Col>
+                              <Tag color="blue">Thanh toán bằng tiền mặt</Tag>
+                            </Col>
+                          </Row>
+                        </>
+                      ) : (
+                        <Skeleton />
+                      )}
+                    </Col>
+                    <Col xs={24} md={4} className="mt-3">
+                      <ButtonUI
+                        className="float-right"
+                        text="Thay đổi"
+                        variant="light"
+                        htmlType="button"
+                        onClick={handleChangeAddress}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Col span={16}>
+                <Form.Item
+                  label={<Text strong>Ghi chú</Text>}
+                  name="note"
+                  className="mt-4"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Bạn phải nhập thông tin này!",
+                    },
+                  ]}
+                >
+                  <TextArea rows={4} />
+                </Form.Item>
+              </Col>
+              <Row style={{ marginTop: "14%" }}>
+                <Space
+                  type="flex"
+                  align="middle"
+                  justify="center"
+                  direction="vertical"
+                  style={{ flex: "1" }}
+                  value={30}
+                >
+                  <Row align="middle" justify="center">
+                    <Col xs={14} md={8}>
+                      <Text strong>Tạm tính: </Text>
+                    </Col>
+                    <Col xs={10} md={8} className="align-end">
+                      <Text strong>
+                        {Utils.Money({ money: cart.totalPrice })}
+                      </Text>
+                    </Col>
+                  </Row>
+                  <Row align="middle" justify="center">
+                    <Col xs={14} md={8}>
+                      <Text strong>Phí vận chuyển: </Text>
+                    </Col>
+                    <Col xs={10} md={8} className="align-end">
+                      <Text strong>{Utils.Money({ money: fee.shipping })}</Text>
+                    </Col>
+                  </Row>
+                  <Divider />
+                  <Row align="middle" justify="center">
+                    <Col xs={14} md={8}>
+                      <Text strong>Tổng tiền: </Text>
+                    </Col>
+                    <Col xs={10} md={8} className="align-end">
+                      <Text strong>
+                        {Utils.Money({ money: cart.totalPrice + fee.shipping })}
+                      </Text>
+                    </Col>
+                  </Row>
+                </Space>
+              </Row>
+              <Col style={{ textAlign: "center", marginTop: "2em" }}>
+                <Row type="flex" justify="center">
+                  <Link to={"/cart"}>
                     <ButtonUI
-                      className="float-right"
-                      text="Thay đổi"
-                      variant="light"
+                      className="mt-2 mx-1"
+                      text="Quay lại"
+                      variant="secondary"
                       htmlType="button"
-                      onClick={handleChangeAddress}
-                    />
-                  </Col>
+                    ></ButtonUI>
+                  </Link>
+                  {default_address ? (
+                    <ButtonUI
+                      className="mt-2 mx-1"
+                      htmlType="submit"
+                      text="Xác nhận thanh toán"
+                    ></ButtonUI>
+                  ) : null}
                 </Row>
               </Col>
-            </Row>
-            <Col span={16}>
-              <Form.Item
-                label={<Text strong>Ghi chú</Text>}
-                name="note"
-                className="mt-4"
-                rules={[
-                  {
-                    required: true,
-                    message: "Bạn phải nhập thông tin này!",
-                  },
-                ]}
-              >
-                <TextArea rows={4} />
-              </Form.Item>
-            </Col>
-            <Row style={{ marginTop: "14%" }}>
-              <Space
-                type="flex"
-                align="middle"
-                justify="center"
-                direction="vertical"
-                style={{ flex: "1" }}
-                value={30}
-              >
-                <Row align="middle" justify="center">
-                  <Col xs={14} md={8}>
-                    <Text strong>Tạm tính:</Text>
-                  </Col>
-                  <Col xs={10} md={8} className="align-end">
-                    <Text strong>
-                      {Utils.Money({ money: cart.totalPrice })}
-                    </Text>
-                  </Col>
-                </Row>
-                <Row align="middle" justify="center">
-                  <Col xs={14} md={8}>
-                    <Text strong>Phí vận chuyển:</Text>
-                  </Col>
-                  <Col xs={10} md={8} className="align-end">
-                    <Text strong>{Utils.Money({ money: fee.shipping })}</Text>
-                  </Col>
-                </Row>
-                <Divider />
-                <Row align="middle" justify="center">
-                  <Col xs={14} md={8}>
-                    <Text strong>Tổng tiền:</Text>
-                  </Col>
-                  <Col xs={10} md={8} className="align-end">
-                    <Text strong>
-                      {Utils.Money({ money: cart.totalPrice + fee.shipping })}
-                    </Text>
-                  </Col>
-                </Row>
-              </Space>
-            </Row>
-            <Col style={{ textAlign: "center", marginTop: "2em" }}>
-              <Row type="flex" justify="center">
-                <Link to={"/cart"}>
-                  <ButtonUI
-                    className="mt-2 mx-1"
-                    text="Quay lại"
-                    variant="secondary"
-                    htmlType="button"
-                  ></ButtonUI>
-                </Link>
-                {default_address ? (
-                  <ButtonUI
-                    className="mt-2 mx-1"
-                    htmlType="submit"
-                    text="Xác nhận thanh toán"
-                  ></ButtonUI>
-                ) : null}
-              </Row>
-            </Col>
-          </Form>
+            </Form>
+            : (
+              <>
+                <Skeleton />
+                <Text strong type="secondary">Đơn hàng trống, vui lòng thêm sản phẩm vào đơn hàng.</Text>
+              </>
+            )
+          }
         </Card>
       </Col>
     </Row>
